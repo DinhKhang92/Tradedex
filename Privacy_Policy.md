@@ -15,7 +15,7 @@ We use your personal information for providing and improving the service. By usi
 
 When you access the service by or through a mobile device, we may collect certain information automatically, including, but not limited to, the type of mobile device you use, the Android advertising identifier and the trainer name. 
 
-In addition we may use third party services such as Google Analytics that collect, monitor and analyze this type of information in order to increase our service's functionality. These third party service providers have their own Privacy Policies addressing how they use such information.
+In addition we may use third party services such as Google Analytics and Firebase that collect, monitor and analyze this type of information in order to increase our service's functionality. These third party service providers have their own Privacy Policies addressing how they use such information.
 
 
 ## Compliance with laws
