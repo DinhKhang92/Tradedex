@@ -28,3 +28,28 @@ We will disclose your personal information where required to do so by law or sub
 The security of your personal information is important to us, but remember that no method of transmission over the internet or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your personal information, we cannot guarantee its absolute security.
 
 
+## International Transfer
+
+Your information, including personal information, may be transferred to - and maintained on - computers located outside of your state, province, country or other governmental jurisdiction, where the data protection laws may differ than those from your jurisdiction.
+
+Your consent to this privacy policy followed by your submission of such information represents your agreement to that transfer.
+
+
+## Linkt to other sites
+
+Our service may contain links to other sites that are not operated by us. If you click on a third party link, you will be directed to that third party's site. We strongly advise you to review the privacy policy of every site you visit.
+
+We have no control over, and assume no responsibility for the content, privacy policies of practices of any third party sites or services.
+
+
+## Changes to this privacy policy
+
+We may update our privacy policy from time to time. We will notify you of any changes by posting the new privacy policy on this page.
+
+You are advised to review this privacy policy periodically for any changes. Changes to this privacy policy are effective, when they are posted on this page.
+
+
+## Contact us
+
+If you have any questions about this privacy policy, please contact us.
+
