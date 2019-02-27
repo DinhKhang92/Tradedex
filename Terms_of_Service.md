@@ -55,3 +55,18 @@ In no event shall Khang Dinh, nor its directors, employees, partners, agents, su
 
 ## Disclaimer
 
+Your use of the Service is at your sole risk. The Service is provided on an "AS IS" and "AS AVAILABLE" basis. The Service is provided without warranties of any kind, whether express or implied, including, but not limited to, implied warranties of merchantability, fitness for a particular purpose, non-infringement or course of performance.
+
+Khang Dinh its subsidiaries, affiliates and its licensors do not warrant that a) the Service will function uninterrupted, secure or available at any particular time or location; b) any errors or defects will be corrected; c) the Service is free of viruses or other harmful components; or d) the results of using the Service will meet your requirements.
+
+
+## Changes
+
+We reserve the right, at our sole descretion, to modify or replaces these Terms at any time. If a revision is material we will try to provide at least 30 days notive prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.
+
+By continuing to access or use our Service after those revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, please stop using the Service.
+
+
+## Contact us
+
+If you have any questions about these Terms, please contact us.
