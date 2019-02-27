@@ -8,12 +8,12 @@ This page informs you of our policies regarding the collection, use and disclosu
 
 We will not use or share your information with anyone except as described in this privacy policy.
 
-We use your personal information for providing and improving the service. By using the service, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this privacy policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions.
+We use your personal information for providing and improving the service. By using the service, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this privacy policy, terms used in this privacy policy have the same meanings as in our Terms and Conditions.
 
 
 ## Log data
 
-When you access the service by or through a mobile device, we may collect certain information automatically, including, but not limited to, the type of mobile device you use, the Android advertising identifier and the trainer name. 
+When you access the service by or through a mobile device, we may collect certain information automatically, including, but not limited to, the type of mobile device you use, the Android advertising identifier and the nickname. 
 
 In addition we may use third party services such as Google Analytics and Firebase that collect, monitor and analyze this type of information in order to increase our service's functionality. These third party service providers have their own Privacy Policies addressing how they use such information.
 
