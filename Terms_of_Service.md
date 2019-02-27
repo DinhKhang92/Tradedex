@@ -62,7 +62,7 @@ Khang Dinh its subsidiaries, affiliates and its licensors do not warrant that a)
 
 ## Changes
 
-We reserve the right, at our sole descretion, to modify or replaces these Terms at any time. If a revision is material we will try to provide at least 30 days notive prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.
+We reserve the right, at our sole descretion, to modify or replaces these Terms at any time. If a revision is material we will try to provide at least 30 days notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.
 
 By continuing to access or use our Service after those revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, please stop using the Service.
 
