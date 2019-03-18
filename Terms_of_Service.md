@@ -9,6 +9,19 @@ Your access to and use of the Service is conditioned on your acceptance of an co
 By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the Terms then you may not access the Service.
 
 
+## Puchases
+
+If you wish to purchase any product or service made available through the Service ("Purchase"), you may be asked to supply certain information relevant to your Purchase including, without limitation, your credit card number, the expiration date of your credit card, your billing address, and your shipping information.
+
+You represent and warrant that: (i) you have the legal right to use any credit card(s) or other payment method(s) in connection with any Purchase; and that (ii) the information you supply to us is true, correct and complete.
+
+By submitting such information, you grant us the right to provide the information to third parties for purposes of facilitating the completion of Purchases.
+
+We reserve the right to refuse or cancel your order at any time for certain reasons including but not limited to: product or service availability, errors in the description or price of the product or service, error in your order or other reasons.
+
+We reserve the right to refuse or cancel your order if fraud or an unauthorised or illegal transaction is suspected.
+
+
 ## Availability, errors and inaccuracies
 
 We are constantly updating our offerings of products and services on the Service. The products or services available on our Service may be misprices, described inaccurately or unavailable and we may experience delays in updating information on the Service and in our advertising on other websites.
