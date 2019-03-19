@@ -9,7 +9,7 @@ Your access to and use of the Service is conditioned on your acceptance of an co
 By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the Terms then you may not access the Service.
 
 
-## Puchases
+## Purchases
 
 If you wish to purchase any product or service made available through the Service ("Purchase"), you may be asked to supply certain information relevant to your Purchase including, without limitation, your credit card number, the expiration date of your credit card, your billing address, and your shipping information.
 
