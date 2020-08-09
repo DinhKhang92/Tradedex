@@ -1,0 +1,200 @@
+{
+    "PAGE_SIGN_IN": {
+        "LOG_IN": "Login with Google",
+        "SIGN_OUT": "Signout",
+        "SIGN_IN_LOADING": "Signing-In..."
+    },
+    "PAGE_START": {
+        "ENTER_TRAINER_NAME": "Enter your Trainer Name ...",
+        "ENTER_TRAINER_NAME_VALIDATION": "Please enter your Trainer Name",
+        "CONTINUE": "Continue",
+        "TOS_AND_PRIVACY_TEXT_1": "By continuing, you are indicating that you accept our ",
+        "TOS": "Terms of Service ",
+        "TOS_AND_PRIVACY_TEXT_2": "and ",
+        "PRIVACY": "Privacy Policy.",
+        "TOS_AND_PRIVACY_TEXT_3": "" 
+    },
+    "PAGE_DRAWER": {
+        "COPY_TRADING_CODE": "COPY MY TRADING CODE",
+        "COPY_TO_CLIPBOARD": "Copied to Clipboard",
+        "SIGN_IN": "Sign In",
+        "HOME": "Home",
+        "PRIMARY_LIST": "Primary List",
+        "SECONDARY_LIST": "Secondary List",
+        "OFFICIAL_COLLECTION": "Official Collection",
+        "INDIVIDUAL_COLLECTION": "Individual Collection",
+        "CONTACTS": "Contacts",
+        "SETTINGS": "Settings",
+        "ABOUT": "About"
+    },
+    "PAGE_HOME": {
+        "SEARCH": "Search...",
+        "GENS": {
+            "GEN_1": "Gen I",
+            "GEN_2": "Gen II",
+            "GEN_3": "Gen III",
+            "GEN_4": "Gen IV",
+            "GEN_5": "Gen V+",
+            "ALL_GENS": "All Gens"
+        }
+    },
+    "PAGE_PRIMARY_LIST": {
+        "TITLE": "Primary List"
+    },
+    "PAGE_SECONDARY_LIST": {
+        "TITLE": "Secondary List"
+    },
+    "DIALOG_DELETE": {
+        "TITLE": "Delete list?",
+        "DESCRIPTION": "This will remove all pokémon from your list.",
+        "ACCEPT": "Accept",
+        "CANCEL": "Cancel"
+    },
+    "PAGE_ABOUT": {
+        "TITLE": "About",
+        "SUBTITLE": "DISCLAIMER \n\n",
+        "TEXT_1": "Tradedex is an unofficial, free fan made app and is NOT affiliated, endorsed or supported by Nintendo, GAME FREAK or The Pokémon Company in any way.\n Some images used in this app are copyrighted and are supported under fair use.\n' Pokémon names are trademarks of Nintendo.\n No copyright infringement intended. \n\n Pokémon © 2002-2020 Pokémon.\n © 1995-2020 Nintendo/Creatures Inc./GAME FREAK Inc.\n\n\n",
+        "TEXT_2": "- Official artwork by Ken Sugimori."
+    },
+    "PAGE_INDIVIDUAL_COLLECTION": {
+        "TITLE": "Collections",
+        "DIALOG_ADD": {
+            "TITLE": "Adding new list",
+            "NAME": "Name: ",
+            "TYPE": "Type: ",
+            "ENTER_NAME": "Enter a name ...",
+            "CREATE": "Create",
+            "CLOSE": "Close"
+        },
+        "DIALOG_DELETE": {
+            "TITLE": "Deleting lists",
+            "DESCRIPTION": "This will remove all collections from your list.",
+            "ACCEPT": "Accept",
+            "CANCEL": "Cancel"
+        },
+        "LIST_TYPES": {
+            "ALOLAN": "Alolan",
+            "EVENT": "Event",
+            "GALARIAN": "Galarian",
+            "POKEDEX": "Pokédex",
+            "PURIFIED": "Purified",
+            "REGIONAL": "Regional",
+            "SHADOW": "Shadow",
+            "SPINDA": "Spinda",
+            "UNOWN": "Unown"
+        },
+        "DELETE_COLLECTION": "Delete Collection ...",
+        "DELETED": " deleted.",
+        "EVENT_SUBPAGE": {
+            "TITLE": "Event Collection"
+        },
+        "ALOLAN_SUBPAGE": {
+            "TITLE": "Alolan Collection"
+        },
+        "GALARIAN_SUBPAGE": {
+            "TITLE": "Galarian Collection"
+        },
+        "REGIONAL_SUBPAGE": {
+            "TITLE": "Regional Collection"
+        },
+        "SPINDA_SUBPAGE": {
+            "TITLE": "Spinda Collection"
+        },
+        "UNOWN_SUBPAGE": {
+            "TITLE": "Unwon Collection"
+        },
+        "SHADOW_SUBPAGE": {
+            "TITLE": "Shadow Collection"
+        },
+        "PURIFIED_SUBPAGE": {
+            "TITLE": "Purified Collection"
+        },
+        "POKEDEX_SUBPAGE": {
+            "TITLE": "Pokémon Collection"
+        }
+    },
+    "PAGE_SETTINGS":{
+        "TITLE": "Settings",
+        "PROFILE_SUBTITLE": "Profile",
+        "CHANGE_PROFILE_NAME_AND_ICON": "Change your trainer name and icon here",
+        "YOUR_NEW_TRAINER_NAME": "Your new trainer name:",
+        "TRAINER_XY": "Trainer xy",
+        "CHOOSE_ICON": "Choose an icon",
+        "TRADEDEX_SUBTITLE": "Tradedex",
+        "TRADEDEX_LANGUAGE": "Language",
+        "TRADEDEX_DESCRIPTION": "Pokémon and interface will be displayed in this language",
+        "DIALOG_LANGUAGE":{
+            "SELECT_LANGUAGE_TITLE": "Select language",
+            "CLOSE": "Close"
+        },
+        "DARK_THEME_TITLE": "Dark Theme",
+        "DARK_THEME_DESCRIPTION": "Uses the dark theme",
+        "SUPPORT": "Support",
+        "SUPPORT_TITLE": "Help Center",
+        "SUPPORT_DESCRIPTION": "Shows a list of FAQ",
+        "REPORT_TITLE": "Report a Technical Issue",
+        "REPORT_DESCRIPTION": "Please report bugs for superior quality of life",
+        "ABOUT": "About",
+        "ABOUT_TITLE": "About the developer",
+        "ABOUT_DESCRIPTION": "Transparency is everything",
+        "DATA_POLICY": "Data Policy",
+        "TERMS_OF_USE": "Terms of Use",
+        "ABOUT_THE_DEVEOPER_SUBPAGE": {
+            "TITLE": "About the developer",
+            "NOTE": "Note",
+            "DESCRIPTION_01": "Greetings trainer,",
+            "DESCRIPTION_02": "my name is Khang Dinh and I'm the developer of this application. Since transparency is everything, I'd like to share some of my coolest memories of Pokémon with you.",
+            "DESCRIPTION_03": "So when I was 9-10ish years old, my elder brother took me to a citywide TCG tournament without telling me anything beforehand. He gave me a deck of cards and told me to give my best, and I did - I finished 2nd in Berlin. My deck was based on Scyther, which was pretty fast paced and came with enormous power. We played a lot, he took me to local card shops, I had intense matches with owners, with strangers and we made new friends.",
+            "DESCRIPTION_04": "'Mewtwo strikes back' was my first movie ever in the theaters. Pokémon red was my first game on the gameboy console. Time flew and in June 2016 Pokémon Go was launched in Germany. I started the lvl 40 journey and it took me almost two years to fill the 20m exp bar. During that time I met a lot of cool trainers and an ever-expanding community emerged. Currently we are 800+ people in our local group. Therefore I want to thank you all for letting me be part of the community."
+        },
+        "FAQ_SUBPAGE": {
+            "TITLE": "FAQ",
+            "CARD_01_TITLE": "What is Tradedex for?",
+            "CARD_01_DESCRIPTION": "It is a tool mainly for trading Pokémon in Pokémon Go. You can track the missing Pokémon of your friends by adding them to your contacts. In your friends favorite list you can easily generate a string by a button press in the top right corner. Through the button paste the string in your Pokémon storage inside Pokémon Go and their missing Pokémon should be displayed.",
+            "CARD_02_TITLE": "How can I add my friends to the contacts?",
+            "CARD_02_DESCRIPTION": "You need their unique trading code. Go to 'Contacts' and tap on the add button on the bottom right corner. Enter the trading code and he/she should be added.",
+            "CARD_03_TITLE": "How can I change my trainer name and icon?",
+            "CARD_03_DESCRIPTION": "Go to 'Settings' and tap on the pokemon icon to change your trainer icon. To change your trainer name tap on your profile section. A dialog shows up, now you can set your new trainer name.",
+            "CARD_04_TITLE": "Why are all my contacts gone?",
+            "CARD_04_DESCRIPTION": "Since the trainer profiles are stored in a database, an internet connection is required. So please make sure you are connected.",
+            "CARD_05_TITLE": "Can I transfer my profile and contacts to another device?",
+            "CARD_05_DESCRIPTION": "Yes, you need to sign in e.g. with your Google account.",
+            "CARD_06_TITLE": "Some data is missing. Can you retrieve it?",
+            "CARD_06_DESCRIPTION": "Sure! Just contact me by pressing the button down below and let me know. If there are any mistakes out there, please let me know.",
+            "CARD_07_TITLE": "Why can't I paste strings in Pokémon Go? (iOS)",
+            "CARD_07_DESCRIPTION": "Currently there is no way to paste a string into your search bar of your Pokémon storage with an iOS device. But there is a workaround by using text replacements. Click ",
+            "CARD_07_01_DESCRIPTION": "here ",
+            "CARD_07_02_DESCRIPTION": "for further information.",
+            "CARD_08_TITLE": "Can you add feature xy?",
+            "CARD_08_DESCRIPTION": "Of course! Just let me know if you have any ideas for improvements. You can contact me through the button down below.",
+            "BUTTON_FEEDBACK": "HELP & FEEDBACK"
+        }
+    },
+    "PAGE_CONTACTS": {
+        "TITLE_01": "Contacts",
+        "TITLE_02": "Wanted",
+        "SEARCH": "Search...",
+        "DIALOG_ADD": {
+            "TITLE": "Enter a Trading Code"
+        },
+        "INVALID_NAME": "Invalid name",
+        "DELETE_CONTACT": "Delete contact ...",
+        "DELETE_CONTACT_SNACKBAR": " successfully removed.",
+        "DIALOG_DELETE": {
+            "TITLE": "Delete list?",
+            "DESCRIPTION": "This will remove all contacts from your list.",
+            "CANCEL": "Cancel",
+            "ACCEPT": "Accept"
+        },
+        "PRIMARY_LIST_SUBPAGE": {
+            "TITLE": "s list"
+        },
+        "SECONDARY_LIST_SUBPAGE": {
+            "TITLE": "s list"
+        }
+    },
+    "LANGUAGES": {
+        "ENGLISH": "English (US)",
+        "GERMAN": "German"
+    }
+}

@@ -1,0 +1,71 @@
+{
+  "project_info": {
+    "project_number": "379589564114",
+    "firebase_url": "https://tradedex2.firebaseio.com",
+    "project_id": "tradedex2",
+    "storage_bucket": "tradedex2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:379589564114:android:32f9abf20e4c83181fbf0b",
+        "android_client_info": {
+          "package_name": "trade.dex"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "379589564114-974kc5n79pltu8p5kps4ppf7p8lvg8dk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "trade.dex",
+            "certificate_hash": "6061fdda605d0a84f7b7c59ca405f90d9c5b38f0"
+          }
+        },
+        {
+          "client_id": "379589564114-n3995e3ajbnig56m8ujdgmpiiad57r6v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "trade.dex",
+            "certificate_hash": "7e10b54311c361333b9591c390da681117220d12"
+          }
+        },
+        {
+          "client_id": "379589564114-vq9a72k9f438nnilnf570bc2r2r0fiam.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "trade.dex",
+            "certificate_hash": "8e4e945e9e4d6b31b869bcbc17dac93ff35d5cbc"
+          }
+        },
+        {
+          "client_id": "379589564114-05m294cur7lphudrrm5b6vhjsj1eoe1a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAE5YvwSCf14MhkOEB1Kyj7PqIC5vkazhg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "379589564114-05m294cur7lphudrrm5b6vhjsj1eoe1a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "379589564114-59m6gg4nsprm3j7etpbmnv7hthc44e0m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "trade.dex"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
