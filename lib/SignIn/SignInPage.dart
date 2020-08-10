@@ -99,6 +99,7 @@ class SignInPageState extends State<SignInPage> {
                       absorbing = true;
                       this.authService.googleSignIn().then((value) {
                         this.myProfile = this.authService.getProfile();
+                        saveIdLocal(this.myProfile.id);
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(

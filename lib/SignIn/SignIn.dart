@@ -75,7 +75,7 @@ class AuthService with PropertyChangeNotifier<String> {
       this.myProfile.id = databaseReference.push().key;
 
       saveProfileFirebase(myProfile, myOfficialCollection);
-      saveIdLocal(this.myProfile.id);
+      // saveIdLocal(this.myProfile.id);
 
       print("collection doesn't exist");
       return ref.setData({
@@ -106,7 +106,7 @@ class AuthService with PropertyChangeNotifier<String> {
           this.myProfile.icon = snapshot.value['icon'];
         }
 
-        saveIdLocal(this.myProfile.id);
+        // saveIdLocal(this.myProfile.id);
       });
 
       print("collection exists.");

@@ -1,6 +1,7 @@
 import 'package:tradedex/About/AboutPage.dart';
 import 'package:tradedex/Contacts/ContactsPage.dart';
 import 'package:tradedex/Global/Components/saveDataFirebase.dart';
+import 'package:tradedex/Global/Components/setColorTheme.dart';
 import 'package:tradedex/Global/GlobalConstants.dart';
 import 'dart:convert';
 
@@ -124,9 +125,7 @@ class HomePageState extends State<HomePage> {
           IconButton(
             icon: Icon(Icons.favorite),
             color: iconColor,
-            onPressed: () {
-              goToPrimaryListSubpage(context);
-            },
+            onPressed: () => goToPrimaryListSubpage(context),
           ),
           PopupMenuButton<String>(
             onSelected: selectedGen,
@@ -159,11 +158,9 @@ class HomePageState extends State<HomePage> {
       ),
     );
 
-    setState(() {
-      result.then((resultProfile) {
-        setState(() {
-          this.myProfile = resultProfile;
-        });
+    result.then((resultProfile) {
+      setState(() {
+        this.myProfile = resultProfile;
       });
     });
   }
@@ -175,8 +172,8 @@ class HomePageState extends State<HomePage> {
       ),
     );
 
-    setState(() {
-      result.then((resultProfile) {
+    result.then((resultProfile) {
+      setState(() {
         this.myProfile = resultProfile;
       });
     });
@@ -707,10 +704,16 @@ class HomePageState extends State<HomePage> {
                     style: TextStyle(color: textColor),
                   ),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SettingsPage(this.myProfile, this.pokemonNamesDictKeys)),
+                    final result = Navigator.of(context).push(
+                      MaterialPageRoute<bool>(
+                        builder: (context) => SettingsPage(this.myProfile, this.pokemonNamesDictKeys),
+                      ),
                     );
+                    result.then((darkTheme) {
+                      setState(() {
+                        setColorTheme(darkTheme);
+                      });
+                    });
                   },
                 ),
               ),

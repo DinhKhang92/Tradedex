@@ -20,6 +20,7 @@ import '../Global/GlobalConstants.dart';
 
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'dart:async';
 
 class SettingsPage extends StatefulWidget {
   final Profile myProfile;
@@ -105,36 +106,42 @@ class SettingsPageState extends State<SettingsPage> {
   }
 
   Widget settingsPageBoy(context) {
-    return FutureBuilder(
-      future: loadColorTheme(),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.data == null) {
-          return Container(
-            color: backgroundColor,
-          );
-        } else {
-          this.darkTheme = snapshot.data;
-          return ListView(
-            children: <Widget>[
-              showProfileSubtitle(),
-              showProfile(this.myProfile, context, changeAccountName, changeIcon, getPokemonImage),
-              showDivider(),
-              showTradedexSubtitle(),
-              showTradedex(changeLanguage),
-              showColorTheme(context),
-              showDivider(),
-              showSupportSubtitle(),
-              showSupport(context),
-              showReport(),
-              showDivider(),
-              showAboutSubtitle(),
-              showAbout(context),
-              showDataPolicy(),
-              showTermsOfUse()
-            ],
-          );
-        }
+    return WillPopScope(
+      onWillPop: () {
+        Navigator.pop(context, this.darkTheme);
+        return new Future(() => false);
       },
+      child: FutureBuilder(
+        future: loadColorTheme(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.data == null) {
+            return Container(
+              color: backgroundColor,
+            );
+          } else {
+            this.darkTheme = snapshot.data;
+            return ListView(
+              children: <Widget>[
+                showProfileSubtitle(),
+                showProfile(this.myProfile, context, changeAccountName, changeIcon, getPokemonImage),
+                showDivider(),
+                showTradedexSubtitle(),
+                showTradedex(changeLanguage),
+                showColorTheme(context),
+                showDivider(),
+                showSupportSubtitle(),
+                showSupport(context),
+                showReport(),
+                showDivider(),
+                showAboutSubtitle(),
+                showAbout(context),
+                showDataPolicy(),
+                showTermsOfUse()
+              ],
+            );
+          }
+        },
+      ),
     );
   }
 
@@ -243,7 +250,9 @@ class SettingsPageState extends State<SettingsPage> {
                 child: TextFormField(
                   style: TextStyle(color: textColor),
                   onFieldSubmitted: (String newAccountName) {
-                    this.myProfile.accountName = newAccountName;
+                    setState(() {
+                      this.myProfile.accountName = newAccountName;
+                    });
                     saveAccountNameFirebase(myProfile);
                     Navigator.pop(context);
                   },
@@ -271,7 +280,9 @@ class SettingsPageState extends State<SettingsPage> {
                 ),
                 color: iconColor,
                 onPressed: () {
-                  this.myProfile.accountName = this.textController.text;
+                  setState(() {
+                    this.myProfile.accountName = this.textController.text;
+                  });
                   // _saveMyAccountName();
                   saveAccountNameFirebase(myProfile);
                   Navigator.pop(context);

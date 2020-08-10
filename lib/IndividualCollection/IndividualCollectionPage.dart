@@ -246,7 +246,6 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage> {
         itemBuilder: (context, i) {
           String key = sortedKeys.elementAt(i);
           String listType = this.myIndividualCollection[key]['listType'];
-          print("listType: " + listType);
           return Dismissible(
             direction: DismissDirection.endToStart,
             key: Key(key),
@@ -262,7 +261,7 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage> {
                 ),
                 trailing: Icon(
                   Icons.delete,
-                  color: iconColor,
+                  color: buttonTextColor,
                 ),
               ),
             ),
@@ -278,7 +277,7 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage> {
                 "[${this.myIndividualCollection[key]['list'].length}/${getListLength(listType)}]",
                 style: TextStyle(color: textColor),
               ),
-              onTap: () => goToCollectionPage(listType, key),
+              onTap: () => goToCollectionPage(listType, key, context),
             ),
           );
         },
@@ -369,52 +368,107 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage> {
     );
   }
 
-  void goToCollectionPage(String listType, String key) {
-    if (listType == rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['ALOLAN'])
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => AlolanSubpage(this.myIndividualCollection[key]['list'], this.alolanListTotal, key, this.myProfile)),
+  void goToCollectionPage(String listType, String key, BuildContext context) {
+    if (listType == rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['ALOLAN']) {
+      final result = Navigator.of(context).push(
+        MaterialPageRoute<List<String>>(
+          builder: (context) => AlolanSubpage(this.myIndividualCollection[key]['list'], this.alolanListTotal, key, this.myProfile),
+        ),
       );
-    else if (listType == rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['EVENT'])
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => EventSubpage(this.myIndividualCollection[key]['list'], this.eventListTotal, key, this.myProfile)),
+      result.then((resultList) {
+        setState(() {
+          this.alolanList = resultList;
+        });
+      });
+    } else if (listType == rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['EVENT']) {
+      final result = Navigator.of(context).push(
+        MaterialPageRoute<List<String>>(
+          builder: (context) => EventSubpage(this.myIndividualCollection[key]['list'], this.eventListTotal, key, this.myProfile),
+        ),
       );
-    else if (listType == rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['GALARIAN'])
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => GalarianSubpage(this.myIndividualCollection[key]['list'], this.galarianListTotal, key, this.myProfile)),
+      result.then((resultList) {
+        setState(() {
+          this.eventList = resultList;
+        });
+      });
+    } else if (listType == rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['GALARIAN']) {
+      final result = Navigator.of(context).push(
+        MaterialPageRoute<List<String>>(
+          builder: (context) => GalarianSubpage(this.myIndividualCollection[key]['list'], this.galarianListTotal, key, this.myProfile),
+        ),
       );
-    else if (listType == rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['REGIONAL'])
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => RegionalSubpage(this.myIndividualCollection[key]['list'], this.regionalListTotal, key, this.myProfile)),
+      result.then((resultList) {
+        setState(() {
+          this.galarianList = resultList;
+        });
+      });
+    } else if (listType == rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['REGIONAL']) {
+      final result = Navigator.of(context).push(
+        MaterialPageRoute<List<String>>(
+          builder: (context) => RegionalSubpage(this.myIndividualCollection[key]['list'], this.regionalListTotal, key, this.myProfile),
+        ),
       );
-    else if (listType == rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['SPINDA'])
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => SpindaSubpage(this.myIndividualCollection[key]['list'], this.spindaListTotal, key, this.myProfile)),
+      result.then((resultList) {
+        setState(() {
+          this.regionalList = resultList;
+        });
+      });
+    } else if (listType == rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['SPINDA']) {
+      final result = Navigator.of(context).push(
+        MaterialPageRoute<List<String>>(
+          builder: (context) => SpindaSubpage(this.myIndividualCollection[key]['list'], this.spindaListTotal, key, this.myProfile),
+        ),
       );
-    else if (listType == rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['UNOWN'])
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => UnownSubpage(this.myIndividualCollection[key]['list'], this.unownListTotal, key, this.myProfile)),
+      result.then((resultList) {
+        setState(() {
+          this.spindaList = resultList;
+        });
+      });
+    } else if (listType == rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['UNOWN']) {
+      final result = Navigator.of(context).push(
+        MaterialPageRoute<List<String>>(
+          builder: (context) => UnownSubpage(this.myIndividualCollection[key]['list'], this.unownListTotal, key, this.myProfile),
+        ),
       );
-    else if (listType == rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['SHADOW'])
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ShadowSubpage(this.myIndividualCollection[key]['list'], this.shadowListTotal, key, this.myProfile)),
+      result.then((resultList) {
+        setState(() {
+          this.unownList = resultList;
+        });
+      });
+    } else if (listType == rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['SHADOW']) {
+      final result = Navigator.of(context).push(
+        MaterialPageRoute<List<String>>(
+          builder: (context) => ShadowSubpage(this.myIndividualCollection[key]['list'], this.shadowListTotal, key, this.myProfile),
+        ),
       );
-    else if (listType == rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['PURIFIED'])
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => PurifiedSubpage(this.myIndividualCollection[key]['list'], this.purifiedListTotal, key, this.myProfile)),
+      result.then((resultList) {
+        setState(() {
+          this.shadowList = resultList;
+        });
+      });
+    } else if (listType == rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['PURIFIED']) {
+      final result = Navigator.of(context).push(
+        MaterialPageRoute<List<String>>(
+          builder: (context) => PurifiedSubpage(this.myIndividualCollection[key]['list'], this.purifiedListTotal, key, this.myProfile),
+        ),
       );
-    else if (listType == rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['POKEDEX'])
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => PokedexSubpage(this.myIndividualCollection[key]['list'], this.pokedexListTotal, key, this.myProfile)),
+      result.then((resultList) {
+        setState(() {
+          this.purifiedList = resultList;
+        });
+      });
+    } else if (listType == rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['POKÉDEX']) {
+      final result = Navigator.of(context).push(
+        MaterialPageRoute<List<String>>(
+          builder: (context) => PokedexSubpage(this.myIndividualCollection[key]['list'], this.pokedexListTotal, key, this.myProfile),
+        ),
       );
+      result.then((resultList) {
+        setState(() {
+          this.pokedexList = resultList;
+        });
+      });
+    }
   }
 
   dynamic showSnackbar(BuildContext context, key) {

@@ -161,7 +161,7 @@ class _ExpansionTileState extends State<ExpansionTile> with SingleTickerProvider
                 onTap: _handleTap,
                 leading: widget.leading,
                 title: DefaultTextStyle(
-                  style: Theme.of(context).textTheme.subtitle1.copyWith(color: titleColor),
+                  style: Theme.of(context).textTheme.subtitle.copyWith(color: titleColor),
                   child: widget.title,
                 ),
                 trailing: widget.trailing ??
@@ -191,7 +191,7 @@ class _ExpansionTileState extends State<ExpansionTile> with SingleTickerProvider
     final ThemeData theme = Theme.of(context);
     _borderColorTween..end = theme.dividerColor;
     _headerColorTween
-      ..begin = theme.textTheme.subtitle1.color
+      ..begin = theme.textTheme.subtitle.color
       ..end = theme.accentColor;
     _iconColorTween
       ..begin = theme.unselectedWidgetColor

@@ -56,7 +56,7 @@ Future<List<Contact>> loadContactsFirebase(Profile myProfile) async {
   for (int i = 0; i < ids.length; i++) {
     await database.reference().child(ids[i]).once().then((DataSnapshot snapshot) {
       Contact contact = new Contact();
-      // OfficialCollection officialCollection = new OfficialCollection();
+      OfficialCollection officialCollection = new OfficialCollection();
 
       // load account name
       if (snapshot.value['account_name'] != null)
@@ -87,6 +87,42 @@ Future<List<Contact>> loadContactsFirebase(Profile myProfile) async {
         contact.icon = snapshot.value['icon'];
       else
         contact.icon = '001';
+
+      if (snapshot.value['officialCollection'] != null) {
+        if (snapshot.value['officialCollection']['luckyList'] != null)
+          officialCollection.luckyList = snapshot.value['officialCollection']['luckyList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
+        else
+          officialCollection.luckyList = new List<String>();
+
+        if (snapshot.value['officialCollection']['shinyList'] != null)
+          officialCollection.shinyList = snapshot.value['officialCollection']['shinyList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
+        else
+          officialCollection.shinyList = new List<String>();
+
+        if (snapshot.value['officialCollection']['genderList']['maleList'] != null)
+          officialCollection.maleList =
+              snapshot.value['officialCollection']['genderList']['maleList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
+        else
+          officialCollection.maleList = new List<String>();
+
+        if (snapshot.value['officialCollection']['genderList']['femaleList'] != null)
+          officialCollection.femaleList =
+              snapshot.value['officialCollection']['genderList']['femaleList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
+        else
+          officialCollection.femaleList = new List<String>();
+
+        if (snapshot.value['officialCollection']['genderList']['neutralList'] != null)
+          officialCollection.neutralList =
+              snapshot.value['officialCollection']['genderList']['neutralList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
+        else
+          officialCollection.neutralList = new List<String>();
+      }
+
+      print(officialCollection.luckyList);
+      print(officialCollection.shinyList);
+      print(officialCollection.maleList);
+
+      contact.officialCollection = officialCollection;
 
       myContacts.add(contact);
     });

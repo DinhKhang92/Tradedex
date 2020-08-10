@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tradedex/Global/Components/copyToClipboard.dart';
 import 'package:tradedex/Global/Components/getPokemonImage.dart';
 import 'package:tradedex/Global/GlobalConstants.dart';
+import './ContactSecondaryListSubpage.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ContactPrimaryListSubpage extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -37,6 +39,20 @@ class ContactPrimaryListSubpage extends StatelessWidget {
         ),
         backgroundColor: appBarColor,
         actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              MdiIcons.hexagon,
+              color: iconColor,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ContactSecondaryListSubpage(this.contact, this.pokemonNamesDict),
+                ),
+              );
+            },
+          ),
           IconButton(
             icon: Icon(
               Icons.content_copy,

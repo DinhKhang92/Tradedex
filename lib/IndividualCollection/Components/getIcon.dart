@@ -21,7 +21,7 @@ AssetImage getListIcon(String listType) {
   else if (listType == rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['PURIFIED'])
     return AssetImage('collection/ic_purified.png');
   else
-    return AssetImage('collection/pokemon_icons_blank/001.png');
+    return AssetImage('assets_bundle/pokemon_icons_blank/493.png');
 }
 
 Widget getIcon(String listType) {

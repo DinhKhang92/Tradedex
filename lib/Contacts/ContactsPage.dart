@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tradedex/Contacts/Subpages/ContactPrimaryListSubpage.dart';
-import 'package:tradedex/Contacts/Subpages/ContactSecondaryListSubpage.dart';
 import 'package:tradedex/Contacts/Subpages/ContactWantedPrimaryListSubpage.dart';
 import 'package:tradedex/Global/Components/copyToClipboard.dart';
 import 'package:tradedex/Global/Components/getPokemonImage.dart';
@@ -255,9 +254,6 @@ class ContactsPageState extends State<ContactsPage> {
           IconButton(
             icon: Icon(Icons.delete),
             onPressed: () => deleteContacts(context),
-            // onPressed: () {
-            // loadContactsFirebase(this.myProfile);
-            // },
           )
         ],
       );
@@ -292,13 +288,16 @@ class ContactsPageState extends State<ContactsPage> {
 
     return Scaffold(
       key: this.scaffoldKey,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: buttonColor,
-        child: Icon(
-          Icons.add,
-          color: buttonTextColor,
+      floatingActionButton: Visibility(
+        visible: this.navIndex == 0 ? true : false,
+        child: FloatingActionButton(
+          backgroundColor: buttonColor,
+          child: Icon(
+            Icons.add,
+            color: buttonTextColor,
+          ),
+          onPressed: () => addContactDialog(context),
         ),
-        onPressed: () => addContactDialog(context),
       ),
       appBar: getAppBar(),
       body: contactPages[this.navIndex],
@@ -521,6 +520,24 @@ class ContactsPageState extends State<ContactsPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     IconButton(
+                      icon: Image.asset('collection/ui_bg_lucky_pokemon_transparent.png'),
+                      onPressed: () {},
+                    ),
+                    Text(
+                      (this.pokemonNamesDict.length - this.myContacts[i].officialCollection.luckyList.length).toString(),
+                      style: TextStyle(color: textColor),
+                      textScaleFactor: 1.2,
+                    ),
+                    IconButton(
+                      icon: Image.asset('collection/ic_shiny.png'),
+                      onPressed: () {},
+                    ),
+                    Text(
+                      (this.pokemonNamesDict.length - this.myContacts[i].officialCollection.shinyList.length).toString(),
+                      style: TextStyle(color: textColor),
+                      textScaleFactor: 1.2,
+                    ),
+                    IconButton(
                       icon: Icon(
                         Icons.favorite,
                         color: primaryListColor,
@@ -536,25 +553,6 @@ class ContactsPageState extends State<ContactsPage> {
                     ),
                     Text(
                       this.myContacts[i].primaryList.length.toString(),
-                      style: TextStyle(color: textColor),
-                      textScaleFactor: 1.2,
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        MdiIcons.hexagon,
-                        color: secondaryListColor,
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ContactSecondaryListSubpage(this.myContacts[i], this.pokemonNamesDict),
-                          ),
-                        );
-                      },
-                    ),
-                    Text(
-                      this.myContacts[i].secondaryList.length.toString(),
                       style: TextStyle(color: textColor),
                       textScaleFactor: 1.2,
                     ),
