@@ -113,7 +113,7 @@ class AlolanSubpageState extends State<AlolanSubpage> {
               child: showAlolan(idx, needPokemon),
               onTap: () {
                 setState(() {
-                  needPokemon ? this.alolanList.add(idx) : this.alolanList.remove(idx);
+                  needPokemon ? alolanList.add(idx) : alolanList.remove(idx);
                 });
                 saveIndividualCollectionSingleListFirebase(this.alolanList, this.myProfile, name, rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['ALOLAN']);
               },

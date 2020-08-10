@@ -113,7 +113,7 @@ class EventSubpageState extends State<EventSubpage> {
               child: showEvent(idx, needPokemon),
               onTap: () {
                 setState(() {
-                  needPokemon ? this.eventList.add(idx) : this.eventList.remove(idx);
+                  needPokemon ? eventList.add(idx) : eventList.remove(idx);
                 });
                 saveIndividualCollectionSingleListFirebase(this.eventList, this.myProfile, name, rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['EVENT']);
               },

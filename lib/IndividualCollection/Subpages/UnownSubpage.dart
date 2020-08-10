@@ -178,7 +178,7 @@ class UnownSubpageState extends State<UnownSubpage> {
               child: showUnown(idx, needPokemon),
               onTap: () {
                 setState(() {
-                  needPokemon ? this.unownList.add(idx) : this.unownList.remove(idx);
+                  needPokemon ? unownList.add(idx) : unownList.remove(idx);
                 });
                 saveIndividualCollectionSingleListFirebase(this.unownList, this.myProfile, name, rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['UNOWN']);
               },

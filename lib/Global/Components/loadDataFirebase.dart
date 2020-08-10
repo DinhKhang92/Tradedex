@@ -56,7 +56,7 @@ Future<List<Contact>> loadContactsFirebase(Profile myProfile) async {
   for (int i = 0; i < ids.length; i++) {
     await database.reference().child(ids[i]).once().then((DataSnapshot snapshot) {
       Contact contact = new Contact();
-      OfficialCollection officialCollection = new OfficialCollection();
+      // OfficialCollection officialCollection = new OfficialCollection();
 
       // load account name
       if (snapshot.value['account_name'] != null)

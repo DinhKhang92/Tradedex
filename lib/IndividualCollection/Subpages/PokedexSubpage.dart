@@ -109,7 +109,7 @@ class PokedexSubpageState extends State<PokedexSubpage> {
               child: showPokedex(idx, needPokemon),
               onTap: () {
                 setState(() {
-                  needPokemon ? this.pokedexList.add(idx) : this.pokedexList.remove(idx);
+                  needPokemon ? pokedexList.add(idx) : pokedexList.remove(idx);
                 });
                 saveIndividualCollectionSingleListFirebase(this.pokedexList, this.myProfile, name, rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['POKEDEX']);
               },

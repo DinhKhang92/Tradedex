@@ -161,7 +161,9 @@ class HomePageState extends State<HomePage> {
 
     setState(() {
       result.then((resultProfile) {
-        this.myProfile = resultProfile;
+        setState(() {
+          this.myProfile = resultProfile;
+        });
       });
     });
   }
@@ -468,7 +470,7 @@ class HomePageState extends State<HomePage> {
               ),
               onPressed: () {
                 setState(() {
-                  primaryPokemon ? this.myProfile.primaryList.remove(idx) : this.myProfile.primaryList.add(idx);
+                  primaryPokemon ? myProfile.primaryList.remove(idx) : myProfile.primaryList.add(idx);
                 });
                 savePokemonListsFirebase(myProfile);
                 // saveMyMostWantedList();
@@ -478,7 +480,7 @@ class HomePageState extends State<HomePage> {
               icon: Icon(secondaryPokemon ? MdiIcons.hexagon : MdiIcons.hexagonOutline, color: secondaryPokemon ? secondaryListColor : secondaryListColorOff),
               onPressed: () {
                 setState(() {
-                  secondaryPokemon ? this.myProfile.secondaryList.remove(idx) : this.myProfile.secondaryList.add(idx);
+                  secondaryPokemon ? myProfile.secondaryList.remove(idx) : myProfile.secondaryList.add(idx);
                 });
                 savePokemonListsFirebase(myProfile);
                 // saveMyNeedList();

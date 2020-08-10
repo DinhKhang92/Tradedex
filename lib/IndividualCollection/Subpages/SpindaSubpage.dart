@@ -117,7 +117,7 @@ class SpindaSubpageState extends State<SpindaSubpage> {
               child: showSpinda(idx, needPokemon),
               onTap: () {
                 setState(() {
-                  needPokemon ? this.spindaList.add(idx) : this.spindaList.remove(idx);
+                  needPokemon ? spindaList.add(idx) : spindaList.remove(idx);
                 });
                 saveIndividualCollectionSingleListFirebase(this.spindaList, this.myProfile, name, rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['SPINDA']);
               },

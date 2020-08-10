@@ -115,7 +115,7 @@ class ShadowSubpageState extends State<ShadowSubpage> {
               child: showShadow(idx, needPokemon),
               onTap: () {
                 setState(() {
-                  needPokemon ? this.shadowList.add(idx) : this.shadowList.remove(idx);
+                  needPokemon ? shadowList.add(idx) : shadowList.remove(idx);
                 });
                 saveIndividualCollectionSingleListFirebase(this.shadowList, this.myProfile, name, rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['SHADOW']);
               },

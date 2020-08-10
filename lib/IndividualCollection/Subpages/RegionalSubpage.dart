@@ -113,7 +113,7 @@ class RegionalSubpageState extends State<RegionalSubpage> {
               child: showRegional(idx, needPokemon),
               onTap: () {
                 setState(() {
-                  needPokemon ? this.regionalList.add(idx) : this.regionalList.remove(idx);
+                  needPokemon ? regionalList.add(idx) : regionalList.remove(idx);
                 });
                 saveIndividualCollectionSingleListFirebase(this.regionalList, this.myProfile, name, rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['REGIONAL']);
               },

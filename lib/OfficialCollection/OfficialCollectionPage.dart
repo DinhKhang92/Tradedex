@@ -241,7 +241,7 @@ class OfficialCollectionPageState extends State<OfficialCollectionPage> {
               child: showLucky(idx, pokemonNeeded),
               onTap: () {
                 setState(() {
-                  pokemonNeeded ? this.myOfficialCollection.luckyList.add(idx) : this.myOfficialCollection.luckyList.remove(idx);
+                  pokemonNeeded ? myOfficialCollection.luckyList.add(idx) : myOfficialCollection.luckyList.remove(idx);
                 });
                 saveOfficialCollectionFirebase(this.myOfficialCollection, this.myProfile);
                 // _saveLuckyList();
@@ -268,7 +268,7 @@ class OfficialCollectionPageState extends State<OfficialCollectionPage> {
               child: showShiny(idx, pokemonNeeded),
               onTap: () {
                 setState(() {
-                  pokemonNeeded ? this.myOfficialCollection.shinyList.add(idx) : this.myOfficialCollection.shinyList.remove(idx);
+                  pokemonNeeded ? myOfficialCollection.shinyList.add(idx) : myOfficialCollection.shinyList.remove(idx);
                 });
                 saveOfficialCollectionFirebase(this.myOfficialCollection, this.myProfile);
                 // _saveLuckyList();

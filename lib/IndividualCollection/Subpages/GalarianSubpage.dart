@@ -113,7 +113,7 @@ class GalarianSubpageState extends State<GalarianSubpage> {
               child: showGalarian(idx, needPokemon),
               onTap: () {
                 setState(() {
-                  needPokemon ? this.galarianList.add(idx) : this.galarianList.remove(idx);
+                  needPokemon ? galarianList.add(idx) : galarianList.remove(idx);
                 });
                 saveIndividualCollectionSingleListFirebase(this.galarianList, this.myProfile, name, rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['GALARIAN']);
               },

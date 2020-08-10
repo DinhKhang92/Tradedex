@@ -115,7 +115,7 @@ class PurifiedSubpageState extends State<PurifiedSubpage> {
               child: showPurified(idx, needPokemon),
               onTap: () {
                 setState(() {
-                  needPokemon ? this.purifiedList.add(idx) : this.purifiedList.remove(idx);
+                  needPokemon ? purifiedList.add(idx) : purifiedList.remove(idx);
                 });
                 saveIndividualCollectionSingleListFirebase(this.purifiedList, this.myProfile, name, rootLanguageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES']['PURIFIED']);
               },
