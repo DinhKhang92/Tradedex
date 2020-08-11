@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tradedex/Global/Components/copyToClipboard.dart';
 import 'package:tradedex/Global/Components/getPokemonImage.dart';
 import 'package:tradedex/Global/GlobalConstants.dart';
 
@@ -24,9 +25,21 @@ class ContactOfficialCollectionSubpage extends StatelessWidget {
     });
   }
 
+  String getShinyListString(Map dictCopy) {
+    String copyToClipBoardString;
+
+    for (int i = 0; i < this.contact.officialCollection.shinyList.length; i++) {
+      String key = this.contact.officialCollection.shinyList[i];
+      dictCopy.remove(key);
+    }
+    copyToClipBoardString = dictCopy.keys.toList().toString().replaceAll('[', '').replaceAll(']', '');
+    return copyToClipBoardString;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: this.scaffoldKey,
       appBar: AppBar(
         title: Text(
           this.contact.accountName + languageFile['PAGE_CONTACTS']['PRIMARY_LIST_SUBPAGE']['TITLE'],
@@ -40,8 +53,8 @@ class ContactOfficialCollectionSubpage extends StatelessWidget {
               color: iconColor,
             ),
             onPressed: () {
-              // String copyToClipBoardString = getPrimaryListString();
-              // copyToClipboard(this.scaffoldKey, copyToClipBoardString);
+              String copyToClipBoardString = getShinyListString(this.pokemonNamesDictCopy);
+              copyToClipboard(this.scaffoldKey, copyToClipBoardString);
             },
           ),
         ],
