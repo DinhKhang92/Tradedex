@@ -17,3 +17,12 @@ AssetImage getPokemonAssetImage(String idx) {
   else
     return AssetImage('assets_bundle/pokemon_icons_alolan/$idx.png');
 }
+
+Image getShinyPokemonImage(String idx) {
+  return Image(
+    image: AssetImage('assets_bundle/pokemon_icons_shiny/$idx.png'),
+    height: 40.0,
+    width: 40.0,
+    fit: BoxFit.cover,
+  );
+}

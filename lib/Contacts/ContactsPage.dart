@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tradedex/Contacts/Subpages/ContactOfficialCollectionSubpage.dart';
 import 'package:tradedex/Contacts/Subpages/ContactPrimaryListSubpage.dart';
 import 'package:tradedex/Contacts/Subpages/ContactWantedPrimaryListSubpage.dart';
 import 'package:tradedex/Global/Components/copyToClipboard.dart';
@@ -494,7 +495,7 @@ class ContactsPageState extends State<ContactsPage> {
                 ),
                 trailing: Icon(
                   Icons.delete,
-                  color: iconColor,
+                  color: buttonTextColor,
                 ),
               ),
             ),
@@ -530,7 +531,14 @@ class ContactsPageState extends State<ContactsPage> {
                     ),
                     IconButton(
                       icon: Image.asset('collection/ic_shiny.png'),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ContactOfficialCollectionSubpage(this.myContacts[i], this.pokemonNamesDict),
+                          ),
+                        );
+                      },
                     ),
                     Text(
                       (this.pokemonNamesDict.length - this.myContacts[i].officialCollection.shinyList.length).toString(),
