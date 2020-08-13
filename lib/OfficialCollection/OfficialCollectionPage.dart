@@ -29,6 +29,14 @@ class OfficialCollectionPageState extends State<OfficialCollectionPage> {
   // general
   Map pokemonNamesDict;
   List<String> pokemonNamesBlankDictKeys;
+  Map pokemonNamesDictCopy;
+
+  Icon searchIcon;
+
+  TextEditingController textEditController;
+  List<String> searchResult;
+  bool isSearching;
+  String searchText;
 
   // collections
   OfficialCollection myOfficialCollection;
@@ -46,6 +54,12 @@ class OfficialCollectionPageState extends State<OfficialCollectionPage> {
 
     this.pokemonNamesDict = pokemonNamesDict;
     this.pokemonNamesBlankDictKeys = pokemonNamesBlankDictKeys;
+    this.pokemonNamesDictCopy = new Map.from(pokemonNamesDict);
+
+    this.searchIcon = Icon(Icons.search);
+    this.textEditController = new TextEditingController();
+    this.searchResult = List<String>();
+    this.isSearching = false;
 
     // debug
     this.myOfficialCollection = new OfficialCollection();
@@ -53,8 +67,25 @@ class OfficialCollectionPageState extends State<OfficialCollectionPage> {
     // profile
     this.myProfile = myProfile;
 
+    getCopyOfDict();
+
     // loading files
     loadGenderJson();
+
+    // searching function
+    textEditController.addListener(() {
+      if (textEditController.text.isEmpty) {
+        setState(() {
+          isSearching = false;
+          searchText = "";
+        });
+      } else {
+        setState(() {
+          isSearching = true;
+          searchText = textEditController.text;
+        });
+      }
+    });
   }
 
   void loadGenderJson() async {
@@ -141,6 +172,11 @@ class OfficialCollectionPageState extends State<OfficialCollectionPage> {
           backgroundColor: appBarColor,
           actions: <Widget>[
             IconButton(
+              icon: searchIcon,
+              color: iconColor,
+              onPressed: () => handleSearchEvent(),
+            ),
+            IconButton(
               icon: Icon(
                 MdiIcons.eyeOff,
                 color: iconColor,
@@ -195,6 +231,8 @@ class OfficialCollectionPageState extends State<OfficialCollectionPage> {
             onTap: (index) {
               setState(() {
                 this.navIndex = index;
+                this.searchResult.clear();
+                handleSearchEnd();
                 setAppBarTitle();
               });
             },
@@ -218,6 +256,86 @@ class OfficialCollectionPageState extends State<OfficialCollectionPage> {
     );
   }
 
+  void handleSearchEvent() {
+    setState(() {
+      if (this.searchIcon.icon == Icons.search) {
+        this.searchIcon = Icon(
+          Icons.close,
+          color: iconColor,
+        );
+        this.appBarTitle = TextField(
+          autofocus: true,
+          controller: this.textEditController,
+          style: new TextStyle(color: iconColor),
+          cursorColor: searchCursorColor,
+          decoration: InputDecoration(
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: searchCursorColor),
+            ),
+            prefixIcon: Icon(
+              Icons.search,
+              color: iconColor,
+            ),
+            hintText: languageFile['PAGE_HOME']['SEARCH'],
+            hintStyle: TextStyle(color: searchCursorColor),
+          ),
+          onChanged: searchEvent,
+        );
+        handleSearchStart();
+      } else {
+        searchResult.clear();
+        handleSearchEnd();
+      }
+    });
+  }
+
+  void getCopyOfDict() {
+    this.pokemonNamesDict.forEach((key, value) {
+      if (key.contains('alolan')) {
+        this.pokemonNamesDictCopy.remove(key);
+      }
+    });
+  }
+
+  void searchEvent(String searchText) {
+    searchResult.clear();
+    Map reversed = this.pokemonNamesDictCopy.map((key, value) => MapEntry(value, key));
+
+    if (isSearching != null) {
+      for (int i = 0; i < this.pokemonNamesDictCopy.keys.toList().length; i++) {
+        String pokemon = this.pokemonNamesDictCopy[this.pokemonNamesDictCopy.keys.toList()[i]];
+        if (pokemon.toLowerCase().contains(searchText.toLowerCase())) {
+          String key = reversed[pokemon];
+          searchResult.add(key);
+        }
+      }
+      for (int i = 0; i < this.pokemonNamesDictCopy.values.toList().length; i++) {
+        String nr = reversed[this.pokemonNamesDictCopy.values.toList()[i]];
+        if (nr.contains(searchText.toLowerCase())) {
+          searchResult.add(nr);
+        }
+      }
+    }
+  }
+
+  void handleSearchStart() {
+    setState(() {
+      isSearching = true;
+    });
+  }
+
+  void handleSearchEnd() {
+    setState(() {
+      this.searchIcon = new Icon(
+        Icons.search,
+        color: iconColor,
+      );
+      setAppBarTitle();
+      isSearching = false;
+      textEditController.clear();
+    });
+  }
+
   void setAppBarTitle() {
     if (this.navIndex == 0)
       this.appBarTitle = Text('Luckydex');
@@ -229,76 +347,137 @@ class OfficialCollectionPageState extends State<OfficialCollectionPage> {
   Widget luckySubPage() {
     return Container(
       color: backgroundColor,
-      child: GridView.builder(
-        itemCount: this.pokemonNamesBlankDictKeys.length,
-        padding: EdgeInsets.fromLTRB(20, 10, 5, 0),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 6),
-        itemBuilder: (context, i) {
-          String idx = this.pokemonNamesBlankDictKeys[i];
-          bool pokemonNeeded = checkNeedPokemon(idx, this.myOfficialCollection.luckyList, i);
-          return GridTile(
-            child: InkResponse(
-              child: showLucky(idx, pokemonNeeded),
-              onTap: () {
-                setState(() {
-                  pokemonNeeded ? myOfficialCollection.luckyList.add(idx) : myOfficialCollection.luckyList.remove(idx);
-                });
-                saveOfficialCollectionFirebase(this.myOfficialCollection, this.myProfile);
-                // _saveLuckyList();
+      child: this.searchResult.length != 0 || this.textEditController.text.isNotEmpty
+          ? GridView.builder(
+              itemCount: this.searchResult.length,
+              padding: EdgeInsets.fromLTRB(20, 10, 5, 0),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 6),
+              itemBuilder: (context, i) {
+                String idx = this.searchResult[i];
+                bool pokemonNeeded = checkNeedPokemon(idx, this.myOfficialCollection.luckyList, i);
+                return GridTile(
+                  child: InkResponse(
+                    child: showLucky(idx, pokemonNeeded),
+                    onTap: () {
+                      setState(() {
+                        pokemonNeeded ? myOfficialCollection.luckyList.add(idx) : myOfficialCollection.luckyList.remove(idx);
+                      });
+                      saveOfficialCollectionFirebase(this.myOfficialCollection, this.myProfile);
+                      // _saveLuckyList();
+                    },
+                  ),
+                );
+              },
+            )
+          : GridView.builder(
+              itemCount: this.pokemonNamesBlankDictKeys.length,
+              padding: EdgeInsets.fromLTRB(20, 10, 5, 0),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 6),
+              itemBuilder: (context, i) {
+                String idx = this.pokemonNamesBlankDictKeys[i];
+                bool pokemonNeeded = checkNeedPokemon(idx, this.myOfficialCollection.luckyList, i);
+                return GridTile(
+                  child: InkResponse(
+                    child: showLucky(idx, pokemonNeeded),
+                    onTap: () {
+                      setState(() {
+                        pokemonNeeded ? myOfficialCollection.luckyList.add(idx) : myOfficialCollection.luckyList.remove(idx);
+                      });
+                      saveOfficialCollectionFirebase(this.myOfficialCollection, this.myProfile);
+                      // _saveLuckyList();
+                    },
+                  ),
+                );
               },
             ),
-          );
-        },
-      ),
     );
   }
 
   Widget shinySubpage() {
     return Container(
       color: backgroundColor,
-      child: GridView.builder(
-        itemCount: this.pokemonNamesBlankDictKeys.length,
-        padding: EdgeInsets.fromLTRB(20, 10, 5, 0),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 6),
-        itemBuilder: (context, i) {
-          String idx = this.pokemonNamesBlankDictKeys[i];
-          bool pokemonNeeded = checkNeedPokemon(idx, this.myOfficialCollection.shinyList, i);
-          return GridTile(
-            child: InkResponse(
-              child: showShiny(idx, pokemonNeeded),
-              onTap: () {
-                setState(() {
-                  pokemonNeeded ? myOfficialCollection.shinyList.add(idx) : myOfficialCollection.shinyList.remove(idx);
-                });
-                saveOfficialCollectionFirebase(this.myOfficialCollection, this.myProfile);
-                // _saveLuckyList();
+      child: this.searchResult.length != 0 || this.textEditController.text.isNotEmpty
+          ? GridView.builder(
+              itemCount: this.searchResult.length,
+              padding: EdgeInsets.fromLTRB(20, 10, 5, 0),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 6),
+              itemBuilder: (context, i) {
+                String idx = this.searchResult[i];
+                bool pokemonNeeded = checkNeedPokemon(idx, this.myOfficialCollection.shinyList, i);
+                return GridTile(
+                  child: InkResponse(
+                    child: showShiny(idx, pokemonNeeded),
+                    onTap: () {
+                      setState(() {
+                        pokemonNeeded ? myOfficialCollection.shinyList.add(idx) : myOfficialCollection.shinyList.remove(idx);
+                      });
+                      saveOfficialCollectionFirebase(this.myOfficialCollection, this.myProfile);
+                      // _saveLuckyList();
+                    },
+                  ),
+                );
+              },
+            )
+          : GridView.builder(
+              itemCount: this.pokemonNamesBlankDictKeys.length,
+              padding: EdgeInsets.fromLTRB(20, 10, 5, 0),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 6),
+              itemBuilder: (context, i) {
+                String idx = this.pokemonNamesBlankDictKeys[i];
+                bool pokemonNeeded = checkNeedPokemon(idx, this.myOfficialCollection.shinyList, i);
+                return GridTile(
+                  child: InkResponse(
+                    child: showShiny(idx, pokemonNeeded),
+                    onTap: () {
+                      setState(() {
+                        pokemonNeeded ? myOfficialCollection.shinyList.add(idx) : myOfficialCollection.shinyList.remove(idx);
+                      });
+                      saveOfficialCollectionFirebase(this.myOfficialCollection, this.myProfile);
+                      // _saveLuckyList();
+                    },
+                  ),
+                );
               },
             ),
-          );
-        },
-      ),
     );
   }
 
   Widget genderSubpage() {
     return Container(
       color: backgroundColor,
-      child: GridView.builder(
-        padding: EdgeInsets.fromLTRB(20, 10, 5, 0),
-        itemCount: this.pokemonNamesBlankDictKeys.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 6,
-          mainAxisSpacing: 15.0,
-        ),
-        itemBuilder: (context, i) {
-          String idx = this.pokemonNamesBlankDictKeys[i];
-          bool needPokemon = checkNeedPokemon(idx, this.myOfficialCollection.neutralList, i);
-          return GridTile(
-            child: showGender(idx, needPokemon),
-            footer: getGender(i, idx),
-          );
-        },
-      ),
+      child: this.searchResult.length != 0 || this.textEditController.text.isNotEmpty
+          ? GridView.builder(
+              padding: EdgeInsets.fromLTRB(20, 10, 5, 0),
+              itemCount: this.searchResult.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 6,
+                mainAxisSpacing: 15.0,
+              ),
+              itemBuilder: (context, i) {
+                String idx = this.searchResult[i];
+                bool needPokemon = checkNeedPokemon(idx, this.myOfficialCollection.neutralList, i);
+                return GridTile(
+                  child: showGender(idx, needPokemon),
+                  footer: getGender(i, idx),
+                );
+              },
+            )
+          : GridView.builder(
+              padding: EdgeInsets.fromLTRB(20, 10, 5, 0),
+              itemCount: this.pokemonNamesBlankDictKeys.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 6,
+                mainAxisSpacing: 15.0,
+              ),
+              itemBuilder: (context, i) {
+                String idx = this.pokemonNamesBlankDictKeys[i];
+                bool needPokemon = checkNeedPokemon(idx, this.myOfficialCollection.neutralList, i);
+                return GridTile(
+                  child: showGender(idx, needPokemon),
+                  footer: getGender(i, idx),
+                );
+              },
+            ),
     );
   }
 
@@ -381,7 +560,6 @@ class OfficialCollectionPageState extends State<OfficialCollectionPage> {
   Widget getGender(int i, String idx) {
     List<String> currGender = this.pokemonGenderDict[i]['gender'].keys.toList();
     if (currGender.length == 2) {
-      String idx = this.pokemonNamesBlankDictKeys[i];
       return Row(
         children: <Widget>[
           InkResponse(

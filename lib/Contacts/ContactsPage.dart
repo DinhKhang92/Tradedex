@@ -40,6 +40,7 @@ class ContactsPageState extends State<ContactsPage> {
   int navIndex;
   bool autoValidate;
   Map pokemonNamesDict;
+  Map pokemonNamesDictCopy;
   List<String> totalList;
   Map primaryListCounter;
   Map secondaryListCounter;
@@ -62,6 +63,7 @@ class ContactsPageState extends State<ContactsPage> {
     this.myProfile = myProfile;
 
     this.pokemonNamesDict = pokemonNamesDict;
+    this.pokemonNamesDictCopy = new Map.from(pokemonNamesDict);
     this.primaryListCounter = new Map();
     this.secondaryListCounter = new Map();
 
@@ -80,6 +82,13 @@ class ContactsPageState extends State<ContactsPage> {
         });
       }
     });
+
+    this.pokemonNamesDict.forEach((key, value) {
+      if (key.contains('alolan')) {
+        this.pokemonNamesDictCopy.remove(key);
+      }
+    });
+    // print(this.pokemonNamesDictCopy.length);
   }
 
   @override
@@ -520,17 +529,20 @@ class ContactsPageState extends State<ContactsPage> {
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
+                    // IconButton(
+                    //   icon: Image.asset('collection/ui_bg_lucky_pokemon_transparent.png'),
+                    //   onPressed: () {},
+                    // ),
+                    // Text(
+                    //   (this.pokemonNamesDictCopy.length - this.myContacts[i].officialCollection.luckyList.length).toString(),
+                    //   style: TextStyle(color: textColor),
+                    //   textScaleFactor: 1.2,
+                    // ),
                     IconButton(
-                      icon: Image.asset('collection/ui_bg_lucky_pokemon_transparent.png'),
-                      onPressed: () {},
-                    ),
-                    Text(
-                      (this.pokemonNamesDict.length - this.myContacts[i].officialCollection.luckyList.length).toString(),
-                      style: TextStyle(color: textColor),
-                      textScaleFactor: 1.2,
-                    ),
-                    IconButton(
-                      icon: Image.asset('collection/ic_shiny.png'),
+                      icon: Icon(
+                        MdiIcons.star,
+                        color: secondaryListColor,
+                      ),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -541,7 +553,7 @@ class ContactsPageState extends State<ContactsPage> {
                       },
                     ),
                     Text(
-                      (this.pokemonNamesDict.length - this.myContacts[i].officialCollection.shinyList.length).toString(),
+                      (this.pokemonNamesDictCopy.length - this.myContacts[i].officialCollection.luckyList.length).toString(),
                       style: TextStyle(color: textColor),
                       textScaleFactor: 1.2,
                     ),

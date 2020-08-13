@@ -118,9 +118,9 @@ Future<List<Contact>> loadContactsFirebase(Profile myProfile) async {
           officialCollection.neutralList = new List<String>();
       }
 
-      print(officialCollection.luckyList);
-      print(officialCollection.shinyList);
-      print(officialCollection.maleList);
+      // print(officialCollection.luckyList);
+      // print(officialCollection.shinyList);
+      // print(officialCollection.maleList);
 
       contact.officialCollection = officialCollection;
 

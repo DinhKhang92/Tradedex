@@ -288,7 +288,7 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage> {
   void updateLists(String currType) {
     String usdKey = languageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES'].keys.firstWhere((k) => languageFile['PAGE_INDIVIDUAL_COLLECTION']['LIST_TYPES'][k] == currType);
     usdKey = usdKey[0].toUpperCase() + usdKey.substring(1).toLowerCase();
-    print("usdKey: " + usdKey);
+    // print("usdKey: " + usdKey);
 
     setState(() {
       this.myIndividualCollection[listNameController.text] = {'listType': usdKey, 'list': new List<String>()};
