@@ -95,7 +95,7 @@
             "TITLE": "Galar Sammlung"
         },
         "REGIONAL_SUBPAGE": {
-            "TITLE": "Regional Sammlung"
+            "TITLE": "Regionale Sammlung"
         },
         "SPINDA_SUBPAGE": {
             "TITLE": "Pandir Sammlung"
@@ -178,6 +178,8 @@
             "TITLE": "Tauschcode einfügen"
         },
         "INVALID_NAME": "Ungültiger Name",
+        "INVALID_CODE": "Ungültiger Tauschcode",
+        "INVALID_CODE_IN_LIST" : "Kontakt ist bereits in der Liste",
         "DELETE_CONTACT": "Kontakt löschen ...",
         "DELETE_CONTACT_SNACKBAR": " erfolgreich entfernt.",
         "DIALOG_DELETE": {

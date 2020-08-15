@@ -178,6 +178,8 @@
             "TITLE": "Enter a Trading Code"
         },
         "INVALID_NAME": "Invalid name",
+        "INVALID_CODE": "Invalid trading code",
+        "INVALID_CODE_IN_LIST" : "Contact already in your list",
         "DELETE_CONTACT": "Delete contact ...",
         "DELETE_CONTACT_SNACKBAR": " successfully removed.",
         "DIALOG_DELETE": {

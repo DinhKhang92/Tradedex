@@ -735,20 +735,6 @@ class HomePageState extends State<HomePage> {
                   },
                 ),
               ),
-              Platform.isAndroid
-                  ? Padding(
-                      padding: EdgeInsets.all(12.0),
-                      child: Container(
-                        child: Text(
-                          "Version " + myVersion,
-                          style: TextStyle(
-                            color: textColor,
-                          ),
-                        ),
-                        alignment: FractionalOffset(1, 1),
-                      ),
-                    )
-                  : Text(" "),
             ],
           ),
         ),

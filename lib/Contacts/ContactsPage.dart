@@ -44,6 +44,8 @@ class ContactsPageState extends State<ContactsPage> {
   List<String> totalList;
   Map primaryListCounter;
   Map secondaryListCounter;
+  bool isFavorite;
+  bool isOfficialCollection;
 
   // contacts
   List<Contact> myContacts;
@@ -58,6 +60,8 @@ class ContactsPageState extends State<ContactsPage> {
     this.autoValidate = false;
     this.totalList = new List<String>();
     this.isSearching = false;
+    this.isFavorite = true;
+    this.isOfficialCollection = false;
 
     this.myContacts = new List<Contact>();
     this.myProfile = myProfile;
@@ -262,6 +266,20 @@ class ContactsPageState extends State<ContactsPage> {
         backgroundColor: appBarColor,
         actions: <Widget>[
           IconButton(
+            icon: Icon(
+              MdiIcons.pokeball,
+              color: iconColor,
+            ),
+            onPressed: () => setIconView(false, true),
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.favorite,
+              color: iconColor,
+            ),
+            onPressed: () => setIconView(true, false),
+          ),
+          IconButton(
             icon: Icon(Icons.delete),
             onPressed: () => deleteContacts(context),
           )
@@ -283,10 +301,17 @@ class ContactsPageState extends State<ContactsPage> {
               String copyToClipBoardString = getCandyList();
               copyToClipboard(this.scaffoldKey, copyToClipBoardString);
             },
-          )
+          ),
         ],
       );
     }
+  }
+
+  void setIconView(bool isFavorite, bool isOfficialCollection) {
+    setState(() {
+      this.isFavorite = isFavorite;
+      this.isOfficialCollection = isOfficialCollection;
+    });
   }
 
   @override
@@ -397,15 +422,22 @@ class ContactsPageState extends State<ContactsPage> {
 
   String validateTradingCode(String id) {
     if (id.length != 20)
-      return 'invalid Trading Code';
+      return languageFile['PAGE_CONTACTS']['INVALID_CODE'];
     else if (id[0] != '-')
-      return 'invalid Trading Code';
-    // else if (myFriends.contains(code))
-    //   return 'friend already in list';
+      return languageFile['PAGE_CONTACTS']['INVALID_CODE'];
+    else if (codeInContactList(id))
+      return languageFile['PAGE_CONTACTS']['INVALID_CODE_IN_LIST'];
     // else if (code == myID)
     //   return 'you cannot add yourself';
     else
       return null;
+  }
+
+  bool codeInContactList(String id) {
+    for (int i = 0; i < this.myContacts.length; i++) {
+      if (this.myContacts[i].id == id) return true;
+    }
+    return false;
   }
 
   void validateInputs() {
@@ -420,6 +452,7 @@ class ContactsPageState extends State<ContactsPage> {
 
   void addContact() {
     Contact newContact = new Contact();
+    OfficialCollection officialCollection = new OfficialCollection();
     newContact.id = this.validId;
 
     database.reference().child(newContact.id).once().then((DataSnapshot snapshot) {
@@ -446,6 +479,38 @@ class ContactsPageState extends State<ContactsPage> {
         newContact.secondaryList = snapshot.value['myNeedList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
       else
         newContact.secondaryList = new List<String>();
+
+      if (snapshot.value['officialCollection'] != null) {
+        if (snapshot.value['officialCollection']['luckyList'] != null)
+          officialCollection.luckyList = snapshot.value['officialCollection']['luckyList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
+        else
+          officialCollection.luckyList = new List<String>();
+
+        if (snapshot.value['officialCollection']['shinyList'] != null)
+          officialCollection.shinyList = snapshot.value['officialCollection']['shinyList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
+        else
+          officialCollection.shinyList = new List<String>();
+
+        if (snapshot.value['officialCollection']['genderList']['maleList'] != null)
+          officialCollection.maleList =
+              snapshot.value['officialCollection']['genderList']['maleList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
+        else
+          officialCollection.maleList = new List<String>();
+
+        if (snapshot.value['officialCollection']['genderList']['femaleList'] != null)
+          officialCollection.femaleList =
+              snapshot.value['officialCollection']['genderList']['femaleList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
+        else
+          officialCollection.femaleList = new List<String>();
+
+        if (snapshot.value['officialCollection']['genderList']['neutralList'] != null)
+          officialCollection.neutralList =
+              snapshot.value['officialCollection']['genderList']['neutralList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
+        else
+          officialCollection.neutralList = new List<String>();
+      }
+
+      newContact.officialCollection = officialCollection;
 
       setState(() {
         this.myContacts.add(newContact);
@@ -475,6 +540,101 @@ class ContactsPageState extends State<ContactsPage> {
       for (int j = 0; j < this.myContacts[i].secondaryList.length; j++) {
         this.secondaryListCounter[this.myContacts[i].secondaryList[j]]++;
       }
+    }
+  }
+
+  List<Widget> getContactIcons(int i) {
+    List<Widget> iconWidgets = List<Widget>();
+    if (this.isOfficialCollection) {
+      iconWidgets.add(
+        IconButton(
+          icon: Icon(
+            MdiIcons.pokeball,
+            color: buttonColor,
+          ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ContactOfficialCollectionSubpage(this.myContacts[i], this.pokemonNamesDict),
+              ),
+            );
+          },
+        ),
+      );
+      iconWidgets.add(
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ContactOfficialCollectionSubpage(this.myContacts[i], this.pokemonNamesDict),
+              ),
+            );
+          },
+          child: Text(
+            (this.pokemonNamesDictCopy.length - this.myContacts[i].officialCollection.luckyList.length).toString() +
+                ' | ' +
+                (this.pokemonNamesDictCopy.length - this.myContacts[i].officialCollection.shinyList.length).toString(),
+            style: TextStyle(color: textColor),
+            textScaleFactor: 1.2,
+          ),
+        ),
+      );
+    }
+    if (this.isFavorite) {
+      iconWidgets.add(
+        IconButton(
+          icon: Icon(
+            Icons.favorite,
+            color: primaryListColor,
+          ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ContactPrimaryListSubpage(this.myContacts[i], this.pokemonNamesDict),
+              ),
+            );
+          },
+        ),
+      );
+      iconWidgets.add(
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ContactPrimaryListSubpage(this.myContacts[i], this.pokemonNamesDict),
+              ),
+            );
+          },
+          child: Text(
+            this.myContacts[i].primaryList.length.toString(),
+            style: TextStyle(color: textColor),
+            textScaleFactor: 1.2,
+          ),
+        ),
+      );
+    }
+    return iconWidgets;
+  }
+
+  void goToPage(int i) {
+    if (this.isFavorite) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ContactPrimaryListSubpage(this.myContacts[i], this.pokemonNamesDict),
+        ),
+      );
+    } else if (this.isOfficialCollection) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ContactOfficialCollectionSubpage(this.myContacts[i], this.pokemonNamesDict),
+        ),
+      );
     }
   }
 
@@ -528,56 +688,9 @@ class ContactsPageState extends State<ContactsPage> {
                 ),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    // IconButton(
-                    //   icon: Image.asset('collection/ui_bg_lucky_pokemon_transparent.png'),
-                    //   onPressed: () {},
-                    // ),
-                    // Text(
-                    //   (this.pokemonNamesDictCopy.length - this.myContacts[i].officialCollection.luckyList.length).toString(),
-                    //   style: TextStyle(color: textColor),
-                    //   textScaleFactor: 1.2,
-                    // ),
-                    IconButton(
-                      icon: Icon(
-                        MdiIcons.star,
-                        color: secondaryListColor,
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ContactOfficialCollectionSubpage(this.myContacts[i], this.pokemonNamesDict),
-                          ),
-                        );
-                      },
-                    ),
-                    Text(
-                      (this.pokemonNamesDictCopy.length - this.myContacts[i].officialCollection.luckyList.length).toString(),
-                      style: TextStyle(color: textColor),
-                      textScaleFactor: 1.2,
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.favorite,
-                        color: primaryListColor,
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ContactPrimaryListSubpage(this.myContacts[i], this.pokemonNamesDict),
-                          ),
-                        );
-                      },
-                    ),
-                    Text(
-                      this.myContacts[i].primaryList.length.toString(),
-                      style: TextStyle(color: textColor),
-                      textScaleFactor: 1.2,
-                    ),
-                  ],
+                  children: getContactIcons(i),
                 ),
+                onTap: () => goToPage(i),
               ),
             ),
             onDismissed: (direction) {
@@ -635,6 +748,12 @@ class ContactsPageState extends State<ContactsPage> {
               style: TextStyle(color: textColor),
             ),
             trailing: getTrailing(idx),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ContactWantedPrimaryListSubpage(this.myContacts, idx, this.pokemonNamesDict)),
+              );
+            },
           );
         },
       ),
@@ -666,433 +785,3 @@ class ContactsPageState extends State<ContactsPage> {
     );
   }
 }
-
-//   void _updateFireBase() {
-//     database.reference().child(myID).update({'myFriends': myFriends});
-//   }
-
-//   void _getContacts() async {
-//     myContacts.clear();
-//     String name;
-//     String icon;
-//     List<String> needList;
-//     List<String> mostWantedList;
-
-//     for (int i = 0; i < myFriends.length; i++) {
-//       Contact contact = Contact();
-//       String id = myFriends[i].trim();
-
-//       database.reference().child(id).once().then((DataSnapshot snapshot) {
-//         if (snapshot.value['account_name'] != null)
-//           name = snapshot.value['account_name'];
-//         else
-//           name = 'no valid name';
-
-//         if (snapshot.value['icon'] != null)
-//           icon = snapshot.value['icon'];
-//         else
-//           icon = '001';
-
-//         if (snapshot.value['myNeedList'] != null && snapshot.value['myNeedList'] != '[]')
-//           needList = snapshot.value['myNeedList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
-//         else
-//           needList = List<String>();
-
-//         if (snapshot.value['myMostWantedList'] != null && snapshot.value['myMostWantedList'] != '[]')
-//           mostWantedList = snapshot.value['myMostWantedList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
-//         else
-//           mostWantedList = List<String>();
-
-//         contact.name = name;
-//         contact.icon = icon;
-//         contact.needList = needList;
-//         contact.mostWantedList = mostWantedList;
-//         contact.id = id;
-
-//         setState(() {
-//           myContacts.add(contact);
-//         });
-//       });
-//     }
-//   }
-
-// String validateTradingCode(String id) {
-//   if (id.length != 20)
-//     return 'invalid Trading Code';
-//   // else if (code[0] != '-')
-//   //   return 'invalid Trading Code';
-//   // else if (myFriends.contains(code))
-//   //   return 'friend already in list';
-//   // else if (code == myID)
-//   //   return 'you cannot add yourself';
-//   else
-//     return null;
-// }
-
-// bool _validateInputs() {
-//   if (_formKey.currentState.validate()) {
-//     _formKey.currentState.save();
-//   } else {
-//     setState(() {
-//       _autoValidate = true;
-//     });
-//   }
-// }
-
-// class ContactsScreenBody extends StatefulWidget {
-//   final myContacts;
-//   Function _getContacts;
-
-//   ContactsScreenBody(this.myContacts, this._getContacts);
-
-//   @override
-//   State<StatefulWidget> createState() {
-//     // TODO: implement createState
-//     return ContactsScreenBodyState(myContacts, _getContacts);
-//   }
-// }
-
-// class ContactsScreenBodyState extends State<ContactsScreenBody> {
-//   final FirebaseDatabase database = FirebaseDatabase.instance;
-//   final myContacts;
-//   Function _getContacts;
-
-//   ContactsScreenBodyState(this.myContacts, this._getContacts);
-
-//   String deleteID;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     myContacts.sort((a, b) => a.name.toString().toLowerCase().compareTo(b.name.toString().toLowerCase()));
-//     return Container(
-//       color: backgroundColor,
-//       child: ListView.separated(
-//         separatorBuilder: (context, index) => Container(
-//           child: Divider(
-//             color: Colors.grey[500],
-//           ),
-//         ),
-//         itemCount: myContacts.length,
-//         itemBuilder: (context, i) {
-//           String idx = myContacts[i].icon;
-//           return Dismissible(
-//             key: Key(deleteID),
-//             direction: DismissDirection.endToStart,
-//             background: Container(
-//                 color: redColor,
-//                 child: ListTile(
-//                   title:
-//                       Text(myLanguage == 'en' ? "Delete Contact ..." : "Kontakt löschen ...", style: TextStyle(color: whiteColor), textAlign: TextAlign.center),
-//                   trailing: Icon(
-//                     Icons.delete,
-//                     color: whiteColor,
-//                   ),
-//                 )),
-//             child: Container(
-//                 child: ListTile(
-//               leading: Container(
-//                 height: 40,
-//                 width: 40,
-//                 decoration: new BoxDecoration(
-//                   color: Colors.grey[300],
-//                   shape: BoxShape.circle,
-//                   image: new DecorationImage(
-//                     fit: BoxFit.scaleDown,
-//                     image: _getPokemonImage(idx),
-//                   ),
-//                 ),
-//               ),
-//               title: Text(
-//                 myContacts[i].name,
-//                 style: TextStyle(color: textColor),
-//               ),
-//               trailing: Row(
-//                 mainAxisSize: MainAxisSize.min,
-//                 children: <Widget>[
-//                   IconButton(
-//                     icon: Icon(
-//                       Icons.favorite,
-//                       color: markPokemonColor,
-//                     ),
-//                     onPressed: () {
-//                       Navigator.push(
-//                           context,
-//                           MaterialPageRoute(
-//                             builder: (context) => ContactMostWantedListScreen(myContacts[i]),
-//                           ));
-//                     },
-//                   ),
-//                   Text(
-//                     "[${myContacts[i].mostWantedList.length}]",
-//                     style: TextStyle(color: textColor),
-//                     textScaleFactor: 1.2,
-//                   ),
-//                   IconButton(
-//                     icon: Icon(MdiIcons.hexagon, color: Colors.amber),
-//                     onPressed: () {
-//                       Navigator.push(
-//                           context,
-//                           MaterialPageRoute(
-//                             builder: (context) => ContactNeedListScreen(myContacts[i]),
-//                           ));
-//                     },
-//                   ),
-//                   Text(
-//                     "[${myContacts[i].needList.length}]",
-//                     style: TextStyle(color: textColor),
-//                     textScaleFactor: 1.2,
-//                   ),
-//                 ],
-//               ),
-//             )),
-//             onDismissed: (direction) {
-//               deleteID = myContacts[i].id;
-//               setState(() {
-//                 myFriends.remove(deleteID);
-//                 myContacts.removeAt(i);
-//               });
-//               _updateFireBase();
-//               Scaffold.of(context).showSnackBar(SnackBar(
-//                 content: Text("Friend successfully removed."),
-//                 duration: Duration(milliseconds: 2000),
-//               ));
-//             },
-//           );
-//         },
-//       ),
-//     );
-//   }
-
-//   void _updateFireBase() {
-//     database.reference().child(myID).update({'myFriends': myFriends});
-//   }
-
-//   AssetImage _getPokemonImage(String idx) {
-//     if (idx.contains('alolan') == false)
-//       return AssetImage('assets_bundle/pokemon_icons_blank/$idx.png');
-//     else
-//       return AssetImage('assets_bundle/pokemon_icons_alolan/$idx.png');
-//   }
-// }
-
-// class WantedScreenBody extends StatefulWidget {
-//   final myContacts;
-//   final searchResult;
-//   final textEditController;
-//   WantedScreenBody(this.myContacts, this.searchResult, this.textEditController);
-
-//   @override
-//   State<StatefulWidget> createState() {
-//     // TODO: implement createState
-//     return WantedScreenBodyState(myContacts, searchResult, textEditController);
-//   }
-// }
-
-// class WantedScreenBodyState extends State<WantedScreenBody> {
-//   final myContacts;
-//   final searchResult;
-//   final textEditController;
-//   WantedScreenBodyState(this.myContacts, this.searchResult, this.textEditController);
-
-//   Map<String, int> needDict = Map<String, int>();
-//   Map<String, int> wantedDict = Map<String, int>();
-//   List<String> totalList = List<String>();
-//   List<String> needList = List<String>();
-//   List<String> wantedList = List<String>();
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     setState(() {
-//       _getNeedWantedList();
-//     });
-//   }
-
-//   void _getNeedWantedList() {
-//     needDict.clear();
-//     wantedDict.clear();
-//     needList.clear();
-//     wantedList.clear();
-//     for (int i = 0; i < myContacts.length; i++) {
-//       for (int j = 0; j < myContacts[i].needList.length; j++) {
-//         String idx = myContacts[i].needList[j].trim();
-//         List<String> keys = needDict.keys.toList();
-//         if (!keys.contains(idx)) {
-//           needDict[idx] = 1;
-//           if (!totalList.contains(idx)) totalList.add(idx);
-//         } else {
-//           int counter = needDict[idx];
-//           needDict[idx] = counter + 1;
-//         }
-//       }
-//       for (int j = 0; j < myContacts[i].mostWantedList.length; j++) {
-//         String idx = myContacts[i].mostWantedList[j].trim();
-//         List<String> keys = wantedDict.keys.toList();
-//         if (!keys.contains(idx)) {
-//           wantedDict[idx] = 1;
-//           if (!totalList.contains(idx)) totalList.add(idx);
-//         } else {
-//           int counter = wantedDict[idx];
-//           wantedDict[idx] = counter + 1;
-//         }
-//       }
-//     }
-//     needList = needDict.keys.toList();
-//     wantedList = wantedDict.keys.toList();
-//   }
-
-//   Image _getPokemonImage(String idx) {
-//     if (idx.contains('_alolan') == false) {
-//       return Image(
-//         image: AssetImage('assets_bundle/pokemon_icons_blank/$idx.png'),
-//         height: 40.0,
-//         width: 40.0,
-//         fit: BoxFit.cover,
-//       );
-//     } else {
-//       return Image(
-//         image: AssetImage('assets_bundle/pokemon_icons_alolan/$idx.png'),
-//         height: 40.0,
-//         width: 40.0,
-//         fit: BoxFit.cover,
-//       );
-//     }
-//   }
-
-//   String _getNeedNr(String idx) {
-//     List<String> keysNeed = needDict.keys.toList();
-//     if (keysNeed.contains(idx))
-//       return needDict[idx].toString();
-//     else
-//       return "0";
-//   }
-
-//   String _getWantedNr(String idx) {
-//     List<String> keysWanted = wantedDict.keys.toList();
-//     if (keysWanted.contains(idx))
-//       return wantedDict[idx].toString();
-//     else
-//       return "0";
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     totalList.sort();
-//     needList.sort();
-//     wantedList.sort();
-//     return Container(
-//       color: backgroundColor,
-//       child: _buildTotalList(),
-//     );
-//   }
-
-//   _getItemCount() {
-//     if (searchResult.length != 0 || textEditController.text.isNotEmpty)
-//       return searchResult.length;
-//     else if (primary == true)
-//       return wantedList.length;
-//     else
-//       return totalList.length;
-//   }
-
-//   _getIdx(int i) {
-//     if (searchResult.length != 0 || textEditController.text.isNotEmpty)
-//       return searchResult[i];
-//     else if (primary == true)
-//       return wantedList[i];
-//     else
-//       return totalList[i];
-//   }
-
-// Widget _getTrailing(String idx) {
-//   if (primary == true) {
-//     return Row(
-//       mainAxisSize: MainAxisSize.min,
-//       children: <Widget>[
-//         IconButton(
-//           icon: Icon(
-//             Icons.favorite,
-//             color: markPokemonColor,
-//           ),
-//           onPressed: () {
-//             Navigator.push(
-//               context,
-//               MaterialPageRoute(builder: (context) => OfferWantedScreen(myContacts, idx)),
-//             );
-//           },
-//         ),
-//         Text(
-//           "[${_getWantedNr(idx)}]",
-//           style: TextStyle(color: textColor),
-//           textScaleFactor: 1.2,
-//         ),
-//       ],
-//     );
-//   } else {
-//     return Row(
-//       mainAxisSize: MainAxisSize.min,
-//       children: <Widget>[
-//         IconButton(
-//           icon: Icon(
-//             Icons.favorite,
-//             color: markPokemonColor,
-//           ),
-//           onPressed: () {
-//             Navigator.push(
-//               context,
-//               MaterialPageRoute(builder: (context) => OfferWantedScreen(myContacts, idx)),
-//             );
-//           },
-//         ),
-//         Text(
-//           "[${_getWantedNr(idx)}]",
-//           style: TextStyle(color: textColor),
-//           textScaleFactor: 1.2,
-//         ),
-//         IconButton(
-//           icon: Icon(MdiIcons.hexagon, color: Colors.amber),
-//           onPressed: () {
-//             Navigator.push(
-//               context,
-//               MaterialPageRoute(builder: (context) => OfferNeedScreen(myContacts, idx)),
-//             );
-//           },
-//         ),
-//         Text(
-//           "[${_getNeedNr(idx)}]",
-//           style: TextStyle(color: textColor),
-//           textScaleFactor: 1.2,
-//         ),
-//       ],
-//     );
-//   }
-// }
-
-//   Widget _buildTotalList() {
-//     return ListView.builder(
-//         itemCount: _getItemCount(),
-//         itemBuilder: (context, i) {
-//           String idx = _getIdx(i);
-//           String currPokemon = pokemonNamesDict[idx];
-//           String currPokemonNr = idx;
-//           if (idx.contains('alolan')) currPokemonNr = idx.split('_')[0];
-//           return ListTile(
-//             leading: _getPokemonImage(idx),
-//             title: Text(
-//               "#" + currPokemonNr + ' ' + currPokemon,
-//               style: TextStyle(color: textColor),
-//             ),
-//             trailing: _getTrailing(idx),
-//           );
-//         });
-//   }
-// }
-
-// class Contact {
-//   String name;
-//   String nickname;
-//   String icon;
-//   String id;
-//   List<String> needList;
-//   List<String> mostWantedList;
-// }

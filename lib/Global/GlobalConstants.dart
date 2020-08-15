@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 
 // General
-List<String> myNeedList = List<String>();
-List<String> myMostWantedList = List<String>();
-String myID;
+// List<String> myNeedList = List<String>();
+// List<String> myMostWantedList = List<String>();
+// String myID;
 // String myAccountName = 'Trainer xy';
-String myIcon = '001';
-String myLanguage = 'en';
-List<String> myFriends = List<String>();
+// String myIcon = '001';
+// String myLanguage = 'en';
+// List<String> myFriends = List<String>();
 // bool myClassicTheme = false;
-String myVersion = '1.0.0';
-bool isSignedIn = false;
+// bool isSignedIn = false;
 bool initNew = true;
 
 // color theme
