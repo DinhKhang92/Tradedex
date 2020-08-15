@@ -24,8 +24,6 @@ import 'package:tradedex/SignIn/SignInPage.dart';
 import 'package:tradedex/OfficialCollection/OfficialCollectionPage.dart';
 import 'package:tradedex/IndividualCollection/IndividualCollectionPage.dart';
 
-import 'dart:io' show Platform;
-
 class HomePage extends StatefulWidget {
   final Profile myProfile;
 

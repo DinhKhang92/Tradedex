@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Tradedex',
             home: (initNew || snapshot.data[2].id.length == '-1') ? LoginPage(snapshot.data[2]) : HomePage(snapshot.data[2]),
+            // home: TestPage(),
           );
         }
       },
@@ -49,22 +50,87 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class TestPage extends StatelessWidget {
-  // final sf.StorageReference storageReference = sf.FirebaseStorage().ref();
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: AppBar(
-        title: Text("Test"),
-      ),
-      body: Text(
-        "Body",
-        style: TextStyle(color: textColor),
-      ),
-    );
-  }
-}
+// class TestPage extends StatefulWidget {
+//   @override
+//   State<StatefulWidget> createState() {
+//     return TestPageState();
+//   }
+// }
+
+// class TestPageState extends State<TestPage> {
+//   Widget testWidget;
+//   List<Widget> blankImages;
+
+//   TestPageState() {
+//     this.testWidget = Text("hello World");
+//     this.blankImages = new List<Widget>();
+//   }
+
+//   @override
+//   void initState() {
+//     super.initState();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: backgroundColor,
+//       appBar: AppBar(
+//         title: Text("Test"),
+//       ),
+//       // body: Text("body"),
+//       body: FutureBuilder(
+//         future: loadFirebaseImage(),
+//         builder: (BuildContext context, AsyncSnapshot snapshot) {
+//           if (snapshot.data == null) {
+//             return Container();
+//           } else {
+//             print("LENGTH: " + this.blankImages.length.toString());
+//             return ListView.builder(
+//               itemCount: this.blankImages.length,
+//               itemBuilder: (context, i) {
+//                 return ListTile(
+//                   leading: this.blankImages[i],
+//                   title: Text(i.toString()),
+//                 );
+//               },
+//             );
+//           }
+//         },
+//       ),
+//     );
+//   }
+
+//   Future<bool> loadFirebaseImage() async {
+//     Map individualCollectionFile;
+//     List<dynamic> values;
+//     bool done;
+//     this.blankImages = new List<Widget>();
+
+//     await rootBundle.loadString("json/individual_collections/individual_collection.json").then((String file) {
+//       individualCollectionFile = json.decode(file);
+
+//       values = individualCollectionFile['blank'];
+
+//       for (int i = 0; i < values.length; i++) {
+//         FirebaseStorage.instance.ref().child('pokemon_icons_blank').child(values[i]).getDownloadURL().then((value) {
+//           this.blankImages.add(Image.network(value));
+//         });
+//       }
+
+//       done = true;
+//     });
+//     return done;
+//   }
+
+//   void imagesdb(List<String> values, int i) {
+//     print(values[i]);
+//     // await FirebaseStorage.instance.ref().child('pokemon_icons_blank').child(values[i]).getDownloadURL().then((value) {
+//     //   print(value);
+//     //   this.blankImages.add(Image.network(value));
+//     // });
+//   }
+// }
 
 class LoginPage extends StatefulWidget {
   final Profile myProfile;
