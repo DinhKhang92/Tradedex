@@ -210,6 +210,7 @@ Widget faqSubpageBody() {
                         children: <TextSpan>[
                           TextSpan(
                             text: languageFile['PAGE_SETTINGS']['FAQ_SUBPAGE']['CARD_07_DESCRIPTION'],
+                            style: TextStyle(color: textColor),
                           ),
                           TextSpan(
                             style: TextStyle(color: urlColor),
@@ -219,7 +220,10 @@ Widget faqSubpageBody() {
                                 goToUrl('https://www.imore.com/how-use-text-shortcuts-iphone-and-ipad');
                               },
                           ),
-                          TextSpan(text: languageFile['PAGE_SETTINGS']['FAQ_SUBPAGE']['CARD_07_02_DESCRIPTION'])
+                          TextSpan(
+                            text: languageFile['PAGE_SETTINGS']['FAQ_SUBPAGE']['CARD_07_02_DESCRIPTION'], 
+                            style: TextStyle(color: textColor),
+                          ),
                         ],
                       ),
                     ),
