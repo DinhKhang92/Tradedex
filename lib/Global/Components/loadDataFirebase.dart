@@ -71,13 +71,13 @@ Future<List<Contact>> loadContactsFirebase(Profile myProfile) async {
         contact.id = '-1';
 
       // load primary list
-      if (snapshot.value['myMostWantedList'] != null)
+      if (snapshot.value['myMostWantedList'] != null && snapshot.value['myMostWantedList'] != '[]')
         contact.primaryList = snapshot.value['myMostWantedList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
       else
         contact.primaryList = new List<String>();
 
       // load secondary list
-      if (snapshot.value['myMostWantedList'] != null)
+      if (snapshot.value['myNeedList'] != null && snapshot.value['myNeedList'] != '[]')
         contact.secondaryList = snapshot.value['myNeedList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
       else
         contact.secondaryList = new List<String>();
