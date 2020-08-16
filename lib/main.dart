@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
           );
         } else {
           return MaterialApp(
+            theme: ThemeData(scaffoldBackgroundColor: backgroundColor),
             color: buttonColor,
             debugShowCheckedModeBanner: false,
             title: 'Tradedex',
