@@ -35,6 +35,7 @@ android {
 
     lintOptions {
         disable 'InvalidPackage'
+        checkReleaseBuilds false //<- add this line
     }
 
     defaultConfig {
@@ -42,8 +43,8 @@ android {
         applicationId "trade.dex"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 52
-        versionName "2.0.6"
+        versionCode 53
+        versionName "2.1.0"
         ndk.abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
