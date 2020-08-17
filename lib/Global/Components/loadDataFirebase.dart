@@ -53,8 +53,11 @@ Future<List<Contact>> loadContactsFirebase(Profile myProfile) async {
     if (contactIds.value != null) ids = contactIds.value;
   });
 
+  print("ids.length: " + ids.length.toString());
+
   for (int i = 0; i < ids.length; i++) {
     await database.reference().child(ids[i]).once().then((DataSnapshot snapshot) {
+      
       Contact contact = new Contact();
       OfficialCollection officialCollection = new OfficialCollection();
 
