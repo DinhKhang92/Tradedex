@@ -5,6 +5,7 @@ class AboutTheDeveloperSubpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         title: Text(languageFile['PAGE_SETTINGS']['ABOUT_THE_DEVEOPER_SUBPAGE']['TITLE']),
         backgroundColor: appBarColor,

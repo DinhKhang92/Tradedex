@@ -322,6 +322,7 @@ class ContactsPageState extends State<ContactsPage> {
     ];
 
     return Scaffold(
+      backgroundColor: backgroundColor,
       key: this.scaffoldKey,
       floatingActionButton: Visibility(
         visible: this.navIndex == 0 ? true : false,

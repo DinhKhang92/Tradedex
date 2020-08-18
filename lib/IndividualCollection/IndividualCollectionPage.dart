@@ -208,6 +208,7 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         title: Text(languageFile['PAGE_INDIVIDUAL_COLLECTION']['TITLE']),
         backgroundColor: appBarColor,

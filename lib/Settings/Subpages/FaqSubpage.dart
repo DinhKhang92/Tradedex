@@ -8,6 +8,7 @@ class FaqSubpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         title: Text(
           languageFile['PAGE_SETTINGS']['FAQ_SUBPAGE']['TITLE'],

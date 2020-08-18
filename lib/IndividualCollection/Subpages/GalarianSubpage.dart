@@ -31,6 +31,7 @@ class GalarianSubpageState extends State<GalarianSubpage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         title: Text(
           languageFile['PAGE_INDIVIDUAL_COLLECTION']['GALARIAN_SUBPAGE']['TITLE'],

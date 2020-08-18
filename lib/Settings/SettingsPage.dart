@@ -53,6 +53,7 @@ class SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       key: this.scaffoldKey,
       appBar: AppBar(
         title: Text(

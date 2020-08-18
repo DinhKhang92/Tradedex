@@ -33,6 +33,7 @@ class ShadowSubpageState extends State<ShadowSubpage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       key: scaffoldKey,
       appBar: AppBar(
         title: Text(

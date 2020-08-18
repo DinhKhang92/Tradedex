@@ -50,6 +50,7 @@ class SecondaryListSubpageState extends State<SecondaryListSubpage> {
   Widget build(BuildContext context) {
     sortPrimaryList();
     return Scaffold(
+      backgroundColor: backgroundColor,
       key: this.scaffoldKey,
       appBar: AppBar(
         title: Text(languageFile['PAGE_SECONDARY_LIST']['TITLE']),

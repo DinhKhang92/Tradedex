@@ -4,6 +4,8 @@ import 'package:tradedex/Global/Components/getPokemonImage.dart';
 import 'package:tradedex/Global/GlobalConstants.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../../Global/GlobalConstants.dart';
+
 class ContactSecondaryListSubpage extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   final Contact contact;
@@ -30,6 +32,7 @@ class ContactSecondaryListSubpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       key: scaffoldKey,
       appBar: AppBar(
         title: Text(

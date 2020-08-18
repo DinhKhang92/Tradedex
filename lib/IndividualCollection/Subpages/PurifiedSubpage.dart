@@ -33,6 +33,7 @@ class PurifiedSubpageState extends State<PurifiedSubpage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       key: this.scaffoldKey,
       appBar: AppBar(
         title: Text(

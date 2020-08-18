@@ -24,6 +24,7 @@ class ContactWantedPrimaryListSubpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       key: scaffoldKey,
       appBar: AppBar(
         title: Text(this.idx + " " + this.pokemonNamesDict[this.idx]),

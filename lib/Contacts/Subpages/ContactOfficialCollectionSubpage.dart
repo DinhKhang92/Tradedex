@@ -123,6 +123,7 @@ class ContactOfficialCollectionSubpageState extends State<ContactOfficialCollect
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        backgroundColor: backgroundColor,
         key: this.scaffoldKey,
         appBar: AppBar(
           title: this.appBarTitle,

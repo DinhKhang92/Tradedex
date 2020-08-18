@@ -31,6 +31,7 @@ class ContactPrimaryListSubpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       key: scaffoldKey,
       appBar: AppBar(
         title: Text(

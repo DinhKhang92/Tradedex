@@ -30,6 +30,7 @@ class SpindaSubpageState extends State<SpindaSubpage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         backgroundColor: appBarColor,
         title: Text(

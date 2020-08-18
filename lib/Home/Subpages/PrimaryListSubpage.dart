@@ -63,6 +63,7 @@ class PrimaryListSubpageState extends State<PrimaryListSubpage> {
   Widget build(BuildContext context) {
     sortPrimaryList();
     return Scaffold(
+      backgroundColor: backgroundColor,
       key: this.scaffoldKey,
       appBar: AppBar(
         title: Text(languageFile['PAGE_PRIMARY_LIST']['TITLE']),
