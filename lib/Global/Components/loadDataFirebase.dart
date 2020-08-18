@@ -56,79 +56,82 @@ Future<List<Contact>> loadContactsFirebase(Profile myProfile) async {
   print("ids.length: " + ids.length.toString());
 
   for (int i = 0; i < ids.length; i++) {
-    await database.reference().child(ids[i]).once().then((DataSnapshot snapshot) {
-      
-      Contact contact = new Contact();
-      OfficialCollection officialCollection = new OfficialCollection();
+    try {
+      await database.reference().child(ids[i]).once().then((DataSnapshot snapshot) {
+        Contact contact = new Contact();
+        OfficialCollection officialCollection = new OfficialCollection();
 
-      // load account name
-      if (snapshot.value['account_name'] != null)
-        contact.accountName = snapshot.value['account_name'];
-      else
-        contact.accountName = languageFile['PAGE_CONTACTS']['INVALID_NAME'];
-
-      // load id
-      if (snapshot.value['id'] != null)
-        contact.id = snapshot.value['id'];
-      else
-        contact.id = '-1';
-
-      // load primary list
-      if (snapshot.value['myMostWantedList'] != null && snapshot.value['myMostWantedList'] != '[]')
-        contact.primaryList = snapshot.value['myMostWantedList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
-      else
-        contact.primaryList = new List<String>();
-
-      // load secondary list
-      if (snapshot.value['myNeedList'] != null && snapshot.value['myNeedList'] != '[]')
-        contact.secondaryList = snapshot.value['myNeedList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
-      else
-        contact.secondaryList = new List<String>();
-
-      // load icon
-      if (snapshot.value['icon'] != null)
-        contact.icon = snapshot.value['icon'];
-      else
-        contact.icon = '001';
-
-      if (snapshot.value['officialCollection'] != null) {
-        if (snapshot.value['officialCollection']['luckyList'] != null)
-          officialCollection.luckyList = snapshot.value['officialCollection']['luckyList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
+        // load account name
+        if (snapshot.value['account_name'] != null)
+          contact.accountName = snapshot.value['account_name'];
         else
-          officialCollection.luckyList = new List<String>();
+          contact.accountName = languageFile['PAGE_CONTACTS']['INVALID_NAME'];
 
-        if (snapshot.value['officialCollection']['shinyList'] != null)
-          officialCollection.shinyList = snapshot.value['officialCollection']['shinyList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
+        // load id
+        if (snapshot.value['id'] != null)
+          contact.id = snapshot.value['id'];
         else
-          officialCollection.shinyList = new List<String>();
+          contact.id = '-1';
 
-        if (snapshot.value['officialCollection']['genderList']['maleList'] != null)
-          officialCollection.maleList =
-              snapshot.value['officialCollection']['genderList']['maleList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
+        // load primary list
+        if (snapshot.value['myMostWantedList'] != null && snapshot.value['myMostWantedList'] != '[]')
+          contact.primaryList = snapshot.value['myMostWantedList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
         else
-          officialCollection.maleList = new List<String>();
+          contact.primaryList = new List<String>();
 
-        if (snapshot.value['officialCollection']['genderList']['femaleList'] != null)
-          officialCollection.femaleList =
-              snapshot.value['officialCollection']['genderList']['femaleList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
+        // load secondary list
+        if (snapshot.value['myNeedList'] != null && snapshot.value['myNeedList'] != '[]')
+          contact.secondaryList = snapshot.value['myNeedList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
         else
-          officialCollection.femaleList = new List<String>();
+          contact.secondaryList = new List<String>();
 
-        if (snapshot.value['officialCollection']['genderList']['neutralList'] != null)
-          officialCollection.neutralList =
-              snapshot.value['officialCollection']['genderList']['neutralList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
+        // load icon
+        if (snapshot.value['icon'] != null)
+          contact.icon = snapshot.value['icon'];
         else
-          officialCollection.neutralList = new List<String>();
-      }
+          contact.icon = '001';
 
-      // print(officialCollection.luckyList);
-      // print(officialCollection.shinyList);
-      // print(officialCollection.maleList);
+        if (snapshot.value['officialCollection'] != null) {
+          if (snapshot.value['officialCollection']['luckyList'] != null)
+            officialCollection.luckyList = snapshot.value['officialCollection']['luckyList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
+          else
+            officialCollection.luckyList = new List<String>();
 
-      contact.officialCollection = officialCollection;
+          if (snapshot.value['officialCollection']['shinyList'] != null)
+            officialCollection.shinyList = snapshot.value['officialCollection']['shinyList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
+          else
+            officialCollection.shinyList = new List<String>();
 
-      myContacts.add(contact);
-    });
+          if (snapshot.value['officialCollection']['genderList']['maleList'] != null)
+            officialCollection.maleList =
+                snapshot.value['officialCollection']['genderList']['maleList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
+          else
+            officialCollection.maleList = new List<String>();
+
+          if (snapshot.value['officialCollection']['genderList']['femaleList'] != null)
+            officialCollection.femaleList =
+                snapshot.value['officialCollection']['genderList']['femaleList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
+          else
+            officialCollection.femaleList = new List<String>();
+
+          if (snapshot.value['officialCollection']['genderList']['neutralList'] != null)
+            officialCollection.neutralList =
+                snapshot.value['officialCollection']['genderList']['neutralList'].toString().replaceAll('[', '').replaceAll(']', '').replaceAll(' ', '').split(',');
+          else
+            officialCollection.neutralList = new List<String>();
+        }
+
+        // print(officialCollection.luckyList);
+        // print(officialCollection.shinyList);
+        // print(officialCollection.maleList);
+
+        contact.officialCollection = officialCollection;
+
+        myContacts.add(contact);
+      });
+    } catch (e) {
+      print(e);
+    }
   }
   return myContacts;
 }
