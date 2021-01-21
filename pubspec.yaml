@@ -37,6 +37,7 @@ dependencies:
   property_change_notifier: ^0.2.0
   clipboard_manager: ^0.0.4
   firebase_storage: ^3.0.8
+  flutter_bloc: ^6.1.1
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +71,16 @@ flutter:
     - json/languages/
     - json/official_collections/
     - json/individual_collections/
+
+    - assets/sprites/unown/
+    - assets/sprites/blank/
+    - assets/sprites/event/
+    - assets/sprites/alolan/
+    - assets/sprites/spinda/
+    - assets/sprites/regional/
+    - assets/sprites/shiny/
+    - assets/sprites/galarian/
+
     - assets_bundle/pokemon_icons_unown/
     - assets_bundle/pokemon_icons_blank/
     - assets_bundle/pokemon_icons_event/

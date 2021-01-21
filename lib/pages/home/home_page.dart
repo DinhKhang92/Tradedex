@@ -1,4 +1,5 @@
-import 'package:tradedex/About/AboutPage.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tradedex/pages/about/about_page.dart';
 import 'package:tradedex/Contacts/ContactsPage.dart';
 import 'package:tradedex/Global/Components/saveDataFirebase.dart';
 import 'package:tradedex/Global/Components/setColorTheme.dart';
@@ -22,29 +23,25 @@ import 'package:tradedex/Global/Components/copyToClipboard.dart';
 import 'package:tradedex/SignIn/SignInPage.dart';
 import 'package:tradedex/OfficialCollection/OfficialCollectionPage.dart';
 import 'package:tradedex/IndividualCollection/IndividualCollectionPage.dart';
+import 'package:tradedex/pages/home/cubit/pokemon_cubit.dart';
+import 'package:tradedex/localization/app_localization.dart';
+import 'package:tradedex/components/pokemon_image.dart';
+import 'package:tradedex/components/drawer.dart';
 
 class HomePage extends StatefulWidget {
-  // final Profile myProfile;
-
-  HomePage();
-
   @override
-  State<StatefulWidget> createState() {
-    return HomePageState();
-  }
+  State<StatefulWidget> createState() => HomePageState();
 }
 
 class HomePageState extends State<HomePage> {
   @override
   void initState() {
-    this.loadData();
+    this.loadPokemon();
     super.initState();
   }
 
-  void loadData() async {
-    final String manifestJson = await DefaultAssetBundle.of(this.context)
-        .loadString('AssetManifest.json');
-    print(manifestJson);
+  void loadPokemon() async {
+    BlocProvider.of<PokemonCubit>(context).loadPokemon(context);
   }
 
   // function variables
@@ -111,44 +108,50 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      key: this._scaffoldKey,
-      appBar: AppBar(
-        title: _buildAppBarTitle(),
-        backgroundColor: appBarColor,
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          color: iconColor,
-          onPressed: () => this._scaffoldKey.currentState.openDrawer(),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: backgroundColor,
+        key: this._scaffoldKey,
+        appBar: AppBar(
+          title: _buildAppBarTitle(),
+          backgroundColor: appBarColor,
+          leading: IconButton(
+            icon: Icon(Icons.menu),
+            color: iconColor,
+            onPressed: () => this._scaffoldKey.currentState.openDrawer(),
+          ),
+          actions: <Widget>[
+            IconButton(
+              icon: _buildSearchbar(),
+              color: iconColor,
+              onPressed: () => {},
+            ),
+            IconButton(
+              icon: Icon(Icons.favorite),
+              color: iconColor,
+              onPressed: () => Navigator.of(context).pushNamed('/primary'),
+            ),
+            // PopupMenuButton<String>(
+            //   onSelected: selectedGen,
+            //   itemBuilder: (BuildContext context) {
+            //     return getGens().map((String choice) {
+            //       return PopupMenuItem<String>(
+            //         value: choice,
+            //         child: Text(choice),
+            //       );
+            //     }).toList();
+            //   },
+            // ),
+          ],
         ),
-        // actions: <Widget>[
-        //   IconButton(
-        //     icon: searchIcon,
-        //     color: iconColor,
-        //     onPressed: () => handleSearchEvent(),
-        //   ),
-        //   IconButton(
-        //     icon: Icon(Icons.favorite),
-        //     color: iconColor,
-        //     onPressed: () => goToPrimaryListSubpage(context),
-        //   ),
-        //   PopupMenuButton<String>(
-        //     onSelected: selectedGen,
-        //     itemBuilder: (BuildContext context) {
-        //       return getGens().map((String choice) {
-        //         return PopupMenuItem<String>(
-        //           value: choice,
-        //           child: Text(choice),
-        //         );
-        //       }).toList();
-        //     },
-        //   ),
-        // ],
+        drawer: DrawerComponent(),
+        body: _buildContent(),
       ),
-      drawer: Drawer(),
-      // body: _buildContent(),
     );
+  }
+
+  Widget _buildSearchbar() {
+    return Icon(Icons.search);
   }
 
   Widget _buildAppBarTitle() {
@@ -416,339 +419,90 @@ class HomePageState extends State<HomePage> {
 //     });
 //   }
 
-  // Widget buildPokemonMainPage() {
-  //   return Container(
-  //     color: backgroundColor,
-  //     child: FutureBuilder(
-  //       future: loadPokemonNames(),
-  //       builder: (BuildContext context, AsyncSnapshot snapshot) {
-  //         if (snapshot.data == null) {
-  //           return Container(
-  //             color: backgroundColor,
-  //           );
-  //         } else {
-  //           return Column(
-  //             children: <Widget>[
-  //               Flexible(
-  //                 child: searchResult.length != 0 || textEditController.text.isNotEmpty
-  //                     ? ListView.builder(
-  //                         itemCount: searchResult.length,
-  //                         itemBuilder: (context, i) {
-  //                           return buildRowPokemon(searchResult[i]);
-  //                         },
-  //                       )
-  //                     : ListView.builder(
-  //                         itemCount: pokemonNamesDictKeys.length,
-  //                         itemBuilder: (context, i) {
-  //                           String idx = pokemonNamesDictKeys[i];
-  //                           return buildRowPokemon(idx);
-  //                         },
-  //                       ),
-  //               ),
-  //             ],
-  //           );
-  //         }
-  //       },
-  //     ),
-  //   );
-  // }
+  Widget _buildContent() {
+    return BlocBuilder<PokemonCubit, PokemonState>(
+      builder: (context, state) {
+        if (state is PokemonLoaded) {
+          return _buildLoaded();
+        }
+        return Container(color: backgroundColor);
+      },
+    );
+  }
 
-//   Widget buildRowPokemon(String idx) {
-//     String currPokemon = pokemonNamesDict[idx];
-//     String currPokemonNr = idx;
-//     bool secondaryPokemon = checkSecondaryPokemon(idx);
-//     bool primaryPokemon = checkPrimaryPokemon(idx);
-//     if (idx.contains('alolan')) currPokemonNr = idx.split('_')[0];
+  Widget _buildLoaded() {
+    return BlocBuilder<PokemonCubit, PokemonState>(
+      builder: (context, state) {
+        if (state is PokemonLoaded)
+          return Container(
+            color: backgroundColor,
+            child: ListView.builder(
+              itemCount: state.pokemon.length,
+              itemBuilder: (context, i) {
+                String pokemonKey = state.pokemon.keys.toList()[i];
+                return _buildRowElement(pokemonKey);
+              },
+            ),
+          );
+        return Container();
+      },
+    );
+  }
 
-//     return Container(
-//       child: ListTile(
-//         leading: getPokemonImage(idx),
-//         title: Text(
-//           "#" + currPokemonNr + ' ' + currPokemon,
-//           style: TextStyle(color: textColor),
-//         ),
-//         trailing: Row(
-//           mainAxisSize: MainAxisSize.min,
-//           children: <Widget>[
-//             IconButton(
-//               icon: Icon(
-//                 primaryPokemon ? Icons.favorite : Icons.favorite_border,
-//                 color: primaryPokemon ? primaryListColor : primaryListColorOff,
-//               ),
-//               onPressed: () {
-//                 setState(() {
-//                   primaryPokemon ? myProfile.primaryList.remove(idx) : myProfile.primaryList.add(idx);
-//                 });
-//                 savePokemonListsFirebase(myProfile);
-//                 // saveMyMostWantedList();
-//               },
-//             ),
-//             IconButton(
-//               icon: Icon(secondaryPokemon ? MdiIcons.hexagon : MdiIcons.hexagonOutline, color: secondaryPokemon ? secondaryListColor : secondaryListColorOff),
-//               onPressed: () {
-//                 setState(() {
-//                   secondaryPokemon ? myProfile.secondaryList.remove(idx) : myProfile.secondaryList.add(idx);
-//                 });
-//                 savePokemonListsFirebase(myProfile);
-//                 // saveMyNeedList();
-//               },
-//             )
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-
-//   bool checkSecondaryPokemon(String idx) {
-//     if (this.myProfile.secondaryList.contains(idx))
-//       return true;
-//     else
-//       return false;
-//   }
-
-//   bool checkPrimaryPokemon(String idx) {
-//     if (this.myProfile.primaryList.contains(idx))
-//       return true;
-//     else
-//       return false;
-//   }
-
-//   Widget buildDrawer(context) {
-//     return SafeArea(
-//       key: this.drawerKey,
-//       child: Drawer(
-//         child: Container(
-//           color: backgroundColor,
-//           child: ListView(
-//             children: <Widget>[
-//               Container(
-//                 color: backgroundColor,
-//                 child: DrawerHeader(
-//                   child: Column(
-//                     children: <Widget>[
-//                       SizedBox(
-//                         height: 20,
-//                       ),
-//                       Container(
-//                         color: backgroundColor,
-//                         child: Row(
-//                           mainAxisAlignment: MainAxisAlignment.start,
-//                           children: <Widget>[
-//                             SizedBox(
-//                               width: 10,
-//                             ),
-//                             Container(
-//                               height: 40,
-//                               width: 40,
-//                               decoration: new BoxDecoration(
-//                                 color: Colors.grey[300],
-//                                 shape: BoxShape.circle,
-//                                 image: new DecorationImage(
-//                                     fit: BoxFit.scaleDown,
-//                                     image: this.myProfile.icon.contains('alolan')
-//                                         ? AssetImage('assets_bundle/pokemon_icons_alolan/${this.myProfile.icon}.png')
-//                                         : AssetImage('assets_bundle/pokemon_icons_blank/${this.myProfile.icon}.png')),
-//                               ),
-//                             ),
-//                             SizedBox(
-//                               width: 15,
-//                             ),
-//                             Column(
-//                               mainAxisAlignment: MainAxisAlignment.start,
-//                               children: <Widget>[
-//                                 Text(
-//                                   this.myProfile.accountName,
-//                                   style: TextStyle(color: textColor, fontSize: 20),
-//                                 ),
-//                                 SizedBox(
-//                                   height: 3,
-//                                 ),
-//                                 getUserVerification(this.isSignedIn, this.myProfile.id),
-//                               ],
-//                             )
-//                           ],
-//                         ),
-//                       ),
-//                       SizedBox(
-//                         height: 10,
-//                       ),
-//                       Center(
-//                         child: FlatButton(
-//                           child: Chip(
-//                             backgroundColor: buttonColor,
-//                             label: Text(
-//                               languageFile['PAGE_DRAWER']['COPY_TRADING_CODE'],
-//                               style: TextStyle(color: buttonTextColor),
-//                             ),
-//                           ),
-//                           onPressed: () => copyToClipboard(this.scaffoldKey, this.myProfile.id),
-//                         ),
-//                       ),
-//                       SizedBox(
-//                         height: 10,
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//               ),
-//               Container(
-//                 color: signInButtonColor,
-//                 child: ListTile(
-//                   leading: Icon(
-//                     Icons.account_circle,
-//                     color: drawerIconColor,
-//                   ),
-//                   title: Text(
-//                     languageFile['PAGE_DRAWER']['SIGN_IN'],
-//                     style: TextStyle(color: textColor),
-//                   ),
-//                   onTap: () {
-//                     // Navigator.push(
-//                     //   context,
-//                     //   MaterialPageRoute(builder: (context) => SignInPage(this.myProfile)),
-//                     // );
-//                   },
-//                 ),
-//               ),
-//               Container(
-//                 child: ListTile(
-//                   leading: Icon(
-//                     Icons.home,
-//                     color: drawerIconColor,
-//                   ),
-//                   title: Text(
-//                     languageFile['PAGE_DRAWER']['HOME'],
-//                     style: TextStyle(color: textColor),
-//                   ),
-//                   onTap: Navigator.of(context).pop,
-//                 ),
-//               ),
-//               Container(
-//                 child: ListTile(
-//                   leading: Icon(
-//                     Icons.favorite,
-//                     color: drawerIconColor,
-//                   ),
-//                   title: Text(
-//                     languageFile['PAGE_DRAWER']['PRIMARY_LIST'],
-//                     style: TextStyle(color: textColor),
-//                   ),
-//                   onTap: () => goToPrimaryListSubpage(context),
-//                 ),
-//               ),
-//               Container(
-//                 child: ListTile(
-//                   leading: Icon(
-//                     MdiIcons.hexagon,
-//                     color: drawerIconColor,
-//                   ),
-//                   title: Text(
-//                     languageFile['PAGE_DRAWER']['SECONDARY_LIST'],
-//                     style: TextStyle(color: textColor),
-//                   ),
-//                   onTap: () => goToSecondaryListSubpage(context),
-//                 ),
-//               ),
-//               Container(
-//                 child: ListTile(
-//                   leading: Icon(
-//                     MdiIcons.pokeball,
-//                     color: drawerIconColor,
-//                   ),
-//                   title: Text(
-//                     languageFile['PAGE_DRAWER']['OFFICIAL_COLLECTION'],
-//                     style: TextStyle(color: textColor),
-//                   ),
-//                   onTap: () {
-//                     Navigator.push(
-//                       context,
-//                       MaterialPageRoute(builder: (context) => OfficialCollectionPage(this.pokemonNamesDict, this.pokemonNamesBlankDictKeys, this.myProfile)),
-//                     );
-//                   },
-//                 ),
-//               ),
-//               Container(
-//                 child: ListTile(
-//                   leading: Icon(
-//                     MdiIcons.bookOpen,
-//                     color: drawerIconColor,
-//                   ),
-//                   title: Text(
-//                     languageFile['PAGE_DRAWER']['INDIVIDUAL_COLLECTION'],
-//                     style: TextStyle(color: textColor),
-//                   ),
-//                   onTap: () {
-//                     Navigator.push(
-//                       context,
-//                       MaterialPageRoute(builder: (context) => IndividualCollectionPage(this.myProfile)),
-//                     );
-//                   },
-//                 ),
-//               ),
-//               Container(
-//                 child: ListTile(
-//                   leading: Icon(
-//                     Icons.people,
-//                     color: drawerIconColor,
-//                   ),
-//                   title: Text(
-//                     languageFile['PAGE_DRAWER']['CONTACTS'],
-//                     style: TextStyle(color: textColor),
-//                   ),
-//                   onTap: () {
-//                     Navigator.push(
-//                       context,
-//                       MaterialPageRoute(builder: (context) => ContactsPage(this.pokemonNamesDict, this.myProfile)),
-//                     );
-//                   },
-//                 ),
-//               ),
-//               Container(
-//                 child: ListTile(
-//                   leading: Icon(
-//                     Icons.settings,
-//                     color: drawerIconColor,
-//                   ),
-//                   title: Text(
-//                     languageFile['PAGE_DRAWER']['SETTINGS'],
-//                     style: TextStyle(color: textColor),
-//                   ),
-//                   onTap: () {
-//                     final result = Navigator.of(context).push(
-//                       MaterialPageRoute<bool>(
-//                         builder: (context) => SettingsPage(this.myProfile, this.pokemonNamesDictKeys),
-//                       ),
-//                     );
-//                     result.then((darkTheme) {
-//                       setState(() {
-//                         setColorTheme(darkTheme);
-//                       });
-//                     });
-//                   },
-//                 ),
-//               ),
-//               Container(
-//                 child: ListTile(
-//                   leading: Icon(
-//                     Icons.info_outline,
-//                     color: drawerIconColor,
-//                   ),
-//                   title: Text(
-//                     languageFile['PAGE_DRAWER']['ABOUT'],
-//                     style: TextStyle(color: textColor),
-//                   ),
-//                   onTap: () {
-//                     Navigator.push(
-//                       context,
-//                       MaterialPageRoute(builder: (context) => AboutPage()),
-//                     );
-//                   },
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
+  Widget _buildRowElement(String pokemonKey) {
+    String pokemonName = AppLocalizations.of(context).translate('POKEMON.$pokemonKey');
+    String number = pokemonKey.split('_').first;
+    return Container(
+      child: ListTile(
+        leading: getPokemonImage(pokemonKey),
+        title: Text(
+          "#$number $pokemonName",
+          style: TextStyle(color: textColor),
+        ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            BlocBuilder<PokemonCubit, PokemonState>(
+              builder: (context, state) {
+                if (state is PokemonLoaded) {
+                  return IconButton(
+                    icon: Icon(
+                      state.pokemon[pokemonKey]['primary'] ? Icons.favorite : Icons.favorite_border,
+                      color: state.pokemon[pokemonKey]['primary'] ? primaryListColor : primaryListColorOff,
+                    ),
+                    onPressed: () => BlocProvider.of<PokemonCubit>(context).togglePrimary(pokemonKey),
+                    // setState(() {
+                    //   primaryPokemon ? myProfile.primaryList.remove(idx) : myProfile.primaryList.add(idx);
+                    // });
+                    // savePokemonListsFirebase(myProfile);
+                    // // saveMyMostWantedList();
+                  );
+                }
+                return Container();
+              },
+            ),
+            BlocBuilder<PokemonCubit, PokemonState>(
+              builder: (context, state) {
+                if (state is PokemonLoaded) {
+                  return IconButton(
+                    icon: Icon(
+                      state.pokemon[pokemonKey]['secondary'] ? MdiIcons.hexagon : MdiIcons.hexagonOutline,
+                      color: state.pokemon[pokemonKey]['secondary'] ? secondaryListColor : secondaryListColorOff,
+                    ),
+                    onPressed: () => BlocProvider.of<PokemonCubit>(context).toggleSecondary(pokemonKey),
+                    // setState(() {
+                    //   secondaryPokemon ? myProfile.secondaryList.remove(idx) : myProfile.secondaryList.add(idx);
+                    // });
+                    // savePokemonListsFirebase(myProfile);
+                    // // saveMyNeedList();
+                  );
+                }
+                return Container();
+              },
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }
