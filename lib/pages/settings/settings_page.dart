@@ -32,13 +32,6 @@ class SettingsPage extends StatefulWidget {
 class SettingsPageState extends State<SettingsPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController textController = TextEditingController();
-  List<dynamic> pokemonNamesDictKeys;
-
-  bool darkTheme = false;
-
-  SettingsPageState() {
-    this.pokemonNamesDictKeys = pokemonNamesDictKeys;
-  }
 
   @override
   Widget build(BuildContext context) {
