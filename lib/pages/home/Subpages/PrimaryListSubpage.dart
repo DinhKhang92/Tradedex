@@ -4,7 +4,7 @@ import 'package:tradedex/Global/Components/saveDataFirebase.dart';
 import 'package:tradedex/Global/GlobalConstants.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:tradedex/Home/Subpages/SecondaryListSubpage.dart';
+import 'package:tradedex/pages/home/Subpages/SecondaryListSubpage.dart';
 import 'dart:async';
 import 'package:tradedex/Global/Components/getPokemonImage.dart';
 import 'package:tradedex/Global/Components/Dialogs/deleteDialog.dart';
@@ -38,7 +38,10 @@ class PrimaryListSubpageState extends State<PrimaryListSubpage> {
   String getPrimaryListString() {
     String myCopyString = '';
     for (int i = 0; i < this.myProfile.primaryList.length; i++) {
-      if (!this.myProfile.primaryList[i].contains('alolan')) myCopyString = myCopyString + ',' + int.parse(this.myProfile.primaryList[i]).toString();
+      if (!this.myProfile.primaryList[i].contains('alolan'))
+        myCopyString = myCopyString +
+            ',' +
+            int.parse(this.myProfile.primaryList[i]).toString();
     }
     if (myCopyString != '') myCopyString = myCopyString.substring(1);
 
@@ -48,7 +51,8 @@ class PrimaryListSubpageState extends State<PrimaryListSubpage> {
   void goToSecondaryListSubpage() async {
     final result = Navigator.of(context).push(
       MaterialPageRoute<Profile>(
-        builder: (context) => SecondaryListSubpage(this.myProfile, this.pokemonNamesDict),
+        builder: (context) =>
+            SecondaryListSubpage(this.myProfile, this.pokemonNamesDict),
       ),
     );
 
@@ -75,7 +79,12 @@ class PrimaryListSubpageState extends State<PrimaryListSubpage> {
               color: iconColor,
             ),
             onPressed: () {
-              showDialog(context: context, barrierDismissible: false, builder: (context) => deleteDialog(context, this.myProfile.primaryList)).then((pokemonList) {
+              showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) =>
+                          deleteDialog(context, this.myProfile.primaryList))
+                  .then((pokemonList) {
                 setState(() {
                   this.myProfile.primaryList = pokemonList;
                 });
@@ -176,7 +185,8 @@ class PrimaryListSubpageState extends State<PrimaryListSubpage> {
     }
     for (int i = 0; i < helpAlolanList.length; i++) {
       for (int j = 0; j < helpMyMostWantedList.length; j++) {
-        if (helpAlolanList[i].trim() == helpMyMostWantedList[j].padLeft(3, '0')) {
+        if (helpAlolanList[i].trim() ==
+            helpMyMostWantedList[j].padLeft(3, '0')) {
           helpMyMostWantedList[j] = helpAlolanList[i].trim() + '_alolan';
           break;
         }
@@ -184,7 +194,8 @@ class PrimaryListSubpageState extends State<PrimaryListSubpage> {
     }
     this.myProfile.primaryList = helpMyMostWantedList;
     for (int i = 0; i < this.myProfile.primaryList.length; i++) {
-      this.myProfile.primaryList[i] = this.myProfile.primaryList[i].padLeft(3, '0');
+      this.myProfile.primaryList[i] =
+          this.myProfile.primaryList[i].padLeft(3, '0');
     }
   }
 }

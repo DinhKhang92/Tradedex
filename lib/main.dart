@@ -10,7 +10,7 @@ import 'Global/GlobalConstants.dart';
 import 'Global/Components/tos.dart';
 import 'Global/Components/tradedexLogo.dart';
 
-import 'Home/HomePage.dart';
+// import 'Home/HomePage.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tradedex/Global/Components/loadDataFirebase.dart';
 import 'package:tradedex/route/route_generator.dart';
@@ -18,7 +18,8 @@ import 'package:tradedex/localization/app_localization.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
     runApp(MyApp());
   });
 }
@@ -59,7 +60,8 @@ class MyApp extends StatelessWidget {
             ],
             localeResolutionCallback: (locale, supportedLocales) {
               for (Locale supportedLocale in supportedLocales) {
-                if (supportedLocale.languageCode == locale.languageCode && supportedLocale.countryCode == locale.countryCode) {
+                if (supportedLocale.languageCode == locale.languageCode &&
+                    supportedLocale.countryCode == locale.countryCode) {
                   return supportedLocale;
                 }
               }

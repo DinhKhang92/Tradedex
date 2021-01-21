@@ -15,10 +15,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:tradedex/Global/Components/drawer.dart';
 
-import 'package:tradedex/Home/Subpages/PrimaryListSubpage.dart';
-import 'package:tradedex/Home/Subpages/SecondaryListSubpage.dart';
+import 'package:tradedex/pages/home/Subpages/PrimaryListSubpage.dart';
+import 'package:tradedex/pages/home/Subpages/SecondaryListSubpage.dart';
 import 'package:tradedex/Settings/SettingsPage.dart';
-import '../Global/Components/getPokemonImage.dart';
 import 'package:tradedex/Global/Components/copyToClipboard.dart';
 import 'package:tradedex/SignIn/SignInPage.dart';
 import 'package:tradedex/OfficialCollection/OfficialCollectionPage.dart';
@@ -43,7 +42,8 @@ class HomePageState extends State<HomePage> {
   }
 
   void loadData() async {
-    final String manifestJson = await DefaultAssetBundle.of(this.context).loadString('AssetManifest.json');
+    final String manifestJson = await DefaultAssetBundle.of(this.context)
+        .loadString('AssetManifest.json');
     print(manifestJson);
   }
 

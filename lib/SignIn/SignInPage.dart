@@ -3,7 +3,7 @@ import 'package:tradedex/Global/Components/savaDataLocal.dart';
 import 'package:tradedex/Global/GlobalConstants.dart';
 import 'SignIn.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:tradedex/Home/HomePage.dart';
+
 import 'dart:async';
 
 import 'package:tradedex/Global/Components/tos.dart';
@@ -97,12 +97,12 @@ class SignInPageState extends State<SignInPage> {
                       this.authService.googleSignIn().then((value) {
                         this.myProfile = this.authService.getProfile();
                         saveIdLocal(this.myProfile.id);
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomePage(),
-                          ),
-                        );
+                        // Navigator.pushReplacement(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => HomePage(),
+                        //   ),
+                        // );
                       });
                       saveInitLocal();
                     },
@@ -113,7 +113,8 @@ class SignInPageState extends State<SignInPage> {
                 child: Row(
                   children: <Widget>[
                     Icon(MdiIcons.google),
-                    Text('\t \t \t \t ' + languageFile['PAGE_SIGN_IN']['LOG_IN']),
+                    Text('\t \t \t \t ' +
+                        languageFile['PAGE_SIGN_IN']['LOG_IN']),
                   ],
                 ),
               ),
@@ -133,7 +134,8 @@ class SignInPageState extends State<SignInPage> {
                   valueColor: AlwaysStoppedAnimation<Color>(buttonColor),
                 ),
                 new Text(
-                  '          ' + languageFile['PAGE_SIGN_IN']['SIGN_IN_LOADING'],
+                  '          ' +
+                      languageFile['PAGE_SIGN_IN']['SIGN_IN_LOADING'],
                 )
               ],
             ),

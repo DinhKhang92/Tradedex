@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tradedex/pages/login/start_page.dart';
 import 'package:tradedex/SignIn/SignInPage.dart';
-import 'package:tradedex/Home/HomePage.dart';
+import 'package:tradedex/pages/home/home_page.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
