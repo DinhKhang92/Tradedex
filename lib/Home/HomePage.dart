@@ -36,6 +36,17 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    this.loadData();
+    super.initState();
+  }
+
+  void loadData() async {
+    final String manifestJson = await DefaultAssetBundle.of(this.context).loadString('AssetManifest.json');
+    print(manifestJson);
+  }
+
   // function variables
   // FirebaseDatabase database;
   // String searchText;
@@ -136,7 +147,7 @@ class HomePageState extends State<HomePage> {
         // ],
       ),
       drawer: Drawer(),
-      body: _buildContent(),
+      // body: _buildContent(),
     );
   }
 
@@ -405,42 +416,42 @@ class HomePageState extends State<HomePage> {
 //     });
 //   }
 
-  Widget buildPokemonMainPage() {
-    return Container(
-      color: backgroundColor,
-      child: FutureBuilder(
-        future: loadPokemonNames(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.data == null) {
-            return Container(
-              color: backgroundColor,
-            );
-          } else {
-            return Column(
-              children: <Widget>[
-                Flexible(
-                  child: searchResult.length != 0 || textEditController.text.isNotEmpty
-                      ? ListView.builder(
-                          itemCount: searchResult.length,
-                          itemBuilder: (context, i) {
-                            return buildRowPokemon(searchResult[i]);
-                          },
-                        )
-                      : ListView.builder(
-                          itemCount: pokemonNamesDictKeys.length,
-                          itemBuilder: (context, i) {
-                            String idx = pokemonNamesDictKeys[i];
-                            return buildRowPokemon(idx);
-                          },
-                        ),
-                ),
-              ],
-            );
-          }
-        },
-      ),
-    );
-  }
+  // Widget buildPokemonMainPage() {
+  //   return Container(
+  //     color: backgroundColor,
+  //     child: FutureBuilder(
+  //       future: loadPokemonNames(),
+  //       builder: (BuildContext context, AsyncSnapshot snapshot) {
+  //         if (snapshot.data == null) {
+  //           return Container(
+  //             color: backgroundColor,
+  //           );
+  //         } else {
+  //           return Column(
+  //             children: <Widget>[
+  //               Flexible(
+  //                 child: searchResult.length != 0 || textEditController.text.isNotEmpty
+  //                     ? ListView.builder(
+  //                         itemCount: searchResult.length,
+  //                         itemBuilder: (context, i) {
+  //                           return buildRowPokemon(searchResult[i]);
+  //                         },
+  //                       )
+  //                     : ListView.builder(
+  //                         itemCount: pokemonNamesDictKeys.length,
+  //                         itemBuilder: (context, i) {
+  //                           String idx = pokemonNamesDictKeys[i];
+  //                           return buildRowPokemon(idx);
+  //                         },
+  //                       ),
+  //               ),
+  //             ],
+  //           );
+  //         }
+  //       },
+  //     ),
+  //   );
+  // }
 
 //   Widget buildRowPokemon(String idx) {
 //     String currPokemon = pokemonNamesDict[idx];
