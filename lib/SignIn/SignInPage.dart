@@ -10,11 +10,8 @@ import 'package:tradedex/Global/Components/tos.dart';
 import 'package:tradedex/Global/Components/tradedexLogo.dart';
 
 class SignInPage extends StatefulWidget {
-  final Profile myProfile;
-  SignInPage(this.myProfile);
-
   @override
-  SignInPageState createState() => new SignInPageState(this.myProfile);
+  SignInPageState createState() => SignInPageState();
 }
 
 class SignInPageState extends State<SignInPage> {
@@ -30,8 +27,8 @@ class SignInPageState extends State<SignInPage> {
 
   AuthService authService;
 
-  SignInPageState(myProfile) {
-    this.myProfile = myProfile;
+  SignInPageState() {
+    // this.myProfile = myProfile;
     this.absorbing = false;
     this.autoValidate = false;
     this.formKey = new GlobalKey<FormState>();
@@ -103,7 +100,7 @@ class SignInPageState extends State<SignInPage> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => HomePage(myProfile),
+                            builder: (context) => HomePage(),
                           ),
                         );
                       });

@@ -1,0 +1,202 @@
+{
+    "PAGE_SIGN_IN": {
+        "LOG_IN": "Anmelden mit Google",
+        "SIGN_OUT": "Abmelden",
+        "SIGN_IN_LOADING": "Anmelden..."
+    },
+    "PAGE_START": {
+        "ENTER_TRAINER_NAME": "Gib Deinen Trainernamen an ...",
+        "ENTER_TRAINER_NAME_VALIDATION": "Bitte gib Deinen Trainernamen an",
+        "CONTINUE": "Weiter",
+        "TOS_AND_PRIVACY_TEXT_1": "Indem Du fortfährst, gibst Du an, dass Du unsere ",
+        "TOS": "Nutzungsbedingungen ",
+        "TOS_AND_PRIVACY_TEXT_2": "und ",
+        "PRIVACY": "Datenschutzbestimmungen ",
+        "TOS_AND_PRIVACY_TEXT_3": "akzeptierst." 
+    },
+    "PAGE_DRAWER": {
+        "COPY_TRADING_CODE": "KOPIERE TAUSCHCODE",
+        "COPY_TO_CLIPBOARD": "Copied to Clipboard",
+        "SIGN_IN": "Anmelden",
+        "HOME": "Startseite",
+        "PRIMARY_LIST": "Primäre Liste",
+        "SECONDARY_LIST": "Sekundäre Liste",
+        "OFFICIAL_COLLECTION": "Offizielle Sammlung",
+        "INDIVIDUAL_COLLECTION": "Individuelle Sammlung",
+        "CONTACTS": "Kontakte",
+        "SETTINGS": "Einstellungen",
+        "ABOUT": "Info"
+    },
+    "PAGE_HOME": {
+        "SEARCH": "Suche...",
+        "GENS": {
+            "GEN_1": "Gen I",
+            "GEN_2": "Gen II",
+            "GEN_3": "Gen III",
+            "GEN_4": "Gen IV",
+            "GEN_5": "Gen V+",
+            "ALL_GENS": "Alle Gens"
+        }
+    },
+    "PAGE_PRIMARY_LIST": {
+        "TITLE": "Primäre Liste"
+    },
+    "PAGE_SECONDARY_LIST": {
+        "TITLE": "Sekundäre Liste"
+    },
+    "DIALOG_DELETE": {
+        "TITLE": "Liste löschen?",
+        "DESCRIPTION": "Alle Pokémon werden von dieser Liste entfernt.",
+        "ACCEPT": "OK",
+        "CANCEL": "Abbrechen"
+    },
+    "PAGE_ABOUT": {
+        "TITLE": "Info",
+        "SUBTITLE": "Verzichterklärung \n\n",
+        "TEXT_1": "Tradedex ist eine inoffizielle, kostenlose Fan-App und wird in keiner Weise von Nintendo, GAME FREAK oder The Pokémon Company betrieben oder unterstützt.\n Einige in dieser App verwendeten Bilder sind urheberrechtlich geschützt und werden bei fairer Verwendung unterstützt. \n Pokémon-Namen sind Marken von Nintendo.\n Keine Urheberrechtsverletzung beabsichtigt. \n\n Pokémon © 2002-2020 Pokémon.\n © 1995-2020 Nintendo/Creatures Inc./GAME FREAK Inc.\n\n\n",
+        "TEXT_2": "- Offizielles Artwork von Ken Sugimori."
+    },
+    "PAGE_INDIVIDUAL_COLLECTION": {
+        "TITLE": "Sammlungen",
+        "DIALOG_ADD": {
+            "TITLE": "Liste hinzufügen",
+            "NAME": "Name: ",
+            "TYPE": "Typ: ",
+            "ENTER_NAME": "Name der Liste ...",
+            "CREATE": "Erstellen",
+            "CLOSE": "Schließen"
+        },
+        "DIALOG_DELETE": {
+            "TITLE": "Listen löschen",
+            "DESCRIPTION": "Alle Listen werden aus der Sammlung entfernt.",
+            "ACCEPT": "Bestätigen",
+            "CANCEL": "Abbrechen"
+        },
+        "LIST_TYPES": {
+            "ALOLAN": "Alola",
+            "EVENT": "Event",
+            "GALARIAN": "Galar",
+            "POKÉDEX": "Pokédex",
+            "PURIFIED": "Erlöst",
+            "REGIONAL": "Regional",
+            "SHADOW": "Schatten",
+            "SPINDA": "Pandir",
+            "UNOWN": "Icognito"
+        },
+        "DELETE_COLLECTION": "Sammlung löschen ...",
+        "DELETED": " entfernt.",
+        "EVENT_SUBPAGE": {
+            "TITLE": "Event Sammlung"
+        },
+        "ALOLAN_SUBPAGE": {
+            "TITLE": "Alola Sammlung"
+        },
+        "GALARIAN_SUBPAGE": {
+            "TITLE": "Galar Sammlung"
+        },
+        "REGIONAL_SUBPAGE": {
+            "TITLE": "Regionale Sammlung"
+        },
+        "SPINDA_SUBPAGE": {
+            "TITLE": "Pandir Sammlung"
+        },
+        "UNOWN_SUBPAGE": {
+            "TITLE": "Icognito Sammlung"
+        },
+        "SHADOW_SUBPAGE": {
+            "TITLE": "Schatten Sammlung"
+        },
+        "PURIFIED_SUBPAGE": {
+            "TITLE": "Erlöste Sammlung"
+        },
+        "POKEDEX_SUBPAGE": {
+            "TITLE": "Pokémon Sammlung"
+        }
+    },
+    "PAGE_SETTINGS":{
+        "TITLE": "Einstellungen",
+        "PROFILE_SUBTITLE": "Profil",
+        "CHANGE_PROFILE_NAME_AND_ICON": "Ändere hier deinen Trainernamen und Icon",
+        "YOUR_NEW_TRAINER_NAME": "Dein neuer Trainername:",
+        "TRAINER_XY": "Trainer xy",
+        "CHOOSE_ICON": "Wähle ein Icon",
+        "TRADEDEX_SUBTITLE": "Tradedex",
+        "TRADEDEX_LANGUAGE": "Sprache",
+        "TRADEDEX_DESCRIPTION": "Pokémon und Interface werden in dieser Sprache angezeigt",
+        "DIALOG_LANGUAGE":{
+            "SELECT_LANGUAGE_TITLE": "Sprache auswählen",
+            "CLOSE": "Schließen"
+        },
+        "DARK_THEME_TITLE": "Dunkler Modus",
+        "DARK_THEME_DESCRIPTION": "Nutzt den dunklen Modus",
+        "SUPPORT": "Support",
+        "SUPPORT_TITLE": "Hilfe",
+        "SUPPORT_DESCRIPTION": "FAQs anzeigen.",
+        "REPORT_TITLE": "Melde ein technisches Problem",
+        "REPORT_DESCRIPTION": "Bitte melde Bugs für bessere Qualität.",
+        "ABOUT": "Über",
+        "ABOUT_TITLE": "Über den Entwickler",
+        "ABOUT_DESCRIPTION": "Transparanz ist alles",
+        "DATA_POLICY": "Datenschutzerklärung",
+        "TERMS_OF_USE": "Nutzungsbedingungen",
+        "ABOUT_THE_DEVEOPER_SUBPAGE": {
+            "TITLE": "Über den Entwickler",
+            "NOTE": "Notiz",
+            "DESCRIPTION_01": "Hallo liebe Trainer,",
+            "DESCRIPTION_02": "mein Name ist Khang Dinh und ich bin der Entwickler von Tradedex. Da Transparenz alles ist, würde ich gerne meine coolsten und schönsten Pokémon-Erinnerungen mit dir teilen.",
+            "DESCRIPTION_03": "Als ich etwa 9-10 Jahre alt war, hat mich mein älterer Bruder zu einem stadtweiten TCG Turnier mitgenommen, natürlich ohne mir zu erzählen, was ich da soll. Er gab mir ein Kartendeck und sagte nur, dass ich mein Bestes geben solle - und ich tat es. In dem Turnier belegte ich den zweiten Platz in Berlin. Mein Deck basierte auf Sichlor, welches sehr schnell und stark war. Wir spielten viel, er nahm mich mit zu lokalen Kartenshops und ich hatte einige sehr intensive Partien mit den Inhabern und anderen Gästen und wir haben auch viele neue Freunde gewonnen.",
+            "DESCRIPTION_04": "'Mewtwo strikes back' war mein erster Kinofilm. Pokémon rot war mein erstes Spiel auf dem Gameboy Color. Die Zeit verging und im Juni 2016 wurde Pokémon Go erstmals in Deutschland veröffentlicht. Ich startete die lvl 40 Reise und ich habe fast zwei Jahre gebraucht, um die 20m exp zu erreichen. In der Zeit habe ich viele coole Trainer kennengelernt und eine immer größer werdende Community entstand. Zurzeit sind wir 800+ Leute in der lokalen Gruppe. Dafür möchte ich allen danken, dass ich Teil dieser großartigen Community sein darf."
+        },
+        "FAQ_SUBPAGE": {
+            "TITLE": "FAQ",
+            "CARD_01_TITLE": "Was ist Tradedex?",
+            "CARD_01_DESCRIPTION": "Tradedex ist eine App, die das Tauschen von Pokémon in Pokémon Go vereinfachen soll. Es ist möglich die fehlenden Pokémon deiner Freunde zu verfolgen, indem du sie vorher zur Kontaktliste hinzufügst. In ihren Listen kannst du mit der Kopier-Taste an der oberen rechten Ecke den Suchstring generieren. Diesen String musst du nur noch in deinen Pokémon Go Beutel einfügen und die fehlenden Pokémon deines Freundes werden angezeigt.",
+            "CARD_02_TITLE": "Wie kann ich Freunde zur Kontaktliste hinzufügen?",
+            "CARD_02_DESCRIPTION": "Dafür brauchst du den Tauschcode deines Freundes. Gehe zu 'Kontakte' und drücke auf die 'Hinzufügen' Taste. Füge den Tauschcode ein und dein Freund wird hinzugefügt.",
+            "CARD_03_TITLE": "Wie kann ich meinen Trainernamen und Icon ändern?",
+            "CARD_03_DESCRIPTION": "Gehe zu 'Einstellungen' und drück auf das Pokémon Icon, um dein Trainer-Icon zu ändern. Wenn du auf den Namen klickst, dann kannst du den Trainernamen ändern.",
+            "CARD_04_TITLE": "Warum werden mir meine Kontakte nicht mehr angezeigt?",
+            "CARD_04_DESCRIPTION": "Da die Kontaktliste online in einer Datenbank abgelegt wird, ist eine Internetverbindung notwendig. Gehe also sicher, dass dein Smartphone verbunden ist.",
+            "CARD_05_TITLE": "Kann ich meinen Account auf andere Mobilgeräte pflegen?",
+            "CARD_05_DESCRIPTION": "Ja, dafür musst du dich einfach bspw. mit dem Google Account einloggen.",
+            "CARD_06_TITLE": "Einige Daten fehlen, kannst du sie ergänzen?",
+            "CARD_06_DESCRIPTION": "Klar! Am besten kontaktierst du mich über den Button weiter unten und lässt es mich wissen. Falls du in der App Fehler und Bugs entdeckst, einfach kurz eine Mail an mich senden!",
+            "CARD_07_TITLE": "Warum kann ich bei iOS Geräten keine Strings in Pokémon Go einfügen?",
+            "CARD_07_DESCRIPTION": "Zurzeit ist es nicht möglich, einen String in den Pokémon Go Beutel einzufügen. Jedoch gibt es eine Alternativlösung, indem Texte ersetzt werden können. Klick ",
+            "CARD_07_01_DESCRIPTION": "hier ",
+            "CARD_07_02_DESCRIPTION": "für weitere Informationen.",
+            "CARD_08_TITLE": "Kannst du die Funktion xy hinzufügen?",
+            "CARD_08_DESCRIPTION": "Sicher!, Lass es mich einfach wissen, falls du tolle Ideen hast, diese App zu verbessern.",
+            "BUTTON_FEEDBACK": "HILFE & FEEDBACK"
+        }
+    },
+    "PAGE_CONTACTS": {
+        "TITLE_01": "Kontakte",
+        "TITLE_02": "Wanted",
+        "SEARCH": "Suche...",
+        "DIALOG_ADD": {
+            "TITLE": "Tauschcode einfügen"
+        },
+        "INVALID_NAME": "Ungültiger Name",
+        "INVALID_CODE": "Ungültiger Tauschcode",
+        "INVALID_CODE_IN_LIST" : "Kontakt ist bereits in der Liste",
+        "DELETE_CONTACT": "Kontakt löschen ...",
+        "DELETE_CONTACT_SNACKBAR": " erfolgreich entfernt.",
+        "DIALOG_DELETE": {
+            "TITLE": "Liste löschen?",
+            "DESCRIPTION": "Alle Kontakte werden aus der Liste gelöscht.",
+            "CANCEL": "Abbrechen",
+            "ACCEPT": "Bestätigen"
+        },
+        "PRIMARY_LIST_SUBPAGE": {
+            "TITLE": "s Liste"
+        },
+        "SECONDARY_LIST_SUBPAGE": {
+            "TITLE": "s Liste"
+        }
+    },
+    "LANGUAGES": {
+        "ENGLISH": "Englisch (US)",
+        "GERMAN": "Deutsch"
+    }
+}
