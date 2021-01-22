@@ -7,6 +7,7 @@ import 'package:tradedex/Global/GlobalConstants.dart';
 import 'dart:async';
 import 'package:tradedex/SignIn/SignInPage.dart';
 import 'package:tradedex/pages/home/cubit/pokemon_cubit.dart';
+import 'package:tradedex/pages/official_collection/cubit/official_cubit.dart';
 import 'package:tradedex/pages/settings/cubit/settings_cubit.dart';
 
 import 'Global/GlobalConstants.dart';
@@ -21,7 +22,8 @@ import 'package:tradedex/localization/app_localization.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
     runApp(MyApp());
   });
 }
@@ -29,6 +31,7 @@ void main() {
 class MyApp extends StatelessWidget {
   final PokemonCubit _pokemonCubit = new PokemonCubit();
   final SettingsCubit _settingsCubit = new SettingsCubit();
+  final OfficialCubit _officialCubit = new OfficialCubit();
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -38,6 +41,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<SettingsCubit>(
           create: (context) => this._settingsCubit,
+        ),
+        BlocProvider<OfficialCubit>(
+          create: (context) => this._officialCubit,
         ),
       ],
       child: FutureBuilder(
@@ -73,7 +79,8 @@ class MyApp extends StatelessWidget {
               ],
               localeResolutionCallback: (locale, supportedLocales) {
                 for (Locale supportedLocale in supportedLocales) {
-                  if (supportedLocale.languageCode == locale.languageCode && supportedLocale.countryCode == locale.countryCode) {
+                  if (supportedLocale.languageCode == locale.languageCode &&
+                      supportedLocale.countryCode == locale.countryCode) {
                     return supportedLocale;
                   }
                 }

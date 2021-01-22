@@ -56,6 +56,17 @@
         "TEXT_1": "Tradedex ist eine inoffizielle, kostenlose Fan-App und wird in keiner Weise von Nintendo, GAME FREAK oder The Pokémon Company betrieben oder unterstützt.\n Einige in dieser App verwendeten Bilder sind urheberrechtlich geschützt und werden bei fairer Verwendung unterstützt. \n Pokémon-Namen sind Marken von Nintendo.\n Keine Urheberrechtsverletzung beabsichtigt. \n\n Pokémon © 2002-2020 Pokémon.\n © 1995-2020 Nintendo/Creatures Inc./GAME FREAK Inc.\n\n\n",
         "TEXT_2": "- Offizielles Artwork von Ken Sugimori."
     },
+    "PAGE_OFFICIAL_COLLECTION": {
+        "LUCKYDEX": {
+            "TITLE": "Luckydex"
+        },
+        "SHINYDEX": {
+            "TITLE": "Shinydex"
+        },
+        "GENDERDEX": {
+            "TITLE": "Genderdex"
+        }
+    },
     "PAGE_INDIVIDUAL_COLLECTION": {
         "TITLE": "Sammlungen",
         "DIALOG_ADD": {

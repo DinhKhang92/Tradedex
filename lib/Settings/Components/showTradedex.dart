@@ -9,12 +9,12 @@ String mapLanguage() {
     return 'Deutsch';
 }
 
-Widget showTradedex(Function changeLanguage) {
+Widget showTradedex() {
   return Container(
     color: backgroundColor,
     child: ListTile(
       onTap: () {
-        changeLanguage();
+        // changeLanguage();
       },
       dense: true,
       title: Text.rich(
@@ -34,7 +34,8 @@ Widget showTradedex(Function changeLanguage) {
             ),
           ),
           TextSpan(
-            text: '\n\n' + languageFile['PAGE_SETTINGS']['TRADEDEX_DESCRIPTION'],
+            text:
+                '\n\n' + languageFile['PAGE_SETTINGS']['TRADEDEX_DESCRIPTION'],
             style: TextStyle(
               fontSize: 12.0,
               height: 1.0,

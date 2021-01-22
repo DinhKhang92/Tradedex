@@ -36,11 +36,11 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   @override
   void initState() {
-    this.loadPokemon();
+    this._loadPokemon();
     super.initState();
   }
 
-  void loadPokemon() async {
+  void _loadPokemon() {
     BlocProvider.of<PokemonCubit>(context).loadPokemon(context);
   }
 
@@ -450,7 +450,8 @@ class HomePageState extends State<HomePage> {
   }
 
   Widget _buildRowElement(String pokemonKey) {
-    String pokemonName = AppLocalizations.of(context).translate('POKEMON.$pokemonKey');
+    String pokemonName =
+        AppLocalizations.of(context).translate('POKEMON.$pokemonKey');
     String number = pokemonKey.split('_').first;
     return Container(
       child: ListTile(
@@ -467,10 +468,15 @@ class HomePageState extends State<HomePage> {
                 if (state is PokemonLoaded) {
                   return IconButton(
                     icon: Icon(
-                      state.pokemon[pokemonKey]['primary'] ? Icons.favorite : Icons.favorite_border,
-                      color: state.pokemon[pokemonKey]['primary'] ? primaryListColor : primaryListColorOff,
+                      state.pokemon[pokemonKey]['primary']
+                          ? Icons.favorite
+                          : Icons.favorite_border,
+                      color: state.pokemon[pokemonKey]['primary']
+                          ? primaryListColor
+                          : primaryListColorOff,
                     ),
-                    onPressed: () => BlocProvider.of<PokemonCubit>(context).togglePrimary(pokemonKey),
+                    onPressed: () => BlocProvider.of<PokemonCubit>(context)
+                        .togglePrimary(pokemonKey),
                     // setState(() {
                     //   primaryPokemon ? myProfile.primaryList.remove(idx) : myProfile.primaryList.add(idx);
                     // });
@@ -486,10 +492,15 @@ class HomePageState extends State<HomePage> {
                 if (state is PokemonLoaded) {
                   return IconButton(
                     icon: Icon(
-                      state.pokemon[pokemonKey]['secondary'] ? MdiIcons.hexagon : MdiIcons.hexagonOutline,
-                      color: state.pokemon[pokemonKey]['secondary'] ? secondaryListColor : secondaryListColorOff,
+                      state.pokemon[pokemonKey]['secondary']
+                          ? MdiIcons.hexagon
+                          : MdiIcons.hexagonOutline,
+                      color: state.pokemon[pokemonKey]['secondary']
+                          ? secondaryListColor
+                          : secondaryListColorOff,
                     ),
-                    onPressed: () => BlocProvider.of<PokemonCubit>(context).toggleSecondary(pokemonKey),
+                    onPressed: () => BlocProvider.of<PokemonCubit>(context)
+                        .toggleSecondary(pokemonKey),
                     // setState(() {
                     //   secondaryPokemon ? myProfile.secondaryList.remove(idx) : myProfile.secondaryList.add(idx);
                     // });

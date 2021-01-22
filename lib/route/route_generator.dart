@@ -4,6 +4,7 @@ import 'package:tradedex/SignIn/SignInPage.dart';
 import 'package:tradedex/pages/home/home_page.dart';
 import 'package:tradedex/pages/home/pages/primary/primary_page.dart';
 import 'package:tradedex/pages/home/pages/secondary/secondary_page.dart';
+import 'package:tradedex/pages/official_collection/official_collection_page.dart';
 import 'package:tradedex/pages/about/about_page.dart';
 import 'package:tradedex/pages/settings/settings_page.dart';
 
@@ -20,6 +21,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => PrimaryPage());
       case '/secondary':
         return MaterialPageRoute(builder: (_) => SecondaryPage());
+      case '/official':
+        return MaterialPageRoute(builder: (_) => OfficialCollectionPage());
       case '/settings':
         return MaterialPageRoute(builder: (_) => SettingsPage());
       case '/about':

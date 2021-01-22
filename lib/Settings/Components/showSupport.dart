@@ -3,15 +3,15 @@ import '../Subpages/FaqSubpage.dart';
 
 import 'package:tradedex/Global/GlobalConstants.dart';
 
-Widget showSupport(context) {
+Widget showSupport() {
   return Container(
     color: backgroundColor,
     child: ListTile(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => FaqSubpage()),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => FaqSubpage()),
+        // );
       },
       title: Text.rich(
         TextSpan(children: <TextSpan>[
