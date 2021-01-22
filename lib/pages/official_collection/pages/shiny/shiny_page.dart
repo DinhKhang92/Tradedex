@@ -13,15 +13,13 @@ class ShinyPage extends StatelessWidget {
         builder: (context, state) => GridView.builder(
           itemCount: state.pokemon.keys.length,
           padding: EdgeInsets.fromLTRB(20, 10, 5, 0),
-          gridDelegate:
-              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 6),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 6),
           itemBuilder: (context, i) {
             String pokemonKey = state.pokemon.keys.toList()[i];
             return GridTile(
               child: InkResponse(
                 child: _buildGridElement(pokemonKey),
-                onTap: () => BlocProvider.of<OfficialCubit>(context)
-                    .toggleShiny(pokemonKey),
+                onTap: () => BlocProvider.of<OfficialCubit>(context).toggleLuckyShiny(pokemonKey, Official.Shiny),
                 // setState(() {
                 //   pokemonNeeded
                 //       ? myOfficialCollection.shinyList.add(idx)
@@ -44,8 +42,7 @@ class ShinyPage extends StatelessWidget {
         BlocBuilder<OfficialCubit, OfficialState>(
           builder: (context, state) {
             return Image(
-              color:
-                  state.pokemon[pokemonKey]['shiny'] ? null : silhouetteColor,
+              color: state.pokemon[pokemonKey]['shiny'] ? null : silhouetteColor,
               image: AssetImage(this.shinyPath + '$pokemonKey.png'),
               height: 45.0,
               width: 45.0,

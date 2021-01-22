@@ -13,15 +13,13 @@ class LuckyPage extends StatelessWidget {
         builder: (contex, state) => GridView.builder(
           itemCount: state.pokemon.keys.length,
           padding: EdgeInsets.fromLTRB(20, 10, 5, 0),
-          gridDelegate:
-              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 6),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 6),
           itemBuilder: (context, i) {
             String pokemonKey = state.pokemon.keys.toList()[i];
             return GridTile(
               child: InkResponse(
                 child: _buildGridElement(pokemonKey),
-                onTap: () => BlocProvider.of<OfficialCubit>(context)
-                    .toggleLucky(pokemonKey),
+                onTap: () => BlocProvider.of<OfficialCubit>(context).toggleLuckyShiny(pokemonKey, Official.Lucky),
                 // setState(() {
                 //   pokemonNeeded
                 //       ? myOfficialCollection.luckyList.add(idx)
@@ -50,8 +48,7 @@ class LuckyPage extends StatelessWidget {
         BlocBuilder<OfficialCubit, OfficialState>(
           builder: (context, state) {
             return Image(
-              color:
-                  state.pokemon[pokemonKey]['lucky'] ? null : silhouetteColor,
+              color: state.pokemon[pokemonKey]['lucky'] ? null : silhouetteColor,
               image: AssetImage(this.blankPath + '$pokemonKey.png'),
               height: 45.0,
               width: 45.0,

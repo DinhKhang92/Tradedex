@@ -2,7 +2,6 @@ import cv2
 import glob
 import os
 from PIL import Image
-import Image
 import sys
 
 import json
@@ -524,6 +523,7 @@ class GameMasterTextCrawler:
 
         pokemon_nr = ''
         pokemon_list = []
+        test_dict = {}
         with open(pokemon_gamemaster_json_path, 'r') as f:
             data = json.load(f)
 
@@ -543,15 +543,7 @@ class GameMasterTextCrawler:
 
                     if current_pokemon_nr not in  pokemon_list:
                         pokemon_list.append(current_pokemon_nr)
-                        tmp_dict = {
-                            'id': int(current_pokemon_nr),
-                            'gender': gender
-                        }
-
-                if tmp_dict not in values:
-                    values.append(tmp_dict)
-
-        gender_dict = values
+                        gender_dict[str(current_pokemon_nr).zfill(3)] = gender
 
         file_gender = 'gender.json'
         with open(pokemon_json_pokemon_names+file_gender, 'w') as fp:
@@ -598,7 +590,7 @@ if __name__ == "__main__":
     flutter_path_json = 'B:\\Github\\Tradedex\\json\\'
 
     # save in Flutter directory
-    SAVE_FLUTTER = False
+    SAVE_FLUTTER = True
 
     # set highest pokemon number
     recent_gen = 850
@@ -610,5 +602,5 @@ if __name__ == "__main__":
     ]
 
     # run Crawler
-    GamemasterImageCrawler()
+    # GamemasterImageCrawler()
     GameMasterTextCrawler()

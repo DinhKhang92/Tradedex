@@ -81,6 +81,8 @@ flutter:
     - assets/sprites/shiny/
     - assets/sprites/galarian/
 
+    - assets/official/
+
     - assets_bundle/pokemon_icons_unown/
     - assets_bundle/pokemon_icons_blank/
     - assets_bundle/pokemon_icons_event/
