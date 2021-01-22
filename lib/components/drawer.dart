@@ -43,28 +43,29 @@ class DrawerComponentState extends State<DrawerComponent> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 SizedBox(width: 10),
-                // Container(
-                //   height: 40,
-                //   width: 40,
-                //   decoration: new BoxDecoration(
-                //     color: Colors.grey[300],
-                //     shape: BoxShape.circle,
-                //     image: new DecorationImage(
-                //         fit: BoxFit.scaleDown,
-                //         image: this.myProfile.icon.contains('alolan')
-                //             ? AssetImage('assets_bundle/pokemon_icons_alolan/${this.myProfile.icon}.png')
-                //             : AssetImage('assets_bundle/pokemon_icons_blank/${this.myProfile.icon}.png')),
-                //   ),
-                // ),
+                Container(
+                  height: 40,
+                  width: 40,
+                  decoration: new BoxDecoration(
+                    color: Colors.grey[300],
+                    shape: BoxShape.circle,
+                    image: new DecorationImage(
+                      fit: BoxFit.scaleDown,
+                      image: AssetImage(
+                          'assets_bundle/pokemon_icons_blank/001.png'),
+                    ),
+                  ),
+                ),
                 SizedBox(width: 15),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    // Text(
-                    //   this.myProfile.accountName,
-                    //   style: TextStyle(color: textColor, fontSize: 20),
-                    // ),
+                    Text(
+                      "Khang",
+                      style: TextStyle(color: textColor, fontSize: 20),
+                    ),
                     SizedBox(height: 3),
+                    _buildSignedInIcon(),
                     // getUserVerification(this.isSignedIn, this.myProfile.id),
                   ],
                 )
@@ -77,7 +78,8 @@ class DrawerComponentState extends State<DrawerComponent> {
               child: Chip(
                 backgroundColor: buttonColor,
                 label: Text(
-                  AppLocalizations.of(context).translate('PAGE_DRAWER.COPY_TRADING_CODE'),
+                  AppLocalizations.of(context)
+                      .translate('PAGE_DRAWER.COPY_TRADING_CODE'),
                   style: TextStyle(color: buttonTextColor),
                 ),
               ),
@@ -88,6 +90,34 @@ class DrawerComponentState extends State<DrawerComponent> {
           SizedBox(height: 10),
         ],
       ),
+    );
+  }
+
+  Widget _buildSignedInIcon() {
+    return Row(
+      children: [
+        Icon(
+          Icons.verified_user,
+          size: 15,
+          color: Colors.green[800],
+        ),
+        // isSignedIn == false
+        //     ? Icon(
+        //         MdiIcons.shieldOutline,
+        //         size: 15,
+        //         color: Colors.red[900],
+        //       )
+        //     : Icon(
+        //         Icons.verified_user,
+        //         size: 15,
+        //         color: Colors.green[800],
+        //       ),
+        SizedBox(width: 5),
+        Text(
+          "myID",
+          style: TextStyle(color: subTextColor, fontSize: 13),
+        )
+      ],
     );
   }
 
@@ -154,7 +184,8 @@ class DrawerComponentState extends State<DrawerComponent> {
         color: drawerIconColor,
       ),
       title: Text(
-        AppLocalizations.of(context).translate('PAGE_DRAWER.OFFICIAL_COLLECTION'),
+        AppLocalizations.of(context)
+            .translate('PAGE_DRAWER.OFFICIAL_COLLECTION'),
         style: TextStyle(color: textColor),
       ),
       onTap: () => Navigator.of(context).pushNamed('/official'),
@@ -168,7 +199,8 @@ class DrawerComponentState extends State<DrawerComponent> {
         color: drawerIconColor,
       ),
       title: Text(
-        AppLocalizations.of(context).translate('PAGE_DRAWER.INDIVIDUAL_COLLECTION'),
+        AppLocalizations.of(context)
+            .translate('PAGE_DRAWER.INDIVIDUAL_COLLECTION'),
         style: TextStyle(color: textColor),
       ),
       onTap: () => Navigator.of(context).pushNamed('/individual'),

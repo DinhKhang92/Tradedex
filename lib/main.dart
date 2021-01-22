@@ -7,6 +7,7 @@ import 'package:tradedex/Global/GlobalConstants.dart';
 import 'dart:async';
 import 'package:tradedex/SignIn/SignInPage.dart';
 import 'package:tradedex/pages/home/cubit/pokemon_cubit.dart';
+import 'package:tradedex/pages/individual_collection/cubit/individual_cubit.dart';
 import 'package:tradedex/pages/official_collection/cubit/official_cubit.dart';
 import 'package:tradedex/pages/settings/cubit/settings_cubit.dart';
 
@@ -32,18 +33,23 @@ class MyApp extends StatelessWidget {
   final PokemonCubit _pokemonCubit = new PokemonCubit();
   final SettingsCubit _settingsCubit = new SettingsCubit();
   final OfficialCubit _officialCubit = new OfficialCubit();
+  final IndividualCubit _individualCubit = new IndividualCubit();
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<PokemonCubit>(
-          create: (context) => this._pokemonCubit,
+          create: (_) => this._pokemonCubit,
         ),
         BlocProvider<SettingsCubit>(
-          create: (context) => this._settingsCubit,
+          create: (_) => this._settingsCubit,
         ),
         BlocProvider<OfficialCubit>(
-          create: (context) => this._officialCubit,
+          create: (_) => this._officialCubit,
+        ),
+        BlocProvider<IndividualCubit>(
+          create: (_) => this._individualCubit,
         ),
       ],
       child: FutureBuilder(

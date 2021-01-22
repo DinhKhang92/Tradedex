@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tradedex/pages/individual_collection/individual_collection_page.dart';
 import 'package:tradedex/pages/login/start_page.dart';
 import 'package:tradedex/SignIn/SignInPage.dart';
 import 'package:tradedex/pages/home/home_page.dart';
@@ -23,6 +24,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SecondaryPage());
       case '/official':
         return MaterialPageRoute(builder: (_) => OfficialCollectionPage());
+      case '/individual':
+        return MaterialPageRoute(builder: (_) => IndividualCollectionPage());
       case '/settings':
         return MaterialPageRoute(builder: (_) => SettingsPage());
       case '/about':
