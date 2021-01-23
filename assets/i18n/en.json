@@ -86,8 +86,8 @@
         "LIST_TYPES": {
             "ALOLAN": "Alolan",
             "EVENT": "Event",
-            "GALARIAN": "Galarian",
-            "POKÉDEX": "Pokédex",
+            "GALAR": "Galar",
+            "POKEDEX": "Pokédex",
             "PURIFIED": "Purified",
             "REGIONAL": "Regional",
             "SHADOW": "Shadow",

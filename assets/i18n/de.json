@@ -86,8 +86,8 @@
         "LIST_TYPES": {
             "ALOLAN": "Alola",
             "EVENT": "Event",
-            "GALARIAN": "Galar",
-            "POKÉDEX": "Pokédex",
+            "GALAR": "Galar",
+            "POKEDEX": "Pokédex",
             "PURIFIED": "Erlöst",
             "REGIONAL": "Regional",
             "SHADOW": "Schatten",

@@ -1,12 +1,35 @@
 part of 'individual_cubit.dart';
 
 @immutable
-abstract class IndividualState {}
+abstract class IndividualState {
+  final List<DropdownMenuItem<String>> dropdownList;
+  final String dropdownValue;
 
-class IndividualInitial extends IndividualState {}
+  IndividualState({@required this.dropdownValue, this.dropdownList});
+}
 
-class IndividualLoading extends IndividualState {}
+class IndividualInitial extends IndividualState {
+  final String dropdownValue;
+  IndividualInitial({
+    @required this.dropdownValue,
+  });
+}
 
-class IndividualLoaded extends IndividualState {}
+class IndividualLoading extends IndividualState {
+  final String dropdownValue;
+  IndividualLoading({
+    @required this.dropdownValue,
+  });
+}
+
+class IndividualLoaded extends IndividualState {
+  final List<DropdownMenuItem<String>> dropdownList;
+  final String dropdownValue;
+
+  IndividualLoaded({
+    @required this.dropdownValue,
+    @required this.dropdownList,
+  });
+}
 
 class IndividualError extends IndividualState {}

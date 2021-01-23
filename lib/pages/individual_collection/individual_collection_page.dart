@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:tradedex/Global/GlobalConstants.dart';
 import 'package:tradedex/localization/app_localization.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tradedex/pages/individual_collection/cubit/individual_cubit.dart';
 
 class IndividualCollectionPage extends StatefulWidget {
   @override
@@ -161,14 +163,38 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage> {
   //   );
   // }
 
+  Map dropdownMap = new Map();
+
+  void _loadDropdownList() {
+    String alolan = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.ALOLAN');
+    String pokedex = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.POKEDEX');
+    String event = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.EVENT');
+    String galar = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.GALAR');
+    String regional = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.REGIONAL');
+    String shadow = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.SHADOW');
+    String spinda = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.SPINDA');
+    String unown = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.UNOWN');
+
+    this.dropdownMap[Individual.Alolan] = alolan;
+    this.dropdownMap[Individual.Pokedex] = pokedex;
+    this.dropdownMap[Individual.Event] = event;
+    this.dropdownMap[Individual.Galar] = galar;
+    this.dropdownMap[Individual.Regional] = regional;
+    this.dropdownMap[Individual.Shadow] = shadow;
+    this.dropdownMap[Individual.Spinda] = spinda;
+    this.dropdownMap[Individual.Unown] = unown;
+
+    BlocProvider.of<IndividualCubit>(context).loadDropdownList(this.dropdownMap);
+  }
+
   @override
   Widget build(BuildContext context) {
+    this._loadDropdownList();
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
         title: Text(
-          AppLocalizations.of(context)
-              .translate('PAGE_INDIVIDUAL_COLLECTION.TITLE'),
+          AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.TITLE'),
         ),
         backgroundColor: appBarColor,
         actions: [
@@ -268,26 +294,15 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage> {
       builder: (_) => AlertDialog(
         backgroundColor: dialogBackgroundColor,
         title: Text(
-          AppLocalizations.of(context)
-              .translate('PAGE_INDIVIDUAL_COLLECTION.DIALOG_ADD.TITLE'),
+          AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.DIALOG_ADD.TITLE'),
           style: TextStyle(color: textColor),
         ),
         content: Column(
           children: [
+            _buildTypeDropdownElement(),
             ListTile(
               leading: Text(
-                AppLocalizations.of(context)
-                    .translate('PAGE_INDIVIDUAL_COLLECTION.DIALOG_ADD.TYPE'),
-                style: TextStyle(color: textColor),
-              ),
-              title: Text("hallo"),
-              // title: AddDialogListType(
-              //     this.callback, this.listTypes, this.selectedListType),
-            ),
-            ListTile(
-              leading: Text(
-                AppLocalizations.of(context)
-                    .translate('PAGE_INDIVIDUAL_COLLECTION.DIALOG_ADD.NAME'),
+                AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.DIALOG_ADD.NAME'),
                 style: TextStyle(color: textColor),
               ),
               title: Form(
@@ -303,8 +318,7 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage> {
                   // controller: listNameController,
                   cursorColor: buttonColor,
                   decoration: InputDecoration.collapsed(
-                    hintText: AppLocalizations.of(context).translate(
-                        'PAGE_INDIVIDUAL_COLLECTION.DIALOG_ADD.ENTER_NAME'),
+                    hintText: AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.DIALOG_ADD.ENTER_NAME'),
                     hintStyle: TextStyle(fontSize: 14, color: textColor),
                   ),
                 ),
@@ -315,31 +329,72 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage> {
         actions: [
           FlatButton(
             child: Text(
-              AppLocalizations.of(context)
-                  .translate('PAGE_INDIVIDUAL_COLLECTION.DIALOG_ADD.CLOSE'),
+              AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.DIALOG_ADD.CLOSE'),
               style: TextStyle(color: buttonColor),
             ),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          FlatButton(
-            child: Text(
-              AppLocalizations.of(context)
-                  .translate('PAGE_INDIVIDUAL_COLLECTION.DIALOG_ADD.CREATE'),
-              style: TextStyle(color: buttonColor),
-            ),
-            onPressed: () {
-              // if (this.formKey.currentState.validate()) {
-              //   updateLists(this.selectedListType);
-              //   saveIndividualCollectionFirebase(
-              //       this.myIndividualCollection, this.myProfile);
-              //   listNameController.clear();
-              //   Navigator.of(context).pop();
-              // }
+          BlocBuilder<IndividualCubit, IndividualState>(
+            builder: (context, state) {
+              return FlatButton(
+                child: Text(
+                  AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.DIALOG_ADD.CREATE'),
+                  style: TextStyle(color: buttonColor),
+                ),
+                onPressed: () => this._formKey.currentState.validate() ? _createList(state.dropdownValue) : {},
+                // print(state.dropdownValue);
+                // Individual key = this.dropdownMap.keys.firstWhere((element) => this.dropdownMap[element] == state.dropdownValue);
+                // print(key);
+
+                // if (this.formKey.currentState.validate()) {
+                //   updateLists(this.selectedListType);
+                //   saveIndividualCollectionFirebase(
+                //       this.myIndividualCollection, this.myProfile);
+                //   listNameController.clear();
+                //   Navigator.of(context).pop();
+                // }
+              );
             },
           ),
         ],
       ),
     );
+  }
+
+  Widget _buildTypeDropdownElement() {
+    return ListTile(
+      leading: Text(
+        AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.DIALOG_ADD.TYPE'),
+        style: TextStyle(color: textColor),
+      ),
+      title: _buildDialogDropdown(),
+    );
+  }
+
+  Widget _buildDialogDropdown() {
+    return Theme(
+      data: Theme.of(context).copyWith(canvasColor: dialogBackgroundColor),
+      child: DropdownButtonHideUnderline(
+        child: BlocBuilder<IndividualCubit, IndividualState>(
+          builder: (context, state) {
+            return DropdownButton(
+              iconEnabledColor: textColor,
+              style: TextStyle(color: textColor),
+              value: state.dropdownValue,
+              items: state.dropdownList,
+              onChanged: (type) => BlocProvider.of<IndividualCubit>(context).setDropdownValue(type),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  void _createList(String selection) {
+    print(selection);
+    Individual key = this.dropdownMap.keys.firstWhere((element) => this.dropdownMap[element] == selection);
+    print(key);
+    Navigator.of(context).pop();
   }
 
   // void goToCollectionPage(String listType, String key, BuildContext context) {
@@ -500,57 +555,8 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage> {
   dynamic showSnackbar(BuildContext context, key) {
     Scaffold.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-            "$key" + languageFile['PAGE_INDIVIDUAL_COLLECTION']['DELETED']),
+        content: Text("$key" + languageFile['PAGE_INDIVIDUAL_COLLECTION']['DELETED']),
         duration: Duration(milliseconds: 2000),
-      ),
-    );
-  }
-}
-
-class AddDialogListType extends StatefulWidget {
-  final Function callback;
-  final List<DropdownMenuItem<String>> listTypes;
-  final String selectedListType;
-  AddDialogListType(this.callback, this.listTypes, this.selectedListType);
-
-  @override
-  State<StatefulWidget> createState() {
-    return AddDialogListTypeState(
-        this.callback, this.listTypes, this.selectedListType);
-  }
-}
-
-class AddDialogListTypeState extends State<AddDialogListType> {
-  Function callback;
-  List<DropdownMenuItem<String>> listTypes;
-  String selectedListType;
-
-  AddDialogListTypeState(callback, listTypes, selectedListType) {
-    this.callback = callback;
-    this.listTypes = listTypes;
-    this.selectedListType = selectedListType;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Theme(
-      data: Theme.of(context).copyWith(
-        canvasColor: dialogBackgroundColor,
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton(
-          iconEnabledColor: textColor,
-          style: TextStyle(color: textColor),
-          value: this.selectedListType,
-          items: this.listTypes,
-          onChanged: (String selected) {
-            setState(() {
-              this.callback(selected);
-              this.selectedListType = selected;
-            });
-          },
-        ),
       ),
     );
   }
