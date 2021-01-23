@@ -79,9 +79,10 @@ flutter:
     - assets/sprites/spinda/
     - assets/sprites/regional/
     - assets/sprites/shiny/
-    - assets/sprites/galarian/
+    - assets/sprites/galar/
 
     - assets/official/
+    - assets/imgs/
 
     - assets_bundle/pokemon_icons_unown/
     - assets_bundle/pokemon_icons_blank/
