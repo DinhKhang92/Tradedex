@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>155241721564-a61or29gri0uqklnop9vfj78s03hnhkl.apps.googleusercontent.com</string>
+	<string>379589564114-59m6gg4nsprm3j7etpbmnv7hthc44e0m.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.155241721564-a61or29gri0uqklnop9vfj78s03hnhkl</string>
+	<string>com.googleusercontent.apps.379589564114-59m6gg4nsprm3j7etpbmnv7hthc44e0m</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>379589564114-0kkjjabsdhsjiujesnmfmjji7e56edu1.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyC-sqfmTcK3sr1o8LWpE2u52XJRwrcUkS4</string>
+	<string>AIzaSyDFTsyOEmdxk3c7CNOgv9hehIG7D0qxKjQ</string>
 	<key>GCM_SENDER_ID</key>
-	<string>155241721564</string>
+	<string>379589564114</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>trade.dex</string>
 	<key>PROJECT_ID</key>
-	<string>tradedex-db</string>
+	<string>tradedex2</string>
 	<key>STORAGE_BUCKET</key>
-	<string>tradedex-db.appspot.com</string>
+	<string>tradedex2.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +31,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:155241721564:ios:66fd8c91f3f648a7</string>
+	<string>1:379589564114:ios:d2a9a6f545f5ad481fbf0b</string>
 	<key>DATABASE_URL</key>
-	<string>https://tradedex-db.firebaseio.com</string>
+	<string>https://tradedex2.firebaseio.com</string>
 </dict>
 </plist>

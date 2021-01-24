@@ -6,6 +6,7 @@ import 'package:tradedex/Global/Components/loadDataLocal.dart';
 import 'package:tradedex/Global/GlobalConstants.dart';
 import 'dart:async';
 import 'package:tradedex/SignIn/SignInPage.dart';
+import 'package:tradedex/pages/contacts/cubit/contacts_cubit.dart';
 import 'package:tradedex/pages/home/cubit/pokemon_cubit.dart';
 import 'package:tradedex/pages/individual_collection/cubit/individual_cubit.dart';
 import 'package:tradedex/pages/official_collection/cubit/official_cubit.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
   final SettingsCubit _settingsCubit = new SettingsCubit();
   final OfficialCubit _officialCubit = new OfficialCubit();
   final IndividualCubit _individualCubit = new IndividualCubit();
+  final ContactsCubit _contactsCubit = new ContactsCubit();
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +52,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<IndividualCubit>(
           create: (_) => this._individualCubit,
+        ),
+        BlocProvider<ContactsCubit>(
+          create: (_) => this._contactsCubit,
         ),
       ],
       child: FutureBuilder(
