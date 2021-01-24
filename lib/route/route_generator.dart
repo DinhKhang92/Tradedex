@@ -25,8 +25,8 @@ class RouteGenerator {
     switch (settings.name) {
       // case '/':
       //   return MaterialPageRoute(builder: (_) => StartPage());
-      case '/signin':
-        return MaterialPageRoute(builder: (_) => SignInPage());
+      // case '/signin':
+      //   return MaterialPageRoute(builder: (_) => SignInPage());
       case '/':
         return MaterialPageRoute(builder: (_) => HomePage());
       case '/primary':
@@ -38,8 +38,7 @@ class RouteGenerator {
       case '/individual':
         return MaterialPageRoute(builder: (_) => IndividualCollectionPage());
       case '/collection':
-        return MaterialPageRoute(
-            builder: (_) => CollectionPage(collectionName: settings.arguments));
+        return MaterialPageRoute(builder: (_) => CollectionPage(collectionName: settings.arguments));
       case '/contacts':
         return MaterialPageRoute(builder: (_) => ContactsPage());
       case '/settings':

@@ -4,6 +4,7 @@ import 'package:tradedex/Global/GlobalConstants.dart';
 import 'package:tradedex/localization/app_localization.dart';
 import 'package:tradedex/pages/contacts/cubit/contacts_cubit.dart';
 import 'package:tradedex/pages/contacts/cubit/trading_code_cubit.dart';
+import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 import 'package:firebase_database/firebase_database.dart';
 
@@ -23,25 +24,21 @@ class _AddContactDialogState extends State<AddContactDialog> {
       content: Row(
         children: [
           Form(
-            child: Expanded(
-              child: Form(
-                key: this._formKey,
-                child: TextFormField(
-                  style: TextStyle(color: textColor),
-                  validator: (id) => BlocProvider.of<TradingCodeCubit>(context).validateTradingCode(id),
-                  onChanged: (id) => BlocProvider.of<ContactsCubit>(context).setIdInput(id),
-                  autofocus: true,
-                  cursorColor: buttonColor,
-                  decoration: InputDecoration(
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: textColor),
-                    ),
-                    labelText: AppLocalizations.of(context).translate('PAGE_CONTACTS.DIALOG_ADD.TITLE'),
-                    labelStyle: TextStyle(color: textColor),
-                    hintText: '-LVePy20jxxxxxxxxxxx',
-                    hintStyle: TextStyle(color: prefillTextColor),
-                  ),
+            key: this._formKey,
+            child: TextFormField(
+              style: TextStyle(color: textColor),
+              validator: (id) => BlocProvider.of<TradingCodeCubit>(context).validateTradingCode(id),
+              onChanged: (id) => BlocProvider.of<ContactsCubit>(context).setIdInput(id),
+              autofocus: true,
+              cursorColor: buttonColor,
+              decoration: InputDecoration(
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: textColor),
                 ),
+                labelText: AppLocalizations.of(context).translate('PAGE_CONTACTS.DIALOG_ADD.TITLE'),
+                labelStyle: TextStyle(color: textColor),
+                hintText: '-LVePy20jxxxxxxxxxxx',
+                hintStyle: TextStyle(color: prefillTextColor),
               ),
             ),
           ),
