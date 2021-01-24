@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tradedex/Global/GlobalConstants.dart';
 import 'package:tradedex/localization/app_localization.dart';
 import 'package:tradedex/pages/contacts/cubit/contacts_cubit.dart';
+import 'package:tradedex/pages/contacts/cubit/trading_code_cubit.dart';
+
+import 'package:firebase_database/firebase_database.dart';
 
 class AddContactDialog extends StatefulWidget {
   @override
@@ -25,17 +28,15 @@ class _AddContactDialogState extends State<AddContactDialog> {
                 key: this._formKey,
                 child: TextFormField(
                   style: TextStyle(color: textColor),
-                  // validator: (id) => validateTradingCode(id.trim()),
-                  onChanged: (id) =>
-                      BlocProvider.of<ContactsCubit>(context).setIdInput(id),
+                  validator: (id) => BlocProvider.of<TradingCodeCubit>(context).validateTradingCode(id),
+                  onChanged: (id) => BlocProvider.of<ContactsCubit>(context).setIdInput(id),
                   autofocus: true,
                   cursorColor: buttonColor,
                   decoration: InputDecoration(
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: textColor),
                     ),
-                    labelText: AppLocalizations.of(context)
-                        .translate('PAGE_CONTACTS.DIALOG_ADD.TITLE'),
+                    labelText: AppLocalizations.of(context).translate('PAGE_CONTACTS.DIALOG_ADD.TITLE'),
                     labelStyle: TextStyle(color: textColor),
                     hintText: '-LVePy20jxxxxxxxxxxx',
                     hintStyle: TextStyle(color: prefillTextColor),
@@ -53,7 +54,8 @@ class _AddContactDialogState extends State<AddContactDialog> {
               ),
               color: iconColor,
               onPressed: () {
-                BlocProvider.of<ContactsCubit>(context).addContact();
+                if (this._formKey.currentState.validate()) print("validate: true");
+                // BlocProvider.of<ContactsCubit>(context).addContact();
                 // validateInputs();
                 // if (this.validId != null) {
                 //   addContact();

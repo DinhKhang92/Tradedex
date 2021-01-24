@@ -11,6 +11,7 @@ import 'package:tradedex/pages/home/cubit/pokemon_cubit.dart';
 import 'package:tradedex/pages/individual_collection/cubit/individual_cubit.dart';
 import 'package:tradedex/pages/official_collection/cubit/official_cubit.dart';
 import 'package:tradedex/pages/settings/cubit/settings_cubit.dart';
+import 'package:tradedex/pages/contacts/cubit/trading_code_cubit.dart';
 
 import 'Global/GlobalConstants.dart';
 import 'Global/Components/tos.dart';
@@ -24,8 +25,7 @@ import 'package:tradedex/localization/app_localization.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
     runApp(MyApp());
   });
 }
@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
   final OfficialCubit _officialCubit = new OfficialCubit();
   final IndividualCubit _individualCubit = new IndividualCubit();
   final ContactsCubit _contactsCubit = new ContactsCubit();
+  final TradingCodeCubit _tradingCodeCubit = new TradingCodeCubit();
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +56,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<ContactsCubit>(
           create: (_) => this._contactsCubit,
+        ),
+        BlocProvider<TradingCodeCubit>(
+          create: (context) => this._tradingCodeCubit,
         ),
       ],
       child: FutureBuilder(
@@ -90,8 +94,7 @@ class MyApp extends StatelessWidget {
               ],
               localeResolutionCallback: (locale, supportedLocales) {
                 for (Locale supportedLocale in supportedLocales) {
-                  if (supportedLocale.languageCode == locale.languageCode &&
-                      supportedLocale.countryCode == locale.countryCode) {
+                  if (supportedLocale.languageCode == locale.languageCode && supportedLocale.countryCode == locale.countryCode) {
                     return supportedLocale;
                   }
                 }

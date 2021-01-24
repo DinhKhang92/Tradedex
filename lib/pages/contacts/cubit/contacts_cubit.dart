@@ -11,8 +11,12 @@ class ContactsCubit extends Cubit<ContactsState> {
 
   void setIdInput(String id) => this.recentId = id;
 
+  void validateTradingCode(String id) {
+    this._database.reference().child(id).once().then((snapshot) => print(snapshot.value));
+  }
+
   void addContact() {
-    this._database.reference().once().then((value) => print(value.value));
+    this._database.reference().child('-M6S2PuTN1CH1IZUbcxDa').once().then((snapshot) => print(snapshot.value));
     // .child('-LpARDUIetmYbFdUTEsY')
     // .once()
     // .then((DataSnapshot snapshot) => print(snapshot.value));
