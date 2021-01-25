@@ -54,7 +54,7 @@ class SignInPageState extends State<SignInPage> {
                 SizedBox(height: MediaQuery.of(context).size.height / 3.5),
                 _buildLogo(),
                 SizedBox(height: 40),
-                _buildSignInButton(),
+                _buildSignin(),
                 SizedBox(height: 20),
                 getTermsOfService(),
               ],
@@ -75,7 +75,26 @@ class SignInPageState extends State<SignInPage> {
     );
   }
 
-  Widget _buildSignInButton() {
+  Widget _buildSignin() {
+    return BlocBuilder<SigninCubit, SigninState>(
+      builder: (context, state) {
+        print(state);
+        if (state is SigninInitial)
+          return _buildSigninInitial();
+        else if (state is SigninLoading)
+          return _buildSigninLoading();
+        else if (state is SigninLoaded) {
+          print("signinloaded");
+          return _buildSigninLoaded();
+        } else if (state is SigninError)
+          return _buildSigninError();
+        else
+          return Container();
+      },
+    );
+  }
+
+  Widget _buildSigninInitial() {
     return InkWell(
       onTap: () => BlocProvider.of<SigninCubit>(context).signin(),
       child: Container(
@@ -105,38 +124,52 @@ class SignInPageState extends State<SignInPage> {
             ),
             Icon(MdiIcons.google, color: Colors.transparent),
           ],
-          // dense: true,
-          // leading: Icon(MdiIcons.google),
-          // title: Text(AppLocalizations.of(context).translate('PAGE_SIGN_IN.LOG_IN')),
-          // onPressed: () {
-          //   // setState(
-          //   //   () {
-          //   //     absorbing = true;
-          //   //     this.authService.googleSignIn().then((value) {
-          //   //       this.myProfile = this.authService.getProfile();
-          //   //       saveIdLocal(this.myProfile.id);
-          //   //       // Navigator.pushReplacement(
-          //   //       //   context,
-          //   //       //   MaterialPageRoute(
-          //   //       //     builder: (context) => HomePage(),
-          //   //       //   ),
-          //   //       // );
-          //   //     });
-          //   //     saveInitLocal();
-          //   //   },
-          //   // );
-          // },
-          // color: Colors.white,
-          // textColor: Colors.grey[800],
-          // child: Row(
-          //   children: <Widget>[
-          //     Icon(MdiIcons.google),
-          //     Text(AppLocalizations.of(context).translate('PAGE_SIGN_IN.LOG_IN')),
-          //   ],
-          // ),
         ),
       ),
     );
+  }
+
+  Widget _buildSigninLoading() {
+    return CircularProgressIndicator();
+  }
+
+  Widget _buildSigninLoaded() {
+    return InkWell(
+      onTap: () => BlocProvider.of<SigninCubit>(context).signout(),
+      child: Container(
+        padding: EdgeInsets.only(left: 15, right: 15),
+        height: 40,
+        width: 280,
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey[400]),
+          borderRadius: BorderRadius.all(Radius.circular(50)),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 1,
+              blurRadius: 1,
+              offset: Offset(2, 2), // changes position of shadow
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Icon(MdiIcons.google),
+            Text(
+              AppLocalizations.of(context).translate('PAGE_SIGN_IN.LOG_OUT'),
+              style: TextStyle(fontSize: 16),
+            ),
+            Icon(MdiIcons.google, color: Colors.transparent),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSigninError() {
+    return Text("ERROR");
   }
 
   // Widget googleLoginButton() {

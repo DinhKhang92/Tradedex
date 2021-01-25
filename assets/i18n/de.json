@@ -1,7 +1,7 @@
 {
     "PAGE_SIGN_IN": {
         "LOG_IN": "Anmelden mit Google",
-        "SIGN_OUT": "Abmelden",
+        "LOG_OUT": "Abmelden",
         "SIGN_IN_LOADING": "Anmelden..."
     },
     "PAGE_START": {
