@@ -3,6 +3,9 @@ import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:tradedex/Global/GlobalConstants.dart';
 import 'package:tradedex/localization/app_localization.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:tradedex/cubit/localization_cubit.dart';
 
 class StartPage extends StatefulWidget {
   @override
@@ -17,19 +20,21 @@ class StartPageState extends State<StartPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      body: Center(
-        child: ListView(
-          shrinkWrap: true,
-          padding: EdgeInsets.only(left: 24.0, right: 24.0),
-          children: <Widget>[
-            _buildLogo(),
-            SizedBox(height: 48.0),
-            _buildNameInput(),
-            _buildContinueButton(),
-            _buildToS(),
-          ],
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: backgroundColor,
+        body: Center(
+          child: ListView(
+            shrinkWrap: true,
+            padding: EdgeInsets.only(left: 24.0, right: 24.0),
+            children: <Widget>[
+              _buildLogo(),
+              SizedBox(height: 48.0),
+              _buildNameInput(),
+              _buildContinueButton(),
+              _buildToS(),
+            ],
+          ),
         ),
       ),
     );

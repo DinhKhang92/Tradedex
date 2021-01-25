@@ -6,6 +6,8 @@ import 'package:tradedex/Global/Components/loadDataLocal.dart';
 import 'package:tradedex/Global/GlobalConstants.dart';
 import 'dart:async';
 import 'package:tradedex/SignIn/SignInPage.dart';
+import 'package:tradedex/pages/signin/cubit/signin_cubit.dart';
+import 'package:tradedex/cubit/localization_cubit.dart';
 import 'package:tradedex/pages/contacts/cubit/contacts_cubit.dart';
 import 'package:tradedex/pages/home/cubit/pokemon_cubit.dart';
 import 'package:tradedex/pages/individual_collection/cubit/individual_cubit.dart';
@@ -15,6 +17,7 @@ import 'package:tradedex/pages/settings/cubit/settings_cubit.dart';
 import 'Global/GlobalConstants.dart';
 import 'Global/Components/tos.dart';
 import 'Global/Components/tradedexLogo.dart';
+import 'dart:io';
 
 // import 'Home/HomePage.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -22,22 +25,42 @@ import 'package:tradedex/Global/Components/loadDataFirebase.dart';
 import 'package:tradedex/route/route_generator.dart';
 import 'package:tradedex/localization/app_localization.dart';
 
-void main() {
+import 'package:firebase_core/firebase_core.dart';
+
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
+//     WidgetsFlutterBinding.ensureInitialized();
+//     await Firebase.initializeApp();
+//     runApp(MyApp());
+//   });
+// }
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) => runApp(MyApp()));
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await Firebase.initializeApp();
+  runApp(
+    MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
+  final LocalizationCubit _localizationCubit = new LocalizationCubit();
   final PokemonCubit _pokemonCubit = new PokemonCubit();
   final SettingsCubit _settingsCubit = new SettingsCubit();
   final OfficialCubit _officialCubit = new OfficialCubit();
   final IndividualCubit _individualCubit = new IndividualCubit();
   final ContactsCubit _contactsCubit = new ContactsCubit();
+  final SigninCubit _signinCubit = new SigninCubit();
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<LocalizationCubit>(
+          create: (context) => _localizationCubit,
+        ),
         BlocProvider<PokemonCubit>(
           create: (_) => this._pokemonCubit,
         ),
@@ -53,6 +76,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<ContactsCubit>(
           create: (_) => this._contactsCubit,
         ),
+        BlocProvider<SigninCubit>(
+          create: (_) => this._signinCubit,
+        ),
       ],
       child: FutureBuilder(
         future: Future.wait([
@@ -67,31 +93,36 @@ class MyApp extends StatelessWidget {
               color: backgroundColor,
             );
           } else {
-            return MaterialApp(
-              theme: ThemeData(scaffoldBackgroundColor: backgroundColor),
-              color: buttonColor,
-              debugShowCheckedModeBanner: false,
-              title: 'Tradedex',
-              initialRoute: '/',
-              onGenerateRoute: RouteGenerator.generateRoute,
-              // home: (initNew || snapshot.data[2].id.length == '-1') ? LoginPage(snapshot.data[2]) : HomePage(snapshot.data[2]),
-              // home: TestPage(),
-              supportedLocales: [
-                Locale('de', 'DE'),
-                Locale('en', 'US'),
-              ],
-              localizationsDelegates: [
-                AppLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-              ],
-              localeResolutionCallback: (locale, supportedLocales) {
-                for (Locale supportedLocale in supportedLocales) {
-                  if (supportedLocale.languageCode == locale.languageCode && supportedLocale.countryCode == locale.countryCode) {
-                    return supportedLocale;
-                  }
-                }
-                return supportedLocales.first;
+            return BlocBuilder<LocalizationCubit, LocalizationState>(
+              builder: (context, state) {
+                return MaterialApp(
+                  locale: state.locale,
+                  theme: ThemeData(scaffoldBackgroundColor: backgroundColor),
+                  color: buttonColor,
+                  debugShowCheckedModeBanner: false,
+                  title: 'Tradedex',
+                  initialRoute: '/',
+                  onGenerateRoute: RouteGenerator.generateRoute,
+                  // home: (initNew || snapshot.data[2].id.length == '-1') ? LoginPage(snapshot.data[2]) : HomePage(snapshot.data[2]),
+                  // home: TestPage(),
+                  supportedLocales: [
+                    Locale('de', 'DE'),
+                    Locale('en', 'US'),
+                  ],
+                  localizationsDelegates: [
+                    AppLocalizations.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                  ],
+                  localeResolutionCallback: (locale, supportedLocales) {
+                    for (Locale supportedLocale in supportedLocales) {
+                      if (supportedLocale.languageCode == locale.languageCode && supportedLocale.countryCode == locale.countryCode) {
+                        return supportedLocale;
+                      }
+                    }
+                    return supportedLocales.first;
+                  },
+                );
               },
             );
           }
