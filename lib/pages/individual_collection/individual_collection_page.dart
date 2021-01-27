@@ -4,7 +4,7 @@ import 'package:tradedex/Global/GlobalConstants.dart';
 import 'package:tradedex/localization/app_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tradedex/pages/individual_collection/cubit/individual_cubit.dart';
-import 'package:tradedex/pages/individual_collection/components/add_collection_dialog.dart';
+import 'package:tradedex/model/device.dart';
 
 class IndividualCollectionPage extends StatefulWidget {
   @override
@@ -22,132 +22,214 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage> {
   final String spindaFile = 'assets/sprites/spinda/327_11.png';
   final String unownFile = 'assets/sprites/unown/201_11.png';
 
-  // void showDeleteDialog(BuildContext context) async {
-  //   await showDialog(
-  //     context: context,
-  //     barrierDismissible: false,
-  //     builder: (context) {
-  //       return AlertDialog(
-  //         backgroundColor: dialogBackgroundColor,
-  //         title: Text(
-  //           languageFile['PAGE_INDIVIDUAL_COLLECTION']['DIALOG_DELETE']
-  //               ['TITLE'],
-  //           style: TextStyle(color: buttonColor),
-  //         ),
-  //         content: Text(
-  //           languageFile['PAGE_INDIVIDUAL_COLLECTION']['DIALOG_DELETE']
-  //               ['DESCRIPTION'],
-  //           style: TextStyle(color: textColor),
-  //         ),
-  //         actions: <Widget>[
-  //           FlatButton(
-  //               child: Text(
-  //                 languageFile['PAGE_INDIVIDUAL_COLLECTION']['DIALOG_DELETE']
-  //                     ['CANCEL'],
-  //                 style: TextStyle(color: buttonColor),
-  //               ),
-  //               onPressed: () => Navigator.of(context).pop()),
-  //           FlatButton(
-  //             child: Text(
-  //               languageFile['PAGE_INDIVIDUAL_COLLECTION']['DIALOG_DELETE']
-  //                   ['ACCEPT'],
-  //               style: TextStyle(color: buttonColor),
-  //             ),
-  //             onPressed: () {
-  //               setState(() {
-  //                 this.myIndividualCollection.clear();
-  //               });
-  //               deleteIndividualCollectionFirebase(this.myProfile);
-  //               Navigator.of(context).pop();
-  //             },
-  //           )
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
+  final TextEditingController _textController = new TextEditingController();
+  Map dropdownMap = new Map();
 
   @override
   Widget build(BuildContext context) {
+    this._loadDropdownList();
     return SafeArea(
       child: Scaffold(
-        backgroundColor: backgroundColor,
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.TITLE')),
-          backgroundColor: appBarColor,
-          actions: [
-            IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: () {
-                // setState(() {
-                //   showDeleteDialog(context);
-                // });
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () => showDialog(context: context, builder: (_) => AddCollectionDialog()),
-            ),
-          ],
-        ),
+        resizeToAvoidBottomPadding: false,
+        backgroundColor: Color(0xff242423),
         body: _buildContent(),
       ),
     );
   }
 
-  Widget _buildContent() {
-    return Container(
-      color: backgroundColor,
-      child: BlocBuilder<IndividualCubit, IndividualState>(
-        builder: (context, state) {
-          if (state is IndividualLoaded)
-            return ListView.separated(
-              separatorBuilder: (context, index) => Divider(color: dividerColor),
-              itemCount: state.collection.keys.length,
-              itemBuilder: (context, i) {
-                String collectionName = state.collection.keys.toList()[i];
-                Individual collectionType = state.collection[collectionName]['type'];
-                Map collectionGathered = Map.from(state.collection[collectionName]['collection'])..removeWhere((key, value) => value == false);
-                int collectedLength = collectionGathered.values.length;
-                int collectionLength = state.collection[collectionName]['collection'].values.length;
+  void _loadDropdownList() {
+    String alolan = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.ALOLAN');
+    String event = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.EVENT');
+    String galar = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.GALAR');
+    String pokedex = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.POKEDEX');
+    String purified = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.PURIFIED');
+    String regional = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.REGIONAL');
+    String shadow = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.SHADOW');
+    String spinda = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.SPINDA');
+    String unown = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.UNOWN');
 
-                return Dismissible(
-                  direction: DismissDirection.endToStart,
-                  key: Key(collectionName),
-                  background: Container(
-                    color: dismissibleColor,
-                    child: ListTile(
-                      title: Text(
-                        AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.DELETE_COLLECTION'),
-                        style: TextStyle(color: buttonTextColor),
-                        textAlign: TextAlign.center,
+    this.dropdownMap[Individual.Alolan] = alolan;
+    this.dropdownMap[Individual.Event] = event;
+    this.dropdownMap[Individual.Galar] = galar;
+    this.dropdownMap[Individual.Pokedex] = pokedex;
+    this.dropdownMap[Individual.Purified] = purified;
+    this.dropdownMap[Individual.Regional] = regional;
+    this.dropdownMap[Individual.Shadow] = shadow;
+    this.dropdownMap[Individual.Spinda] = spinda;
+    this.dropdownMap[Individual.Unown] = unown;
+
+    BlocProvider.of<IndividualCubit>(context).loadDropdownList(this.dropdownMap);
+  }
+
+  Widget _buildContent() {
+    return Column(
+      children: [
+        _buildHeader(),
+        SizedBox(height: 5),
+        Container(
+          padding: EdgeInsets.only(left: 8, right: 8),
+          height: Device.height - Device.safeAreaHeight - 177,
+          child: BlocBuilder<IndividualCubit, IndividualState>(
+            builder: (context, state) {
+              if (state is IndividualLoaded)
+                return ListView.separated(
+                  separatorBuilder: (context, index) => Divider(color: dividerColor),
+                  itemCount: state.collection.keys.length,
+                  itemBuilder: (context, i) {
+                    String collectionName = state.collection.keys.toList()[i];
+                    Individual collectionType = state.collection[collectionName]['type'];
+                    Map collectionGathered = Map.from(state.collection[collectionName]['collection'])..removeWhere((key, value) => value == false);
+                    int collectedLength = collectionGathered.values.length;
+                    int collectionLength = state.collection[collectionName]['collection'].values.length;
+
+                    return Dismissible(
+                      direction: DismissDirection.endToStart,
+                      key: Key(collectionName),
+                      background: Container(
+                        color: dismissibleColor,
+                        child: ListTile(
+                          title: Text(
+                            AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.DELETE_COLLECTION'),
+                            style: TextStyle(color: buttonTextColor),
+                            textAlign: TextAlign.center,
+                          ),
+                          trailing: Icon(
+                            Icons.delete,
+                            color: buttonTextColor,
+                          ),
+                        ),
                       ),
-                      trailing: Icon(
-                        Icons.delete,
-                        color: buttonTextColor,
+                      onDismissed: (direction) => BlocProvider.of<IndividualCubit>(context).deleteCollection(collectionName),
+                      // {
+                      // this.myIndividualCollection.remove(key);
+                      // deleteIndividualCollectionSingleListFirebase(key, this.myProfile);
+                      // showSnackbar(context, key);
+                      // },
+                      child: ListTile(
+                        leading: _buildCollectionIcon(collectionType),
+                        title: Text(collectionName, style: TextStyle(color: textColor)),
+                        trailing: Text(
+                          "[$collectedLength/$collectionLength]",
+                          style: TextStyle(color: textColor),
+                        ),
+                        onTap: () => Navigator.of(context).pushNamed('/collection', arguments: collectionName),
                       ),
-                    ),
-                  ),
-                  onDismissed: (direction) => BlocProvider.of<IndividualCubit>(context).deleteCollection(collectionName),
-                  // {
-                  // this.myIndividualCollection.remove(key);
-                  // deleteIndividualCollectionSingleListFirebase(key, this.myProfile);
-                  // showSnackbar(context, key);
-                  // },
-                  child: ListTile(
-                    leading: _buildCollectionIcon(collectionType),
-                    title: Text(collectionName, style: TextStyle(color: textColor)),
-                    trailing: Text(
-                      "[$collectedLength/$collectionLength]",
-                      style: TextStyle(color: textColor),
-                    ),
-                    onTap: () => Navigator.of(context).pushNamed('/collection', arguments: collectionName),
-                  ),
+                    );
+                  },
                 );
-              },
-            );
-          return Container();
-        },
+              return Container();
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildHeader() {
+    return Padding(
+      padding: EdgeInsets.only(top: 5, left: 5, right: 5, bottom: 12),
+      child: Column(
+        children: [
+          _buildNavbar(),
+          SizedBox(height: 5),
+          Container(
+            height: 50,
+            width: Device.width - 26,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                BlocBuilder<IndividualCubit, IndividualState>(
+                  builder: (context, state) {
+                    return Wrap(
+                      spacing: 8,
+                      children: state.typeMap.values.map((v) => _buildChip(v)).toList(),
+                    );
+                  },
+                )
+              ],
+            ),
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: EdgeInsets.only(left: 8, right: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildCollectionNameInput(),
+                Container(
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNavbar() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+        ),
+        Text(
+          AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.TITLE'),
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        IconButton(
+          icon: Icon(
+            Icons.content_copy,
+            color: Colors.white,
+          ),
+          onPressed: () => {},
+        ),
+      ],
+    );
+  }
+
+  Widget _buildChip(String title) {
+    return BlocBuilder<IndividualCubit, IndividualState>(
+      builder: (context, state) {
+        return GestureDetector(
+          onTap: () => BlocProvider.of<IndividualCubit>(context).setSelectedValue(title),
+          child: Chip(
+            padding: EdgeInsets.only(left: 7, right: 7),
+            label: Text(title),
+            backgroundColor: state.selectedValue == title ? Color(0xffee6c4d) : Colors.white,
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildCollectionNameInput() {
+    return Container(
+      height: 30,
+      width: Device.width / 1.7,
+      child: TextField(
+        controller: this._textController,
+        cursorColor: Color(0xff242423),
+        onChanged: (value) => {},
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+            borderRadius: BorderRadius.circular(32.0),
+          ),
+          contentPadding: EdgeInsets.fromLTRB(20.0, 0.0, 0, 0.0),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+            borderRadius: BorderRadius.circular(32.0),
+          ),
+          hintText: "Name ...",
+        ),
       ),
     );
   }

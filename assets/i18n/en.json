@@ -2,7 +2,8 @@
     "PAGE_SIGN_IN": {
         "LOG_IN": "Login with Google",
         "LOG_OUT": "Signout",
-        "SIGN_IN_LOADING": "Signing-In..."
+        "SIGN_IN_LOADING": "Signing-In...",
+        "CONTINUE": "Continue"
     },
     "PAGE_START": {
         "ENTER_TRAINER_NAME": "Enter your Trainer Name ...",
@@ -30,19 +31,24 @@
     "PAGE_HOME": {
         "SEARCH": "Search...",
         "GENS": {
-            "GEN_1": "Gen I",
-            "GEN_2": "Gen II",
-            "GEN_3": "Gen III",
-            "GEN_4": "Gen IV",
-            "GEN_5": "Gen V+",
-            "ALL_GENS": "All Gens"
+            "GEN_1": "Gen1",
+            "GEN_2": "Gen2",
+            "GEN_3": "Gen3",
+            "GEN_4": "Gen4",
+            "GEN_5": "Gen5",
+            "GEN_6": "Gen6",
+            "GEN_7": "Gen7",
+            "GEN_8": "Gen8",
+            "GEN_ALL": "All Gens"
         }
     },
     "PAGE_PRIMARY_LIST": {
-        "TITLE": "Primary List"
+        "TITLE": "Primary List",
+        "COPY_TO_CLIPBOARD": "Copied to clipboard"
     },
     "PAGE_SECONDARY_LIST": {
-        "TITLE": "Secondary List"
+        "TITLE": "Secondary List",
+        "COPY_TO_CLIPBOARD": "Copied to clipboard"
     },
     "DIALOG_DELETE": {
         "TITLE": "Delete list?",

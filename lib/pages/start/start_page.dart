@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:tradedex/Global/GlobalConstants.dart';
 import 'package:tradedex/localization/app_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:tradedex/cubit/localization_cubit.dart';
+import 'package:tradedex/cubit/account_cubit.dart';
 
 class StartPage extends StatefulWidget {
   @override
@@ -22,19 +21,60 @@ class StartPageState extends State<StartPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: backgroundColor,
-        body: Center(
-          child: ListView(
-            shrinkWrap: true,
-            padding: EdgeInsets.only(left: 24.0, right: 24.0),
-            children: <Widget>[
-              _buildLogo(),
-              SizedBox(height: 48.0),
-              _buildNameInput(),
-              _buildContinueButton(),
-              _buildToS(),
-            ],
+        backgroundColor: Color(0xff242423),
+        body: ListView(
+          shrinkWrap: true,
+          padding: EdgeInsets.only(left: 40, right: 40),
+          children: <Widget>[
+            // _buildLogo(),
+            SizedBox(height: MediaQuery.of(context).size.height / 4),
+            _buildIcon(),
+            SizedBox(height: 48.0),
+            _buildNameInput(),
+            _buildContinueButton(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIcon() {
+    return Align(
+      alignment: Alignment.center,
+      child: Container(
+        width: 80,
+        height: 80,
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.25),
+          shape: BoxShape.circle,
+          border: Border.all(
+            width: 1.5,
+            color: Colors.white.withOpacity(0.25),
           ),
+        ),
+        child: Stack(
+          children: [
+            Center(
+              child: Image(
+                image: AssetImage('assets_bundle/pokemon_icons_blank/001.png'),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Container(
+                height: 25,
+                width: 25,
+                decoration: BoxDecoration(
+                  color: Color(0xffee6c4d),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.edit,
+                  size: 16,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -54,31 +94,46 @@ class StartPageState extends State<StartPage> {
     return Theme(
       data: ThemeData(
         hintColor: subTextColor,
-        cursorColor: buttonColor,
+        cursorColor: Colors.white,
       ),
       child: Form(
         key: this._formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            TextFormField(
-              style: TextStyle(color: textColor),
-              validator: (name) => _validateName(name),
-              autofocus: false,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: inputBorderColor),
-                  borderRadius: BorderRadius.circular(32.0),
-                ),
-                hintText: AppLocalizations.of(context).translate('PAGE_START.ENTER_TRAINER_NAME'),
-                contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: inputBorderColor),
-                  borderRadius: BorderRadius.circular(32.0),
-                ),
+        child: TextFormField(
+          style: TextStyle(color: Colors.white),
+          validator: (name) => _validateName(name),
+          onChanged: (name) => BlocProvider.of<AccountCubit>(context).setName(name),
+          autofocus: false,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white.withOpacity(0.25),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.white.withOpacity(0.25),
               ),
+              borderRadius: BorderRadius.circular(32.0),
             ),
-          ],
+            hintText: AppLocalizations.of(context).translate('PAGE_START.ENTER_TRAINER_NAME'),
+            hintStyle: TextStyle(color: Colors.white),
+            contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.white.withOpacity(0.25),
+              ),
+              borderRadius: BorderRadius.circular(32.0),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.white.withOpacity(0.25),
+              ),
+              borderRadius: BorderRadius.circular(32.0),
+            ),
+            border: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.white.withOpacity(0.25),
+              ),
+              borderRadius: BorderRadius.circular(32.0),
+            ),
+          ),
         ),
       ),
     );
@@ -90,20 +145,16 @@ class StartPageState extends State<StartPage> {
 
   Widget _buildContinueButton() {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
+      padding: EdgeInsets.symmetric(vertical: 18.0),
       child: RaisedButton(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
         ),
-        onPressed: () {
-          bool isValidName = _checkIfNameIsValid();
-          if (isValidName) Navigator.of(context).pushReplacementNamed('/signin');
-        },
+        onPressed: () => this._continue(),
         padding: EdgeInsets.all(12),
-        color: buttonColor,
+        color: Color(0xffee6c4d),
         child: Text(
           AppLocalizations.of(context).translate('PAGE_START.CONTINUE'),
-          style: TextStyle(color: backgroundColor),
         ),
       ),
     );
@@ -113,39 +164,11 @@ class StartPageState extends State<StartPage> {
     return this._formKey.currentState.validate();
   }
 
-  Widget _buildToS() {
-    return Center(
-      child: RichText(
-        textAlign: TextAlign.center,
-        text: TextSpan(
-          text: AppLocalizations.of(context).translate('PAGE_START.TOS_AND_PRIVACY_TEXT_1'),
-          style: TextStyle(color: textColor),
-          children: <TextSpan>[
-            TextSpan(
-                style: TextStyle(
-                  color: urlColor,
-                ),
-                text: AppLocalizations.of(context).translate('PAGE_START.TOS'),
-                recognizer: TapGestureRecognizer()..onTap = () => _url(this._urlToS)),
-            TextSpan(
-              text: AppLocalizations.of(context).translate('PAGE_START.TOS_AND_PRIVACY_TEXT_2'),
-            ),
-            TextSpan(
-                style: TextStyle(
-                  color: urlColor,
-                ),
-                text: AppLocalizations.of(context).translate('PAGE_START.PRIVACY'),
-                recognizer: TapGestureRecognizer()..onTap = () => _url(this._urlPp)),
-            TextSpan(
-              text: AppLocalizations.of(context).translate('PAGE_START.TOS_AND_PRIVACY_TEXT_3'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _url(String url) async {
-    if (await canLaunch(url)) await launch(url);
+  void _continue() {
+    bool isValidName = _checkIfNameIsValid();
+    if (isValidName) {
+      BlocProvider.of<AccountCubit>(context).initDatebase();
+      Navigator.of(context).pushReplacementNamed('/home');
+    }
   }
 }

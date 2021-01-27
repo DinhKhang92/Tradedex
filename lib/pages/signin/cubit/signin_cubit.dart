@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
+import 'package:tradedex/model/trainer.dart';
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,15 +11,14 @@ import 'package:firebase_database/firebase_database.dart';
 
 part 'signin_state.dart';
 
-class SigninCubit extends Cubit<SigninState> {
+class SigninCubit extends Cubit<SigninState> with Trainer {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final String _dbKey = 'user';
-  String _tc;
   User _user;
 
-  SigninCubit() : super(SigninInitial());
+  SigninCubit() : super(SigninInitial(tc: ''));
 
   Future<void> signin() async {
     GoogleSignInAccount googleUser = await _googleSignIn.signIn();
@@ -29,7 +30,7 @@ class SigninCubit extends Cubit<SigninState> {
         idToken: googleAuth.idToken,
       );
 
-      emit(SigninLoading());
+      emit(SigninLoading(tc: state.tc));
       final UserCredential authResult = await _auth.signInWithCredential(credential);
       this._user = authResult.user;
 
@@ -44,20 +45,21 @@ class SigninCubit extends Cubit<SigninState> {
         else
           this._loadFirestoreEntry(data);
       });
-      emit(SigninLoaded());
+
+      emit(SigninLoaded(tc: Trainer.tc));
     } catch (e) {
-      emit(SigninError());
       this.signout();
+      emit(SigninError(tc: state.tc));
     }
   }
 
   void _createFirestoreEntry() {
-    this._tc = _createNewTc();
+    Trainer.tc = _createNewTc();
     DocumentReference ref = this._db.collection(this._dbKey).doc(this._user.email);
     ref.set({
       'email': this._user.email,
       'lastSeen': DateTime.now(),
-      'tc': this._tc,
+      'tc': Trainer.tc,
     });
     print("_createFirestoreEntry");
   }
@@ -69,13 +71,13 @@ class SigninCubit extends Cubit<SigninState> {
   }
 
   void _loadFirestoreEntry(Map data) {
-    this._tc = data['tc'];
+    Trainer.tc = data['tc'];
     print("_loadFirestoreEntry");
   }
 
   void signout() {
     this._auth.signOut();
     this._googleSignIn.signOut();
-    emit(SigninInitial());
+    emit(SigninInitial(tc: state.tc));
   }
 }

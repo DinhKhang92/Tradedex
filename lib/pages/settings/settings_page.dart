@@ -4,6 +4,7 @@ import 'package:tradedex/Global/GlobalConstants.dart';
 import 'package:tradedex/pages/settings/components/subtitle.dart';
 import 'package:tradedex/pages/settings/cubit/settings_cubit.dart';
 import 'package:tradedex/localization/app_localization.dart';
+import 'package:tradedex/cubit/account_cubit.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -12,7 +13,6 @@ class SettingsPage extends StatefulWidget {
 
 class SettingsPageState extends State<SettingsPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final TextEditingController textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,22 +35,18 @@ class SettingsPageState extends State<SettingsPage> {
   Widget _buildContent() {
     return ListView(
       children: [
-        buildSubtitle(AppLocalizations.of(context)
-            .translate('PAGE_SETTINGS.PROFILE_SUBTITLE')),
+        buildSubtitle(AppLocalizations.of(context).translate('PAGE_SETTINGS.PROFILE_SUBTITLE')),
         _buildProfileDetails(),
         Divider(color: dividerColor),
-        buildSubtitle(AppLocalizations.of(context)
-            .translate('PAGE_SETTINGS.TRADEDEX_SUBTITLE')),
+        buildSubtitle(AppLocalizations.of(context).translate('PAGE_SETTINGS.TRADEDEX_SUBTITLE')),
         _buildLanguageElement(),
         _buildThemeColorElement(),
         Divider(color: dividerColor),
-        buildSubtitle(
-            AppLocalizations.of(context).translate('PAGE_SETTINGS.SUPPORT')),
+        buildSubtitle(AppLocalizations.of(context).translate('PAGE_SETTINGS.SUPPORT')),
         _buildHelpCenter(),
         _buildReport(),
         Divider(color: dividerColor),
-        buildSubtitle(
-            AppLocalizations.of(context).translate('PAGE_SETTINGS.ABOUT')),
+        buildSubtitle(AppLocalizations.of(context).translate('PAGE_SETTINGS.ABOUT')),
         _buildAbout(),
         _buildPolicy(),
         _buildToS()
@@ -69,53 +65,55 @@ class SettingsPageState extends State<SettingsPage> {
           minWidth: 40,
           padding: EdgeInsets.all(1.0),
           child: FlatButton(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
             onPressed: () {
               // changeIcon();
             },
-            child: Container(
-              height: 40,
-              width: 40,
-              decoration: new BoxDecoration(
-                color: Colors.grey[300],
-                shape: BoxShape.circle,
-                image: new DecorationImage(
-                    alignment: Alignment.topRight,
-                    fit: BoxFit.scaleDown,
-                    image: AssetImage(
-                        "assets_bundle/pokemon_icons_blank/001.png")),
-              ),
+            child: BlocBuilder<AccountCubit, AccountState>(
+              builder: (context, state) {
+                String pokemonImg = state.icon;
+                return Container(
+                  height: 40,
+                  width: 40,
+                  decoration: new BoxDecoration(
+                    color: Colors.grey[300],
+                    shape: BoxShape.circle,
+                    image: new DecorationImage(alignment: Alignment.topRight, fit: BoxFit.scaleDown, image: AssetImage("assets_bundle/pokemon_icons_blank/$pokemonImg.png")),
+                  ),
+                );
+              },
             ),
           ),
         ),
-        title: Text.rich(
-          TextSpan(
-            children: <TextSpan>[
+        title: BlocBuilder<AccountCubit, AccountState>(
+          builder: (context, state) {
+            return Text.rich(
               TextSpan(
-                text: "T0nb3rry",
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: textColor,
-                ),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: state.name,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: textColor,
+                    ),
+                  ),
+                  TextSpan(
+                    text: '\n' + state.tc,
+                    style: TextStyle(
+                      fontSize: 12.0,
+                      height: 1.3,
+                      color: subTextColor,
+                    ),
+                  ),
+                ],
               ),
-              TextSpan(
-                text: '\n' + "myProfile.id",
-                style: TextStyle(
-                  fontSize: 12.0,
-                  height: 1.3,
-                  color: subTextColor,
-                ),
-              ),
-            ],
-          ),
+            );
+          },
         ),
         subtitle: Text.rich(
           TextSpan(children: <TextSpan>[
             TextSpan(
-              text: "\n" +
-                  AppLocalizations.of(context)
-                      .translate('PAGE_SETTINGS.CHANGE_PROFILE_NAME_AND_ICON'),
+              text: "\n" + AppLocalizations.of(context).translate('PAGE_SETTINGS.CHANGE_PROFILE_NAME_AND_ICON'),
               style: TextStyle(
                 fontSize: 12.0,
                 color: subTextColor,
@@ -138,8 +136,7 @@ class SettingsPageState extends State<SettingsPage> {
         title: Text.rich(
           TextSpan(children: <TextSpan>[
             TextSpan(
-                text: AppLocalizations.of(context)
-                    .translate('PAGE_SETTINGS.TRADEDEX_LANGUAGE'),
+                text: AppLocalizations.of(context).translate('PAGE_SETTINGS.TRADEDEX_LANGUAGE'),
                 style: TextStyle(
                   fontSize: 15.0,
                   color: textColor,
@@ -153,9 +150,7 @@ class SettingsPageState extends State<SettingsPage> {
               ),
             ),
             TextSpan(
-              text: '\n\n' +
-                  AppLocalizations.of(context)
-                      .translate('PAGE_SETTINGS.TRADEDEX_DESCRIPTION'),
+              text: '\n\n' + AppLocalizations.of(context).translate('PAGE_SETTINGS.TRADEDEX_DESCRIPTION'),
               style: TextStyle(
                 fontSize: 12.0,
                 height: 1.0,
@@ -177,8 +172,7 @@ class SettingsPageState extends State<SettingsPage> {
             return Switch(
               activeColor: buttonColor,
               value: state.isDarkTheme,
-              onChanged: (choice) =>
-                  BlocProvider.of<SettingsCubit>(context).toggleTheme(),
+              onChanged: (choice) => BlocProvider.of<SettingsCubit>(context).toggleTheme(),
               // onChanged: (bool choice) {
               //   setState(() {
               //     this.darkTheme = choice;
@@ -193,17 +187,14 @@ class SettingsPageState extends State<SettingsPage> {
           TextSpan(
             children: <TextSpan>[
               TextSpan(
-                text: AppLocalizations.of(context)
-                    .translate('PAGE_SETTINGS.DARK_THEME_TITLE'),
+                text: AppLocalizations.of(context).translate('PAGE_SETTINGS.DARK_THEME_TITLE'),
                 style: TextStyle(
                   fontSize: 15.0,
                   color: textColor,
                 ),
               ),
               TextSpan(
-                text: '\n' +
-                    AppLocalizations.of(context)
-                        .translate('PAGE_SETTINGS.DARK_THEME_DESCRIPTION'),
+                text: '\n' + AppLocalizations.of(context).translate('PAGE_SETTINGS.DARK_THEME_DESCRIPTION'),
                 style: TextStyle(
                   fontSize: 12.0,
                   height: 1.3,
@@ -425,8 +416,7 @@ class SettingsPageState extends State<SettingsPage> {
         title: Text.rich(
           TextSpan(children: <TextSpan>[
             TextSpan(
-              text: AppLocalizations.of(context)
-                  .translate('PAGE_SETTINGS.SUPPORT_TITLE'),
+              text: AppLocalizations.of(context).translate('PAGE_SETTINGS.SUPPORT_TITLE'),
               style: TextStyle(
                 fontSize: 15.0,
                 height: 0.0,
@@ -434,9 +424,7 @@ class SettingsPageState extends State<SettingsPage> {
               ),
             ),
             TextSpan(
-              text: '\n' +
-                  AppLocalizations.of(context)
-                      .translate('PAGE_SETTINGS.SUPPORT_DESCRIPTION'),
+              text: '\n' + AppLocalizations.of(context).translate('PAGE_SETTINGS.SUPPORT_DESCRIPTION'),
               style: TextStyle(
                 fontSize: 12.0,
                 height: 1.4,
@@ -458,8 +446,7 @@ class SettingsPageState extends State<SettingsPage> {
         title: Text.rich(
           TextSpan(children: <TextSpan>[
             TextSpan(
-              text: AppLocalizations.of(context)
-                  .translate('PAGE_SETTINGS.REPORT_TITLE'),
+              text: AppLocalizations.of(context).translate('PAGE_SETTINGS.REPORT_TITLE'),
               style: TextStyle(
                 fontSize: 15.0,
                 height: 0.0,
@@ -467,9 +454,7 @@ class SettingsPageState extends State<SettingsPage> {
               ),
             ),
             TextSpan(
-              text: '\n' +
-                  AppLocalizations.of(context)
-                      .translate('PAGE_SETTINGS.REPORT_DESCRIPTION'),
+              text: '\n' + AppLocalizations.of(context).translate('PAGE_SETTINGS.REPORT_DESCRIPTION'),
               style: TextStyle(
                 fontSize: 12.0,
                 height: 1.4,
@@ -490,8 +475,7 @@ class SettingsPageState extends State<SettingsPage> {
         title: Text.rich(
           TextSpan(children: <TextSpan>[
             TextSpan(
-              text: AppLocalizations.of(context)
-                  .translate('PAGE_SETTINGS.DATA_POLICY'),
+              text: AppLocalizations.of(context).translate('PAGE_SETTINGS.DATA_POLICY'),
               style: TextStyle(
                 fontSize: 15.0,
                 height: 0.0,
@@ -512,8 +496,7 @@ class SettingsPageState extends State<SettingsPage> {
         title: Text.rich(
           TextSpan(children: <TextSpan>[
             TextSpan(
-              text: AppLocalizations.of(context)
-                  .translate('PAGE_SETTINGS.ABOUT_TITLE'),
+              text: AppLocalizations.of(context).translate('PAGE_SETTINGS.ABOUT_TITLE'),
               style: TextStyle(
                 fontSize: 15.0,
                 height: 0.0,
@@ -521,9 +504,7 @@ class SettingsPageState extends State<SettingsPage> {
               ),
             ),
             TextSpan(
-              text: '\n' +
-                  AppLocalizations.of(context)
-                      .translate('PAGE_SETTINGS.ABOUT_DESCRIPTION'),
+              text: '\n' + AppLocalizations.of(context).translate('PAGE_SETTINGS.ABOUT_DESCRIPTION'),
               style: TextStyle(
                 fontSize: 12.0,
                 height: 1.4,
@@ -544,8 +525,7 @@ class SettingsPageState extends State<SettingsPage> {
         title: Text.rich(
           TextSpan(children: <TextSpan>[
             TextSpan(
-              text: AppLocalizations.of(context)
-                  .translate('PAGE_SETTINGS.TERMS_OF_USE'),
+              text: AppLocalizations.of(context).translate('PAGE_SETTINGS.TERMS_OF_USE'),
               style: TextStyle(
                 fontSize: 15.0,
                 height: 0.0,

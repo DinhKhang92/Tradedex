@@ -17,6 +17,7 @@ class AddCollectionDialogState extends State<AddCollectionDialog> {
   @override
   void initState() {
     this._loadContext();
+    this._loadDropdownList();
     super.initState();
   }
 
@@ -50,7 +51,6 @@ class AddCollectionDialogState extends State<AddCollectionDialog> {
 
   @override
   Widget build(BuildContext context) {
-    this._loadDropdownList();
     return AlertDialog(
       backgroundColor: dialogBackgroundColor,
       title: Text(

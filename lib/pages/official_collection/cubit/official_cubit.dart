@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:tradedex/localization/app_localization.dart';
 
+import 'package:tradedex/model/trainer.dart';
+import 'package:firebase_database/firebase_database.dart';
+
 part 'official_state.dart';
 
 enum Official {
@@ -15,10 +18,12 @@ enum Official {
   Neutral,
 }
 
-class OfficialCubit extends Cubit<OfficialState> {
+class OfficialCubit extends Cubit<OfficialState> with Trainer {
   final String imgPath = 'assets/sprites';
   final String assetManifestFile = 'AssetManifest.json';
   final String genderFile = 'assets/official/gender.json';
+
+  final FirebaseDatabase _database = FirebaseDatabase.instance;
 
   List<String> pokemonImgs = new List<String>();
   Map pokemonMap = new Map();
@@ -108,6 +113,7 @@ class OfficialCubit extends Cubit<OfficialState> {
       return;
 
     this.filteredPokemonMap[key][officialKey] = !this.filteredPokemonMap[key][officialKey];
+    this._updateDatabase();
 
     emit(OfficialLoaded(
       navIdx: state.navIdx,
@@ -128,11 +134,21 @@ class OfficialCubit extends Cubit<OfficialState> {
       return;
 
     this.genderPokemonMap[key][genderKey] = !this.genderPokemonMap[key][genderKey];
+    this._updateDatabase();
 
     emit(OfficialLoaded(
       navIdx: state.navIdx,
       pokemon: state.pokemon,
       gender: this.genderPokemonMap,
     ));
+  }
+
+  void _updateDatabase() {
+    this._database.reference().child(Trainer.tc).child('pokemon').update({
+      'official': {
+        'lucky_shiny': this.filteredPokemonMap,
+        'gender': this.genderPokemonMap,
+      },
+    });
   }
 }

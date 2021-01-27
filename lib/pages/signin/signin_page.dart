@@ -12,6 +12,10 @@ import 'package:tradedex/Global/Components/tradedexLogo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tradedex/pages/signin/cubit/signin_cubit.dart';
 
+import 'package:tradedex/cubit/account_cubit.dart';
+import 'package:flutter/gestures.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 class SignInPage extends StatefulWidget {
   @override
   SignInPageState createState() => SignInPageState();
@@ -19,46 +23,26 @@ class SignInPage extends StatefulWidget {
 
 class SignInPageState extends State<SignInPage> {
   final String _logo = 'logo/tradedex_logo.png';
-  // GlobalKey<FormState> formKey;
-  // GlobalKey<ScaffoldState> scaffoldKey;
-  // TextEditingController password;
-  // Timer timer;
-
-  // Profile myProfile;
-
-  // bool absorbing;
-  // bool autoValidate;
-
-  // AuthService authService;
-
-  // SignInPageState() {
-  //   // this.myProfile = myProfile;
-  //   this.absorbing = false;
-  //   this.autoValidate = false;
-  //   this.formKey = new GlobalKey<FormState>();
-  //   this.scaffoldKey = new GlobalKey<ScaffoldState>();
-  //   this.password = new TextEditingController();
-  //   this.authService = new AuthService(this.myProfile);
-  // }
+  final String _urlPp = 'https://github.com/DinhKhang92/Tradedex/blob/master/Privacy_Policy.md';
+  final String _urlToS = 'https://github.com/DinhKhang92/Tradedex/blob/master/Terms_of_Service.md';
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: backgroundColor,
-        body: Padding(
-          padding: EdgeInsets.only(left: 40, right: 40),
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: MediaQuery.of(context).size.height / 3.5),
-                _buildLogo(),
-                SizedBox(height: 40),
-                _buildSignin(),
-                SizedBox(height: 20),
-                getTermsOfService(),
-              ],
-            ),
+        body: Center(
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: MediaQuery.of(context).size.height / 3.5),
+              _buildLogo(),
+              SizedBox(height: 40),
+              _buildSignin(),
+              SizedBox(height: 20),
+              _buildToS(),
+              Spacer(),
+              _buildContinue(),
+            ],
           ),
         ),
       ),
@@ -83,10 +67,9 @@ class SignInPageState extends State<SignInPage> {
           return _buildSigninInitial();
         else if (state is SigninLoading)
           return _buildSigninLoading();
-        else if (state is SigninLoaded) {
-          print("signinloaded");
+        else if (state is SigninLoaded)
           return _buildSigninLoaded();
-        } else if (state is SigninError)
+        else if (state is SigninError)
           return _buildSigninError();
         else
           return Container();
@@ -110,7 +93,7 @@ class SignInPageState extends State<SignInPage> {
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 1,
               blurRadius: 1,
-              offset: Offset(2, 2), // changes position of shadow
+              offset: Offset(2, 2),
             ),
           ],
         ),
@@ -134,37 +117,42 @@ class SignInPageState extends State<SignInPage> {
   }
 
   Widget _buildSigninLoaded() {
-    return InkWell(
-      onTap: () => BlocProvider.of<SigninCubit>(context).signout(),
-      child: Container(
-        padding: EdgeInsets.only(left: 15, right: 15),
-        height: 40,
-        width: 280,
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey[400]),
-          borderRadius: BorderRadius.all(Radius.circular(50)),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 1,
-              offset: Offset(2, 2), // changes position of shadow
+    return BlocBuilder<SigninCubit, SigninState>(
+      builder: (context, state) {
+        BlocProvider.of<AccountCubit>(context).setTc(state.tc);
+        return InkWell(
+          onTap: () => BlocProvider.of<SigninCubit>(context).signout(),
+          child: Container(
+            padding: EdgeInsets.only(left: 15, right: 15),
+            height: 40,
+            width: 280,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey[400]),
+              borderRadius: BorderRadius.all(Radius.circular(50)),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 1,
+                  blurRadius: 1,
+                  offset: Offset(2, 2), // changes position of shadow
+                ),
+              ],
             ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Icon(MdiIcons.google),
-            Text(
-              AppLocalizations.of(context).translate('PAGE_SIGN_IN.LOG_OUT'),
-              style: TextStyle(fontSize: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Icon(MdiIcons.google),
+                Text(
+                  AppLocalizations.of(context).translate('PAGE_SIGN_IN.LOG_OUT'),
+                  style: TextStyle(fontSize: 16),
+                ),
+                Icon(MdiIcons.google, color: Colors.transparent),
+              ],
             ),
-            Icon(MdiIcons.google, color: Colors.transparent),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -172,77 +160,83 @@ class SignInPageState extends State<SignInPage> {
     return Text("ERROR");
   }
 
-  // Widget googleLoginButton() {
-  //   return AbsorbPointer(
-  //     absorbing: absorbing,
-  //     child: StreamBuilder(
-  //       stream: this.authService.user,
-  //       builder: (context, snapshot) {
-  //         if (snapshot.hasData) {
-  //           return SizedBox(
-  //             width: 240,
-  //             child: MaterialButton(
-  //               onPressed: () => this.authService.signOut(),
-  //               color: buttonColor,
-  //               textColor: buttonTextColor,
-  //               child: Center(
-  //                 child: Text(languageFile['PAGE_SIGN_IN']['SIGN_OUT']),
-  //               ),
-  //             ),
-  //           );
-  //         } else {
-  //           return SizedBox(
-  //             width: 240,
-  //             child: MaterialButton(
-  //               onPressed: () {
-  //                 showProgressIndicator();
-  //                 setState(
-  //                   () {
-  //                     absorbing = true;
-  //                     this.authService.googleSignIn().then((value) {
-  //                       this.myProfile = this.authService.getProfile();
-  //                       saveIdLocal(this.myProfile.id);
-  //                       // Navigator.pushReplacement(
-  //                       //   context,
-  //                       //   MaterialPageRoute(
-  //                       //     builder: (context) => HomePage(),
-  //                       //   ),
-  //                       // );
-  //                     });
-  //                     saveInitLocal();
-  //                   },
-  //                 );
-  //               },
-  //               color: Colors.white,
-  //               textColor: Colors.grey[800],
-  //               child: Row(
-  //                 children: <Widget>[
-  //                   Icon(MdiIcons.google),
-  //                   Text('\t \t \t \t ' + languageFile['PAGE_SIGN_IN']['LOG_IN']),
-  //                 ],
-  //               ),
-  //             ),
-  //           );
-  //         }
-  //       },
-  //     ),
-  //   );
-  // }
+  Widget _buildToS() {
+    return Padding(
+      padding: EdgeInsets.only(left: 40, right: 40),
+      child: Center(
+        child: RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            text: AppLocalizations.of(context).translate('PAGE_START.TOS_AND_PRIVACY_TEXT_1'),
+            style: TextStyle(color: textColor),
+            children: <TextSpan>[
+              TextSpan(
+                style: TextStyle(color: urlColor),
+                text: AppLocalizations.of(context).translate('PAGE_START.TOS'),
+                recognizer: TapGestureRecognizer()..onTap = () => _url(this._urlToS),
+              ),
+              TextSpan(text: AppLocalizations.of(context).translate('PAGE_START.TOS_AND_PRIVACY_TEXT_2')),
+              TextSpan(
+                style: TextStyle(color: urlColor),
+                text: AppLocalizations.of(context).translate('PAGE_START.PRIVACY'),
+                recognizer: TapGestureRecognizer()..onTap = () => _url(this._urlPp),
+              ),
+              TextSpan(text: AppLocalizations.of(context).translate('PAGE_START.TOS_AND_PRIVACY_TEXT_3')),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
-  // showProgressIndicator() {
-  //   this.scaffoldKey.currentState.showSnackBar(
-  //         new SnackBar(
-  //           content: new Row(
-  //             children: <Widget>[
-  //               new CircularProgressIndicator(
-  //                 valueColor: AlwaysStoppedAnimation<Color>(buttonColor),
-  //               ),
-  //               new Text(
-  //                 '          ' + languageFile['PAGE_SIGN_IN']['SIGN_IN_LOADING'],
-  //               )
-  //             ],
-  //           ),
-  //         ),
-  //       );
-  // }
+  void _url(String url) async {
+    if (await canLaunch(url)) await launch(url);
+  }
+
+  Widget _buildContinue() {
+    return BlocBuilder<SigninCubit, SigninState>(
+      builder: (context, state) {
+        if (state is SigninLoaded) return _buildContinueLoaded();
+        return _buildContinueLoading();
+      },
+    );
+  }
+
+  Widget _buildContinueLoaded() {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: FlatButton(
+        onPressed: () => Navigator.of(context).pushNamed('/start'),
+        child: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            Text(AppLocalizations.of(context).translate('PAGE_START.CONTINUE')),
+            Icon(Icons.arrow_right),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContinueLoading() {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: FlatButton(
+        onPressed: () => {},
+        child: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            Text(
+              AppLocalizations.of(context).translate('PAGE_START.CONTINUE'),
+              style: TextStyle(color: Colors.black38),
+            ),
+            Icon(
+              Icons.arrow_right,
+              color: Colors.black38,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

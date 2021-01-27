@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:tradedex/Global/GlobalConstants.dart';
 import 'package:tradedex/localization/app_localization.dart';
+import 'package:tradedex/cubit/account_cubit.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DrawerComponent extends StatefulWidget {
   @override
@@ -13,7 +16,7 @@ class DrawerComponentState extends State<DrawerComponent> {
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
-        color: backgroundColor,
+        color: Color(0xff242423),
         child: ListView(
           children: <Widget>[
             _buildDrawerHeader(),
@@ -38,35 +41,40 @@ class DrawerComponentState extends State<DrawerComponent> {
         children: <Widget>[
           SizedBox(height: 20),
           Container(
-            color: backgroundColor,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                SizedBox(width: 10),
+              children: [
                 Container(
-                  height: 40,
-                  width: 40,
-                  decoration: new BoxDecoration(
-                    color: Colors.grey[300],
+                  width: 45,
+                  height: 45,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.25),
                     shape: BoxShape.circle,
-                    image: new DecorationImage(
-                      fit: BoxFit.scaleDown,
-                      image: AssetImage(
-                          'assets_bundle/pokemon_icons_blank/001.png'),
+                    border: Border.all(
+                      width: 1.5,
+                      color: Colors.white.withOpacity(0.25),
                     ),
+                  ),
+                  child: Image(
+                    image: AssetImage('assets_bundle/pokemon_icons_blank/001.png'),
                   ),
                 ),
                 SizedBox(width: 15),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      "Khang",
-                      style: TextStyle(color: textColor, fontSize: 20),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    BlocBuilder<AccountCubit, AccountState>(
+                      builder: (context, state) {
+                        String name = state.name;
+                        return Text(
+                          name,
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        );
+                      },
                     ),
                     SizedBox(height: 3),
-                    _buildSignedInIcon(),
-                    // getUserVerification(this.isSignedIn, this.myProfile.id),
+                    _buildTradingCode(),
                   ],
                 )
               ],
@@ -76,74 +84,57 @@ class DrawerComponentState extends State<DrawerComponent> {
           Center(
             child: FlatButton(
               child: Chip(
-                backgroundColor: buttonColor,
+                padding: EdgeInsets.only(left: 12, right: 12),
+                backgroundColor: Color(0xffee6c4d),
                 label: Text(
-                  AppLocalizations.of(context)
-                      .translate('PAGE_DRAWER.COPY_TRADING_CODE'),
-                  style: TextStyle(color: buttonTextColor),
+                  AppLocalizations.of(context).translate('PAGE_DRAWER.COPY_TRADING_CODE'),
                 ),
               ),
               onPressed: () {},
               // onPressed: () => copyToClipboard(this.scaffoldKey, this.myProfile.id),
             ),
           ),
-          SizedBox(height: 10),
+          // SizedBox(height: 10),
         ],
       ),
     );
   }
 
-  Widget _buildSignedInIcon() {
-    return Row(
-      children: [
-        Icon(
-          Icons.verified_user,
-          size: 15,
-          color: Colors.green[800],
-        ),
-        // isSignedIn == false
-        //     ? Icon(
-        //         MdiIcons.shieldOutline,
-        //         size: 15,
-        //         color: Colors.red[900],
-        //       )
-        //     : Icon(
-        //         Icons.verified_user,
-        //         size: 15,
-        //         color: Colors.green[800],
-        //       ),
-        SizedBox(width: 5),
-        Text(
-          "myID",
-          style: TextStyle(color: subTextColor, fontSize: 13),
-        )
-      ],
+  Widget _buildTradingCode() {
+    return BlocBuilder<AccountCubit, AccountState>(
+      builder: (context, state) {
+        String tc = state.tc;
+        return Text(
+          tc,
+          style: TextStyle(color: Colors.white.withOpacity(0.65), fontSize: 13),
+          overflow: TextOverflow.ellipsis,
+        );
+      },
     );
   }
 
   Widget _buildSignIn() {
     return Container(
-      color: signInButtonColor,
       child: ListTile(
         leading: Icon(
           Icons.account_circle,
-          color: drawerIconColor,
+          color: Color(0xffee6c4d),
         ),
         title: Text(
           AppLocalizations.of(context).translate('PAGE_DRAWER.SIGN_IN'),
-          style: TextStyle(color: textColor),
+          style: TextStyle(color: Colors.white),
         ),
-        onTap: () => Navigator.of(context).pushNamed('/signin'),
+        onTap: () => Navigator.of(context).pushNamed('/'),
       ),
     );
   }
 
   Widget _buildHome() {
     return ListTile(
-      leading: Icon(Icons.home, color: drawerIconColor),
+      leading: Icon(Icons.home, color: Color(0xffee6c4d)),
       title: Text(
         AppLocalizations.of(context).translate('PAGE_DRAWER.HOME'),
-        style: TextStyle(color: textColor),
+        style: TextStyle(color: Colors.white),
       ),
       onTap: Navigator.of(context).pop,
     );
@@ -153,11 +144,11 @@ class DrawerComponentState extends State<DrawerComponent> {
     return ListTile(
       leading: Icon(
         Icons.favorite,
-        color: drawerIconColor,
+        color: Color(0xffee6c4d),
       ),
       title: Text(
         AppLocalizations.of(context).translate('PAGE_DRAWER.PRIMARY_LIST'),
-        style: TextStyle(color: textColor),
+        style: TextStyle(color: Colors.white),
       ),
       onTap: () => Navigator.of(context).pushNamed('/primary'),
     );
@@ -167,11 +158,11 @@ class DrawerComponentState extends State<DrawerComponent> {
     return ListTile(
       leading: Icon(
         MdiIcons.hexagon,
-        color: drawerIconColor,
+        color: Color(0xffee6c4d),
       ),
       title: Text(
         AppLocalizations.of(context).translate('PAGE_DRAWER.SECONDARY_LIST'),
-        style: TextStyle(color: textColor),
+        style: TextStyle(color: Colors.white),
       ),
       onTap: () => Navigator.of(context).pushNamed('/secondary'),
     );
@@ -181,12 +172,11 @@ class DrawerComponentState extends State<DrawerComponent> {
     return ListTile(
       leading: Icon(
         MdiIcons.pokeball,
-        color: drawerIconColor,
+        color: Color(0xffee6c4d),
       ),
       title: Text(
-        AppLocalizations.of(context)
-            .translate('PAGE_DRAWER.OFFICIAL_COLLECTION'),
-        style: TextStyle(color: textColor),
+        AppLocalizations.of(context).translate('PAGE_DRAWER.OFFICIAL_COLLECTION'),
+        style: TextStyle(color: Colors.white),
       ),
       onTap: () => Navigator.of(context).pushNamed('/official'),
     );
@@ -196,12 +186,11 @@ class DrawerComponentState extends State<DrawerComponent> {
     return ListTile(
       leading: Icon(
         MdiIcons.bookOpen,
-        color: drawerIconColor,
+        color: Color(0xffee6c4d),
       ),
       title: Text(
-        AppLocalizations.of(context)
-            .translate('PAGE_DRAWER.INDIVIDUAL_COLLECTION'),
-        style: TextStyle(color: textColor),
+        AppLocalizations.of(context).translate('PAGE_DRAWER.INDIVIDUAL_COLLECTION'),
+        style: TextStyle(color: Colors.white),
       ),
       onTap: () => Navigator.of(context).pushNamed('/individual'),
     );
@@ -211,11 +200,11 @@ class DrawerComponentState extends State<DrawerComponent> {
     return ListTile(
       leading: Icon(
         Icons.people,
-        color: drawerIconColor,
+        color: Color(0xffee6c4d),
       ),
       title: Text(
         AppLocalizations.of(context).translate('PAGE_DRAWER.CONTACTS'),
-        style: TextStyle(color: textColor),
+        style: TextStyle(color: Colors.white),
       ),
       onTap: () => Navigator.of(context).pushNamed('/contacts'),
     );
@@ -225,11 +214,11 @@ class DrawerComponentState extends State<DrawerComponent> {
     return ListTile(
       leading: Icon(
         Icons.settings,
-        color: drawerIconColor,
+        color: Color(0xffee6c4d),
       ),
       title: Text(
         AppLocalizations.of(context).translate('PAGE_DRAWER.SETTINGS'),
-        style: TextStyle(color: textColor),
+        style: TextStyle(color: Colors.white),
       ),
       onTap: () => Navigator.of(context).pushNamed('/settings'),
     );
@@ -239,11 +228,11 @@ class DrawerComponentState extends State<DrawerComponent> {
     return ListTile(
       leading: Icon(
         Icons.info_outline,
-        color: drawerIconColor,
+        color: Color(0xffee6c4d),
       ),
       title: Text(
         AppLocalizations.of(context).translate('PAGE_DRAWER.ABOUT'),
-        style: TextStyle(color: textColor),
+        style: TextStyle(color: Colors.white),
       ),
       onTap: () => Navigator.of(context).pushNamed('/about'),
     );

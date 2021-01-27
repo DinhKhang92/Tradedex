@@ -2,7 +2,8 @@
     "PAGE_SIGN_IN": {
         "LOG_IN": "Anmelden mit Google",
         "LOG_OUT": "Abmelden",
-        "SIGN_IN_LOADING": "Anmelden..."
+        "SIGN_IN_LOADING": "Anmelden...",
+        "CONTINUE": "Weiter"
     },
     "PAGE_START": {
         "ENTER_TRAINER_NAME": "Gib Deinen Trainernamen an ...",
@@ -16,7 +17,7 @@
     },
     "PAGE_DRAWER": {
         "COPY_TRADING_CODE": "KOPIERE TAUSCHCODE",
-        "COPY_TO_CLIPBOARD": "Copied to Clipboard",
+        "COPY_TO_CLIPBOARD": "In die Zwischenablage kopiert",
         "SIGN_IN": "Anmelden",
         "HOME": "Startseite",
         "PRIMARY_LIST": "Primäre Liste",
@@ -30,19 +31,24 @@
     "PAGE_HOME": {
         "SEARCH": "Suche...",
         "GENS": {
-            "GEN_1": "Gen I",
-            "GEN_2": "Gen II",
-            "GEN_3": "Gen III",
-            "GEN_4": "Gen IV",
-            "GEN_5": "Gen V+",
-            "ALL_GENS": "Alle Gens"
+            "GEN_1": "Gen1",
+            "GEN_2": "Gen2",
+            "GEN_3": "Gen3",
+            "GEN_4": "Gen4",
+            "GEN_5": "Gen5",
+            "GEN_6": "Gen6",
+            "GEN_7": "Gen7",
+            "GEN_8": "Gen8",
+            "GEN_ALL": "Alle Gens"
         }
     },
     "PAGE_PRIMARY_LIST": {
-        "TITLE": "Primäre Liste"
+        "TITLE": "Primäre Liste",
+        "COPY_TO_CLIPBOARD": "In die Zwischenablage kopiert"
     },
     "PAGE_SECONDARY_LIST": {
-        "TITLE": "Sekundäre Liste"
+        "TITLE": "Sekundäre Liste",
+        "COPY_TO_CLIPBOARD": "In die Zwischenablage kopiert"
     },
     "DIALOG_DELETE": {
         "TITLE": "Liste löschen?",

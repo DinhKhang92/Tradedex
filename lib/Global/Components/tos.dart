@@ -20,28 +20,31 @@ getUrlTos() async {
 }
 
 Widget getTermsOfService() {
-  return Center(
-    child: RichText(
-      textAlign: TextAlign.center,
-      text: TextSpan(
-        text: languageFile['PAGE_START']['TOS_AND_PRIVACY_TEXT_1'],
-        style: TextStyle(color: textColor),
-        children: <TextSpan>[
-          TextSpan(
-              style: TextStyle(
-                color: urlColor,
-              ),
-              text: languageFile['PAGE_START']['TOS'],
-              recognizer: TapGestureRecognizer()..onTap = () => getUrlTos()),
-          TextSpan(text: languageFile['PAGE_START']['TOS_AND_PRIVACY_TEXT_2']),
-          TextSpan(
-              style: TextStyle(
-                color: urlColor,
-              ),
-              text: languageFile['PAGE_START']['PRIVACY'],
-              recognizer: TapGestureRecognizer()..onTap = () => getUrlPp()),
-          TextSpan(text: languageFile['PAGE_START']['TOS_AND_PRIVACY_TEXT_3']),
-        ],
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Center(
+      child: RichText(
+        textAlign: TextAlign.center,
+        text: TextSpan(
+          text: languageFile['PAGE_START']['TOS_AND_PRIVACY_TEXT_1'],
+          style: TextStyle(color: textColor),
+          children: <TextSpan>[
+            TextSpan(
+                style: TextStyle(
+                  color: urlColor,
+                ),
+                text: languageFile['PAGE_START']['TOS'],
+                recognizer: TapGestureRecognizer()..onTap = () => getUrlTos()),
+            TextSpan(text: languageFile['PAGE_START']['TOS_AND_PRIVACY_TEXT_2']),
+            TextSpan(
+                style: TextStyle(
+                  color: urlColor,
+                ),
+                text: languageFile['PAGE_START']['PRIVACY'],
+                recognizer: TapGestureRecognizer()..onTap = () => getUrlPp()),
+            TextSpan(text: languageFile['PAGE_START']['TOS_AND_PRIVACY_TEXT_3']),
+          ],
+        ),
       ),
     ),
   );

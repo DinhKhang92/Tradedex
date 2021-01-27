@@ -36,7 +36,9 @@
             "GEN_4": "Gen IV",
             "GEN_5": "Gen V+",
             "ALL_GENS": "All Gens"
-        }
+        },
+        "CANCEL": "Cancel",
+        "CONFIRM": "Confirm"
     },
     "PAGE_PRIMARY_LIST": {
         "TITLE": "Primary List"

@@ -21,8 +21,6 @@ enum Individual {
 
 class IndividualCubit extends Cubit<IndividualState> {
   BuildContext context;
-
-  List<DropdownMenuItem<String>> dropdownMenuItems = List<DropdownMenuItem<String>>();
   String recentCollectionName = '';
   Map collection = new Map();
 
@@ -30,28 +28,15 @@ class IndividualCubit extends Cubit<IndividualState> {
 
   List<String> pokemonImgs = new List<String>();
 
-  IndividualCubit() : super(IndividualInitial(dropdownValue: '', collection: {}));
+  IndividualCubit() : super(IndividualInitial(selectedValue: '', collection: {}, typeMap: {}));
 
   void loadContext(BuildContext context) {
     this.context = context;
   }
 
-  void loadDropdownList(Map dropdownMap) {
-    emit(IndividualLoading(dropdownValue: state.dropdownValue, collection: state.collection));
+  void loadDropdownList(Map typeMap) => emit(IndividualLoaded(selectedValue: typeMap.values.first, collection: state.collection, typeMap: typeMap));
 
-    this.dropdownMenuItems = List<DropdownMenuItem<String>>();
-    for (String elem in dropdownMap.values) {
-      this.dropdownMenuItems.add(DropdownMenuItem(value: elem, child: Text(elem)));
-    }
-
-    emit(IndividualLoaded(
-      dropdownValue: dropdownMap.values.first,
-      dropdownList: this.dropdownMenuItems,
-      collection: state.collection,
-    ));
-  }
-
-  void setDropdownValue(String val) => emit(IndividualLoaded(dropdownValue: val, dropdownList: state.dropdownList, collection: state.collection));
+  void setSelectedValue(String val) => emit(IndividualLoaded(selectedValue: val, collection: state.collection, typeMap: state.typeMap));
 
   void setCollectionName(String name) => this.recentCollectionName = name;
 
@@ -63,9 +48,9 @@ class IndividualCubit extends Cubit<IndividualState> {
     this.collection[this.recentCollectionName]['collection'] = newCollection;
 
     emit(IndividualLoaded(
-      dropdownValue: state.dropdownValue,
-      dropdownList: state.dropdownList,
+      selectedValue: state.selectedValue,
       collection: this.collection,
+      typeMap: state.typeMap,
     ));
   }
 
@@ -119,9 +104,9 @@ class IndividualCubit extends Cubit<IndividualState> {
     this.collection.remove(collectionName);
 
     emit(IndividualLoaded(
-      dropdownValue: state.dropdownValue,
-      dropdownList: state.dropdownList,
+      selectedValue: state.selectedValue,
       collection: this.collection,
+      typeMap: state.typeMap,
     ));
   }
 
@@ -129,9 +114,9 @@ class IndividualCubit extends Cubit<IndividualState> {
     this.collection[collectionName]['collection'][pokemonKey] = !this.collection[collectionName]['collection'][pokemonKey];
 
     emit(IndividualLoaded(
-      dropdownValue: state.dropdownValue,
-      dropdownList: state.dropdownList,
+      selectedValue: state.selectedValue,
       collection: this.collection,
+      typeMap: state.typeMap,
     ));
   }
 }
