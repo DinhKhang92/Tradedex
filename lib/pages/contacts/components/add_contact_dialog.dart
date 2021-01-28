@@ -75,7 +75,6 @@ class _AddContactDialogState extends State<AddContactDialog> {
   }
 
   String _validateTradingCode(String id, ContactsState state) {
-    print(state.contacts.keys.contains(id));
     if (id.length != 20)
       return AppLocalizations.of(context).translate('PAGE_CONTACTS.INVALID_CODE');
     else if (id[0] != '-')

@@ -5,52 +5,125 @@ import 'package:tradedex/pages/settings/components/subtitle.dart';
 import 'package:tradedex/pages/settings/cubit/settings_cubit.dart';
 import 'package:tradedex/localization/app_localization.dart';
 import 'package:tradedex/cubit/account_cubit.dart';
+import 'package:tradedex/model/device.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => SettingsPageState();
 }
 
-class SettingsPageState extends State<SettingsPage> {
+class SettingsPageState extends State<SettingsPage> with Device {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final TextEditingController _textController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: backgroundColor,
+        resizeToAvoidBottomPadding: false,
+        backgroundColor: Color(0xff242423),
         key: this._scaffoldKey,
-        appBar: AppBar(
-          title: Text(
-            AppLocalizations.of(context).translate('PAGE_SETTINGS.TITLE'),
-            style: TextStyle(color: titleColor),
-          ),
-          backgroundColor: appBarColor,
-        ),
+        // appBar: AppBar(
+        //   title: Text(
+        //     AppLocalizations.of(context).translate('PAGE_SETTINGS.TITLE'),
+        //     style: TextStyle(color: titleColor),
+        //   ),
+        //   backgroundColor: appBarColor,
+        // ),
         body: _buildContent(),
       ),
     );
   }
 
   Widget _buildContent() {
-    return ListView(
+    return Column(
       children: [
-        buildSubtitle(AppLocalizations.of(context).translate('PAGE_SETTINGS.PROFILE_SUBTITLE')),
-        _buildProfileDetails(),
-        Divider(color: dividerColor),
-        buildSubtitle(AppLocalizations.of(context).translate('PAGE_SETTINGS.TRADEDEX_SUBTITLE')),
-        _buildLanguageElement(),
-        _buildThemeColorElement(),
-        Divider(color: dividerColor),
-        buildSubtitle(AppLocalizations.of(context).translate('PAGE_SETTINGS.SUPPORT')),
-        _buildHelpCenter(),
-        _buildReport(),
-        Divider(color: dividerColor),
-        buildSubtitle(AppLocalizations.of(context).translate('PAGE_SETTINGS.ABOUT')),
-        _buildAbout(),
-        _buildPolicy(),
-        _buildToS()
+        _buildHeader(),
+        SizedBox(height: 5),
+        Container(
+          padding: EdgeInsets.only(left: 8, right: 8),
+          height: Device.height - Device.safeAreaHeight - 58,
+          child: ListView(
+            children: [
+              // buildSubtitle(AppLocalizations.of(context).translate('PAGE_SETTINGS.PROFILE_SUBTITLE')),
+              // _buildProfileDetails(),
+              // Divider(color: dividerColor),
+              // buildSubtitle(AppLocalizations.of(context).translate('PAGE_SETTINGS.TRADEDEX_SUBTITLE')),
+              // _buildLanguageElement(),
+              // _buildThemeColorElement(),
+              // Divider(color: dividerColor),
+              // buildSubtitle(AppLocalizations.of(context).translate('PAGE_SETTINGS.SUPPORT')),
+              // _buildHelpCenter(),
+              // _buildReport(),
+              // Divider(color: dividerColor),
+              // buildSubtitle(AppLocalizations.of(context).translate('PAGE_SETTINGS.ABOUT')),
+              // _buildAbout(),
+              // _buildPolicy(),
+              // _buildToS(),
+            ],
+          ),
+        )
       ],
+    );
+  }
+
+  Widget _buildHeader() {
+    return Padding(
+      padding: EdgeInsets.only(top: 5, left: 5, right: 5, bottom: 0),
+      child: _buildNavbar(),
+    );
+  }
+
+  Widget _buildNavbar() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+        ),
+        Text(
+          AppLocalizations.of(context).translate('PAGE_OFFICIAL_COLLECTION.LUCKYDEX.TITLE'),
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        Container(
+          width: 48,
+          height: 48,
+          padding: EdgeInsets.all(8),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSearchbar() {
+    return Container(
+      height: 34,
+      width: Device.width / 1.7,
+      child: TextField(
+        controller: this._textController,
+        cursorColor: Color(0xff242423),
+        onChanged: (value) => {},
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+            borderRadius: BorderRadius.circular(32.0),
+          ),
+          isDense: true,
+          contentPadding: EdgeInsets.fromLTRB(20.0, 0.0, 0, 0.0),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+            borderRadius: BorderRadius.circular(32.0),
+          ),
+          suffixIcon: Icon(
+            Icons.search,
+            size: 20,
+            color: Color(0xff242423),
+          ),
+        ),
+      ),
     );
   }
 
@@ -538,67 +611,3 @@ class SettingsPageState extends State<SettingsPage> {
     );
   }
 }
-
-//   void _saveMyAccountName() async {
-//     SharedPreferences prefs = await SharedPreferences.getInstance();
-//     prefs.setString('myAccountName', myAccountName);
-//   }
-
-//   void _updateFireBase() {
-//     database.reference().child(myID).update({
-//       'icon': prefix0.myIcon,
-//       'account_name': myAccountName,
-//     });
-//   }
-
-//   void _saveMyIcon() async {
-//     SharedPreferences prefs = await SharedPreferences.getInstance();
-//     prefs.setString('icon', prefix0.myIcon);
-//   }
-
-//   void _saveMyTheme() async {
-//     SharedPreferences prefs = await SharedPreferences.getInstance();
-//     prefs.setBool('theme', prefix0.myClassicTheme);
-//   }
-
-//   void _changeTheme(bool choice) {
-//     myClassicTheme = !myClassicTheme;
-//     if (myClassicTheme == false)
-//       _setClassicTheme();
-//     else
-//       _setDarkTheme();
-//   }
-
-//   _setDarkTheme() {
-//     redColor = Colors.grey[800];
-//     listTileColor = Colors.black87;
-//     textColor = Colors.white;
-//     markBorderColor = Colors.white70;
-//     markPokemonColor = Colors.red[900];
-//     subTextColor = Colors.white54;
-//     captionTextColor = Colors.white54;
-//     dividerColor = Colors.grey[600];
-//     buttonColor = Colors.grey[600];
-//     iconColor = Colors.white;
-//     drawerColor = Colors.black87;
-//     backgroundColor = Colors.black87;
-//     bottomNavBarColor = Colors.grey[800];
-//     bottomNavBarIconColor = Colors.white;
-//   }
-
-//   _setClassicTheme() {
-//     redColor = Colors.red[900];
-//     listTileColor = Colors.white;
-//     textColor = Colors.black;
-//     markBorderColor = null;
-//     markPokemonColor = Colors.red;
-//     subTextColor = Colors.grey[700];
-//     captionTextColor = Colors.grey[600];
-//     dividerColor = Colors.grey[500];
-//     buttonColor = Colors.red[200];
-//     iconColor = Colors.grey[600];
-//     drawerColor = Colors.grey[100];
-//     backgroundColor = Colors.white;
-//     bottomNavBarColor = Colors.grey[100];
-//     bottomNavBarIconColor = Colors.red[900];
-//   }

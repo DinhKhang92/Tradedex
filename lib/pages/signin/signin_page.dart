@@ -62,7 +62,6 @@ class SignInPageState extends State<SignInPage> {
   Widget _buildSignin() {
     return BlocBuilder<SigninCubit, SigninState>(
       builder: (context, state) {
-        print(state);
         if (state is SigninInitial)
           return _buildSigninInitial();
         else if (state is SigninLoading)

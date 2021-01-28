@@ -4,7 +4,6 @@ import 'package:tradedex/Global/GlobalConstants.dart';
 
 Widget buildSubtitle(String subtitle) {
   return Container(
-    color: backgroundColor,
     child: ListTile(
       dense: true,
       title: Text.rich(
@@ -12,7 +11,7 @@ Widget buildSubtitle(String subtitle) {
           children: <TextSpan>[
             TextSpan(
               text: subtitle,
-              style: TextStyle(color: captionTextColor, fontSize: 14.0),
+              style: TextStyle(color: Color(0xffee6c4d), fontSize: 14.0),
             ),
           ],
         ),

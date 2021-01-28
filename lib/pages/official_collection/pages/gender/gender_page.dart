@@ -30,10 +30,6 @@ class GenderPageState extends State<GenderPage> {
                 crossAxisSpacing: 5.0,
                 mainAxisSpacing: 5.0,
               ),
-              // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              //   crossAxisCount: 6,
-              //   mainAxisSpacing: 15.0,
-              // ),
               itemBuilder: (context, i) {
                 String pokemonKey = state.gender.keys.toList()[i];
                 return GridTile(

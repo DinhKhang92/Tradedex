@@ -107,7 +107,6 @@ class ShinyPageState extends State<ShinyPage> with Device {
             borderRadius: BorderRadius.circular(32.0),
           ),
           isDense: true,
-          contentPadding: EdgeInsets.fromLTRB(20.0, 0.0, 0, 0.0),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
             borderRadius: BorderRadius.circular(32.0),

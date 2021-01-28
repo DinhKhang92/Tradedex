@@ -75,6 +75,7 @@
     },
     "PAGE_INDIVIDUAL_COLLECTION": {
         "TITLE": "Sammlungen",
+        "ENTER_NAME": "Name ...",
         "DIALOG_ADD": {
             "TITLE": "Liste hinzufügen",
             "NAME": "Name: ",

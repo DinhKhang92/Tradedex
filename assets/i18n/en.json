@@ -59,7 +59,7 @@
     "PAGE_ABOUT": {
         "TITLE": "About",
         "SUBTITLE": "DISCLAIMER \n\n",
-        "TEXT_1": "Tradedex is an unofficial, free fan made app and is NOT affiliated, endorsed or supported by Nintendo, GAME FREAK or The Pokémon Company in any way.\n Some images used in this app are copyrighted and are supported under fair use.\n' Pokémon names are trademarks of Nintendo.\n No copyright infringement intended. \n\n Pokémon © 2002-2020 Pokémon.\n © 1995-2020 Nintendo/Creatures Inc./GAME FREAK Inc.\n\n\n",
+        "TEXT_1": "Tradedex is an unofficial, free fan made app and is NOT affiliated, endorsed or supported by Nintendo, GAME FREAK or The Pokémon Company in any way.\n Some images used in this app are copyrighted and are supported under fair use.\n Pokémon names are trademarks of Nintendo.\n No copyright infringement intended. \n\n Pokémon © 2002-2020 Pokémon.\n © 1995-2020 Nintendo/Creatures Inc./GAME FREAK Inc.\n\n\n",
         "TEXT_2": "- Official artwork by Ken Sugimori."
     },
     "PAGE_OFFICIAL_COLLECTION": {
@@ -74,6 +74,7 @@
         }
     },
     "PAGE_INDIVIDUAL_COLLECTION": {
+        "ENTER_NAME": "Name ...",
         "TITLE": "Collections",
         "DIALOG_ADD": {
             "TITLE": "Adding new list",

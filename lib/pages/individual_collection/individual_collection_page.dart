@@ -5,13 +5,14 @@ import 'package:tradedex/localization/app_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tradedex/pages/individual_collection/cubit/individual_cubit.dart';
 import 'package:tradedex/model/device.dart';
+import 'package:flutter/services.dart';
 
 class IndividualCollectionPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => IndividualCollectionPageState();
 }
 
-class IndividualCollectionPageState extends State<IndividualCollectionPage> {
+class IndividualCollectionPageState extends State<IndividualCollectionPage> with Device {
   final String alolanFile = 'assets/sprites/alolan/103_alolan.png';
   final String eventFile = 'assets/sprites/event/007_00_05_event.png';
   final String galarFile = 'assets/sprites/galar/083_galar.png';
@@ -24,6 +25,16 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage> {
 
   final TextEditingController _textController = new TextEditingController();
   Map dropdownMap = new Map();
+
+  @override
+  void initState() {
+    super.initState();
+    this._loadContext();
+  }
+
+  void _loadContext() {
+    BlocProvider.of<IndividualCubit>(context).loadContext(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,12 +79,17 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage> {
         SizedBox(height: 5),
         Container(
           padding: EdgeInsets.only(left: 8, right: 8),
-          height: Device.height - Device.safeAreaHeight - 177,
+          height: Device.height - Device.safeAreaHeight - 160,
           child: BlocBuilder<IndividualCubit, IndividualState>(
             builder: (context, state) {
-              if (state is IndividualLoaded)
-                return ListView.separated(
-                  separatorBuilder: (context, index) => Divider(color: dividerColor),
+              if (state is IndividualLoaded) {
+                if (state.selectedValue.isEmpty) BlocProvider.of<IndividualCubit>(context).setSelectedValue(this.dropdownMap.values.first);
+                return GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 5.0,
+                    mainAxisSpacing: 5.0,
+                  ),
                   itemCount: state.collection.keys.length,
                   itemBuilder: (context, i) {
                     String collectionName = state.collection.keys.toList()[i];
@@ -82,41 +98,50 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage> {
                     int collectedLength = collectionGathered.values.length;
                     int collectionLength = state.collection[collectionName]['collection'].values.length;
 
-                    return Dismissible(
-                      direction: DismissDirection.endToStart,
-                      key: Key(collectionName),
-                      background: Container(
-                        color: dismissibleColor,
-                        child: ListTile(
-                          title: Text(
-                            AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.DELETE_COLLECTION'),
-                            style: TextStyle(color: buttonTextColor),
-                            textAlign: TextAlign.center,
-                          ),
-                          trailing: Icon(
-                            Icons.delete,
-                            color: buttonTextColor,
-                          ),
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(10.0),
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.white.withOpacity(0.20),
                         ),
                       ),
-                      onDismissed: (direction) => BlocProvider.of<IndividualCubit>(context).deleteCollection(collectionName),
-                      // {
-                      // this.myIndividualCollection.remove(key);
-                      // deleteIndividualCollectionSingleListFirebase(key, this.myProfile);
-                      // showSnackbar(context, key);
-                      // },
-                      child: ListTile(
-                        leading: _buildCollectionIcon(collectionType),
-                        title: Text(collectionName, style: TextStyle(color: textColor)),
-                        trailing: Text(
-                          "[$collectedLength/$collectionLength]",
-                          style: TextStyle(color: textColor),
-                        ),
+                      child: InkWell(
+                        onLongPress: () => BlocProvider.of<IndividualCubit>(context).deleteCollection(collectionName),
                         onTap: () => Navigator.of(context).pushNamed('/collection', arguments: collectionName),
+                        child: GridTile(
+                          header: Align(
+                            alignment: Alignment.topRight,
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 5, top: 5),
+                              child: Text(
+                                "[$collectedLength/$collectionLength]",
+                                style: TextStyle(color: Color(0xffee6c4d)),
+                              ),
+                            ),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              _buildCollectionIcon(collectionType),
+                              SizedBox(height: 8),
+                              Padding(
+                                padding: EdgeInsets.only(right: 5, left: 5),
+                                child: Text(
+                                  collectionName,
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     );
                   },
                 );
+              }
               return Container();
             },
           ),
@@ -153,13 +178,29 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage> {
           Padding(
             padding: EdgeInsets.only(left: 8, right: 8),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 _buildCollectionNameInput(),
+                SizedBox(width: 14),
                 Container(
-                  child: Icon(
-                    Icons.add,
-                    color: Colors.white,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(10.0),
+                    border: Border.all(
+                      width: 1.5,
+                      color: Colors.white.withOpacity(0.20),
+                    ),
+                  ),
+                  child: BlocBuilder<IndividualCubit, IndividualState>(
+                    builder: (context, state) {
+                      return InkWell(
+                        onTap: () => _createList(state.selectedValue),
+                        child: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        ),
+                      );
+                    },
                   ),
                 ),
               ],
@@ -211,12 +252,14 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage> {
   Widget _buildCollectionNameInput() {
     return Container(
       height: 30,
-      width: Device.width / 1.7,
+      width: Device.width / 1.4,
       child: TextField(
+        maxLength: 10,
         controller: this._textController,
         cursorColor: Color(0xff242423),
-        onChanged: (value) => {},
+        onChanged: (value) => BlocProvider.of<IndividualCubit>(context).setCollectionName(value),
         decoration: InputDecoration(
+          counterText: '',
           filled: true,
           fillColor: Colors.white,
           enabledBorder: OutlineInputBorder(
@@ -228,16 +271,25 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage> {
             borderSide: BorderSide(color: Colors.white),
             borderRadius: BorderRadius.circular(32.0),
           ),
-          hintText: "Name ...",
+          hintText: AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.ENTER_NAME'),
         ),
       ),
     );
+  }
+
+  void _createList(String selection) {
+    Individual key = this.dropdownMap.keys.firstWhere((element) => this.dropdownMap[element] == selection);
+    BlocProvider.of<IndividualCubit>(context).addCollection(key);
+
+    FocusScope.of(context).unfocus();
+    this._textController.clear();
   }
 
   Widget _buildCollectionIcon(Individual collectionType) {
     String img = _getImageFile(collectionType);
 
     return CircleAvatar(
+      radius: Device.width / 15,
       backgroundColor: Colors.grey[300],
       backgroundImage: AssetImage(img),
     );
@@ -267,14 +319,5 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage> {
       img = this.pokedexFile;
 
     return img;
-  }
-
-  dynamic showSnackbar(BuildContext context, key) {
-    Scaffold.of(context).showSnackBar(
-      SnackBar(
-        content: Text("$key" + languageFile['PAGE_INDIVIDUAL_COLLECTION']['DELETED']),
-        duration: Duration(milliseconds: 2000),
-      ),
-    );
   }
 }

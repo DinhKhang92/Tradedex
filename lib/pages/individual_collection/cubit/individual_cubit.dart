@@ -34,7 +34,7 @@ class IndividualCubit extends Cubit<IndividualState> {
     this.context = context;
   }
 
-  void loadDropdownList(Map typeMap) => emit(IndividualLoaded(selectedValue: typeMap.values.first, collection: state.collection, typeMap: typeMap));
+  void loadDropdownList(Map typeMap) => emit(IndividualLoaded(selectedValue: state.selectedValue, collection: state.collection, typeMap: typeMap));
 
   void setSelectedValue(String val) => emit(IndividualLoaded(selectedValue: val, collection: state.collection, typeMap: state.typeMap));
 
