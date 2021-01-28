@@ -133,6 +133,13 @@
     },
     "PAGE_SETTINGS": {
         "TITLE": "Settings",
+        "PROFILE": "Profile",
+        "LANGUAGE": "Language",
+        "HELP_AND_SUPPORT": "Help & Support",
+        "TERMS_OF_SERVICE": "Terms of Service",
+        "PRIVACY_POLICY": "Privacy Policy",
+        "LOGOUT": "Lougout",
+
         "PROFILE_SUBTITLE": "Profile",
         "CHANGE_PROFILE_NAME_AND_ICON": "Change your trainer name and icon here",
         "YOUR_NEW_TRAINER_NAME": "Your new trainer name:",
