@@ -44,19 +44,18 @@ class HomePageState extends State<HomePage> with Device {
     Device.height = MediaQuery.of(context).size.height;
     Device.width = MediaQuery.of(context).size.width;
     this.readGens();
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomPadding: false,
-        backgroundColor: Color(0xff242423),
-        key: this._scaffoldKey,
-        drawer: DrawerComponent(),
-        body: _buildContent(),
-      ),
+    return Scaffold(
+      resizeToAvoidBottomPadding: false,
+      backgroundColor: Color(0xff242423),
+      key: this._scaffoldKey,
+      drawer: DrawerComponent(),
+      body: _buildContent(),
     );
   }
 
   void readGens() {
-    this.genAll = AppLocalizations.of(context).translate('PAGE_HOME.GENS.GEN_ALL');
+    this.genAll =
+        AppLocalizations.of(context).translate('PAGE_HOME.GENS.GEN_ALL');
     this.gen1 = AppLocalizations.of(context).translate('PAGE_HOME.GENS.GEN_1');
     this.gen2 = AppLocalizations.of(context).translate('PAGE_HOME.GENS.GEN_2');
     this.gen3 = AppLocalizations.of(context).translate('PAGE_HOME.GENS.GEN_3');
@@ -67,29 +66,33 @@ class HomePageState extends State<HomePage> with Device {
   }
 
   Widget _buildContent() {
-    return Column(
-      children: [
-        _buildHeader(),
-        SizedBox(height: 5),
-        Padding(
-          padding: EdgeInsets.only(left: 8, right: 8),
-          child: Container(
-            height: Device.height - Device.safeAreaHeight - 129,
-            child: BlocBuilder<PokemonCubit, PokemonState>(
-              builder: (context, state) {
-                if (state is PokemonInitial)
-                  return _buildInitial();
-                else if (state is PokemonLoading)
-                  return _buildLoading();
-                else if (state is PokemonLoaded)
-                  return _buildLoaded();
-                else
-                  return _buildLoading();
-              },
+    print("dv.height: " + Device.height.toString());
+    print("dv.safeAreaHeight: " + Device.safeAreaHeight.toString());
+    return SafeArea(
+      child: Column(
+        children: [
+          _buildHeader(),
+          SizedBox(height: 5),
+          Padding(
+            padding: EdgeInsets.only(left: 8, right: 8),
+            child: Container(
+              height: Device.height - Device.safeAreaHeight - 129 - 34,
+              child: BlocBuilder<PokemonCubit, PokemonState>(
+                builder: (context, state) {
+                  if (state is PokemonInitial)
+                    return _buildInitial();
+                  else if (state is PokemonLoading)
+                    return _buildLoading();
+                  else if (state is PokemonLoaded)
+                    return _buildLoaded();
+                  else
+                    return _buildLoading();
+                },
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -146,7 +149,8 @@ class HomePageState extends State<HomePage> with Device {
       child: TextField(
         controller: this._textController,
         cursorColor: Color(0xff242423),
-        onChanged: (value) => BlocProvider.of<PokemonCubit>(context).searchPokemon(value),
+        onChanged: (value) =>
+            BlocProvider.of<PokemonCubit>(context).searchPokemon(value),
         decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,
@@ -190,8 +194,13 @@ class HomePageState extends State<HomePage> with Device {
           child: BlocBuilder<PokemonCubit, PokemonState>(
             builder: (context, state) {
               return Text(
-                state.gen ?? AppLocalizations.of(context).translate('PAGE_HOME.GENS.GEN_ALL'),
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+                state.gen ??
+                    AppLocalizations.of(context)
+                        .translate('PAGE_HOME.GENS.GEN_ALL'),
+                style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
               );
             },
           ),
@@ -267,7 +276,8 @@ class HomePageState extends State<HomePage> with Device {
   }
 
   Widget _buildRowElement(String pokemonKey) {
-    String pokemonName = AppLocalizations.of(context).translate('POKEMON.$pokemonKey');
+    String pokemonName =
+        AppLocalizations.of(context).translate('POKEMON.$pokemonKey');
     String number = pokemonKey.split('_').first;
     return Container(
       decoration: BoxDecoration(
@@ -291,20 +301,26 @@ class HomePageState extends State<HomePage> with Device {
               builder: (context, state) {
                 return IconButton(
                   icon: Icon(
-                    state.pokemon[pokemonKey]['primary'] ? Icons.favorite : Icons.favorite_border,
+                    state.pokemon[pokemonKey]['primary']
+                        ? Icons.favorite
+                        : Icons.favorite_border,
                     color: Color(0xffee6c4d),
                   ),
-                  onPressed: () => BlocProvider.of<PokemonCubit>(context).togglePrimary(pokemonKey),
+                  onPressed: () => BlocProvider.of<PokemonCubit>(context)
+                      .togglePrimary(pokemonKey),
                 );
               },
             ),
             BlocBuilder<PokemonCubit, PokemonState>(
               builder: (context, state) => IconButton(
                 icon: Icon(
-                  state.pokemon[pokemonKey]['secondary'] ? MdiIcons.hexagon : MdiIcons.hexagonOutline,
+                  state.pokemon[pokemonKey]['secondary']
+                      ? MdiIcons.hexagon
+                      : MdiIcons.hexagonOutline,
                   color: secondaryListColor,
                 ),
-                onPressed: () => BlocProvider.of<PokemonCubit>(context).toggleSecondary(pokemonKey),
+                onPressed: () => BlocProvider.of<PokemonCubit>(context)
+                    .toggleSecondary(pokemonKey),
               ),
             )
           ],

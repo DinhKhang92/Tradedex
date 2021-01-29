@@ -14,15 +14,17 @@ class StartPage extends StatefulWidget {
 class StartPageState extends State<StartPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final String _logo = 'logo/tradedex_logo.png';
-  final String _urlPp = 'https://github.com/DinhKhang92/Tradedex/blob/master/Privacy_Policy.md';
-  final String _urlToS = 'https://github.com/DinhKhang92/Tradedex/blob/master/Terms_of_Service.md';
+  final String _urlPp =
+      'https://github.com/DinhKhang92/Tradedex/blob/master/Privacy_Policy.md';
+  final String _urlToS =
+      'https://github.com/DinhKhang92/Tradedex/blob/master/Terms_of_Service.md';
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Color(0xff242423),
-        body: ListView(
+    return Scaffold(
+      backgroundColor: Color(0xff242423),
+      body: SafeArea(
+        child: ListView(
           shrinkWrap: true,
           padding: EdgeInsets.only(left: 40, right: 40),
           children: <Widget>[
@@ -101,7 +103,8 @@ class StartPageState extends State<StartPage> {
         child: TextFormField(
           style: TextStyle(color: Colors.white),
           validator: (name) => _validateName(name),
-          onChanged: (name) => BlocProvider.of<AccountCubit>(context).setName(name),
+          onChanged: (name) =>
+              BlocProvider.of<AccountCubit>(context).setName(name),
           autofocus: false,
           decoration: InputDecoration(
             filled: true,
@@ -112,7 +115,8 @@ class StartPageState extends State<StartPage> {
               ),
               borderRadius: BorderRadius.circular(32.0),
             ),
-            hintText: AppLocalizations.of(context).translate('PAGE_START.ENTER_TRAINER_NAME'),
+            hintText: AppLocalizations.of(context)
+                .translate('PAGE_START.ENTER_TRAINER_NAME'),
             hintStyle: TextStyle(color: Colors.white),
             contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             focusedBorder: OutlineInputBorder(
@@ -140,7 +144,10 @@ class StartPageState extends State<StartPage> {
   }
 
   String _validateName(String name) {
-    return name.isEmpty ? AppLocalizations.of(context).translate('PAGE_START.ENTER_TRAINER_NAME_VALIDATION') : null;
+    return name.isEmpty
+        ? AppLocalizations.of(context)
+            .translate('PAGE_START.ENTER_TRAINER_NAME_VALIDATION')
+        : null;
   }
 
   Widget _buildContinueButton() {

@@ -17,42 +17,42 @@ class PrimaryPageState extends State<PrimaryPage> with Device {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Color(0xff242423),
-        key: this._scaffoldKey,
-        resizeToAvoidBottomPadding: false,
-        body: _buildContent(),
-      ),
+    return Scaffold(
+      backgroundColor: Color(0xff242423),
+      key: this._scaffoldKey,
+      resizeToAvoidBottomPadding: false,
+      body: _buildContent(),
     );
   }
 
   Widget _buildContent() {
-    return Column(
-      children: [
-        _buildHeader(),
-        SizedBox(height: 5),
-        Padding(
-          padding: EdgeInsets.only(left: 8, right: 8),
-          child: BlocBuilder<PokemonCubit, PokemonState>(
-            builder: (context, state) {
-              return Container(
-                height: Device.height - Device.safeAreaHeight - 77,
-                child: ListView.separated(
-                  separatorBuilder: (context, index) => Container(
-                    height: 6,
+    return SafeArea(
+      child: Column(
+        children: [
+          _buildHeader(),
+          SizedBox(height: 5),
+          Padding(
+            padding: EdgeInsets.only(left: 8, right: 8),
+            child: BlocBuilder<PokemonCubit, PokemonState>(
+              builder: (context, state) {
+                return Container(
+                  height: Device.height - Device.safeAreaHeight - 77 - 34,
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) => Container(
+                      height: 6,
+                    ),
+                    itemCount: state.primaryPokemon.length,
+                    itemBuilder: (context, i) {
+                      String pokemonKey = state.primaryPokemon.keys.toList()[i];
+                      return _buildRowElement(pokemonKey);
+                    },
                   ),
-                  itemCount: state.primaryPokemon.length,
-                  itemBuilder: (context, i) {
-                    String pokemonKey = state.primaryPokemon.keys.toList()[i];
-                    return _buildRowElement(pokemonKey);
-                  },
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -87,13 +87,15 @@ class PrimaryPageState extends State<PrimaryPage> with Device {
   }
 
   void _copyToClipboard(Map primaryPokemon) {
-    String copyString = BlocProvider.of<PokemonCubit>(context).copyPrimary(primaryPokemon);
+    String copyString =
+        BlocProvider.of<PokemonCubit>(context).copyPrimary(primaryPokemon);
     Clipboard.setData(ClipboardData(text: copyString));
     this._scaffoldKey.currentState.showSnackBar(_buildSnackbar());
   }
 
   Widget _buildRowElement(String pokemonKey) {
-    String pokemonName = AppLocalizations.of(context).translate('POKEMON.$pokemonKey');
+    String pokemonName =
+        AppLocalizations.of(context).translate('POKEMON.$pokemonKey');
     String number = pokemonKey.split('_').first;
     return Container(
       decoration: BoxDecoration(
@@ -115,7 +117,8 @@ class PrimaryPageState extends State<PrimaryPage> with Device {
             Icons.favorite,
             color: Color(0xffee6c4d),
           ),
-          onPressed: () => BlocProvider.of<PokemonCubit>(context).togglePrimary(pokemonKey),
+          onPressed: () =>
+              BlocProvider.of<PokemonCubit>(context).togglePrimary(pokemonKey),
         ),
       ),
     );
@@ -123,7 +126,8 @@ class PrimaryPageState extends State<PrimaryPage> with Device {
 
   Widget _buildSnackbar() {
     return SnackBar(
-      content: Text(AppLocalizations.of(context).translate('PAGE_PRIMARY_LIST.COPY_TO_CLIPBOARD')),
+      content: Text(AppLocalizations.of(context)
+          .translate('PAGE_PRIMARY_LIST.COPY_TO_CLIPBOARD')),
     );
   }
 }
