@@ -11,12 +11,10 @@ class AboutPage extends StatefulWidget {
 class AboutPageState extends State<AboutPage> with Device {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomPadding: false,
-        backgroundColor: Color(0xff242423),
-        body: _buildContent(),
-      ),
+    return Scaffold(
+      resizeToAvoidBottomPadding: false,
+      backgroundColor: Color(0xff242423),
+      body: SafeArea(child: _buildContent()),
     );
   }
 
@@ -40,9 +38,19 @@ class AboutPageState extends State<AboutPage> with Device {
             child: Text.rich(
               TextSpan(
                 children: <TextSpan>[
-                  TextSpan(text: AppLocalizations.of(context).translate('PAGE_ABOUT.SUBTITLE'), style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-                  TextSpan(text: AppLocalizations.of(context).translate('PAGE_ABOUT.TEXT_1'), style: TextStyle(color: Colors.white)),
-                  TextSpan(text: AppLocalizations.of(context).translate('PAGE_ABOUT.TEXT_2'), style: TextStyle(color: Colors.white)),
+                  TextSpan(
+                      text: AppLocalizations.of(context)
+                          .translate('PAGE_ABOUT.SUBTITLE'),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.white)),
+                  TextSpan(
+                      text: AppLocalizations.of(context)
+                          .translate('PAGE_ABOUT.TEXT_1'),
+                      style: TextStyle(color: Colors.white)),
+                  TextSpan(
+                      text: AppLocalizations.of(context)
+                          .translate('PAGE_ABOUT.TEXT_2'),
+                      style: TextStyle(color: Colors.white)),
                 ],
               ),
               textAlign: TextAlign.center,

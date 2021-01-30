@@ -35,33 +35,33 @@ class ContactsPageState extends State<ContactsPage> with Device {
       // wantedPageBody(),
     ];
 
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomPadding: false,
-        backgroundColor: Color(0xff242423),
-        key: this._scaffoldKey,
-        body: contactPages[0],
-        bottomNavigationBar: Theme(
-          data: Theme.of(context).copyWith(
-            canvasColor: Color(0xff242423),
-            primaryColor: Color(0xffee6c4d),
-            textTheme: Theme.of(context).textTheme.copyWith(caption: TextStyle(color: Colors.white)),
-          ),
-          child: BottomNavigationBar(
-            currentIndex: 0,
-            fixedColor: buttonColor,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.people),
-                label: 'Contacts',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.donut_small),
-                label: 'Wanted',
-              ),
-            ],
-            onTap: (index) {},
-          ),
+    return Scaffold(
+      resizeToAvoidBottomPadding: false,
+      backgroundColor: Color(0xff242423),
+      key: this._scaffoldKey,
+      body: SafeArea(child: contactPages[0]),
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+          canvasColor: Color(0xff242423),
+          primaryColor: Color(0xffee6c4d),
+          textTheme: Theme.of(context)
+              .textTheme
+              .copyWith(caption: TextStyle(color: Colors.white)),
+        ),
+        child: BottomNavigationBar(
+          currentIndex: 0,
+          fixedColor: buttonColor,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.people),
+              label: 'Contacts',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.donut_small),
+              label: 'Wanted',
+            ),
+          ],
+          onTap: (index) {},
         ),
       ),
     );
@@ -74,8 +74,10 @@ class ContactsPageState extends State<ContactsPage> with Device {
         SizedBox(height: 5),
         Container(
           padding: EdgeInsets.only(left: 8, right: 8),
-          height: Device.height - Device.safeAreaTop - 177 - Device.safeAreaBottom,
-          child: BlocBuilder<ContactsCubit, ContactsState>(builder: (contex, state) {
+          height:
+              Device.height - Device.safeAreaTop - 177 - Device.safeAreaBottom,
+          child: BlocBuilder<ContactsCubit, ContactsState>(
+              builder: (contex, state) {
             if (state is ContactsLoaded)
               return this._buildLoaded();
             else
@@ -117,7 +119,8 @@ class ContactsPageState extends State<ContactsPage> with Device {
           icon: Icon(Icons.arrow_back, color: Colors.white),
         ),
         Text(
-          AppLocalizations.of(context).translate('PAGE_OFFICIAL_COLLECTION.LUCKYDEX.TITLE'),
+          AppLocalizations.of(context)
+              .translate('PAGE_OFFICIAL_COLLECTION.LUCKYDEX.TITLE'),
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         Container(
@@ -194,7 +197,8 @@ class ContactsPageState extends State<ContactsPage> with Device {
   }
 
   void _addContact() {
-    BlocProvider.of<ContactsCubit>(context).addContact(this._textController.text);
+    BlocProvider.of<ContactsCubit>(context)
+        .addContact(this._textController.text);
     this._textController.clear();
   }
 }

@@ -22,7 +22,8 @@ class LuckyPageState extends State<LuckyPage> {
         SizedBox(height: 5),
         Container(
           padding: EdgeInsets.only(left: 8, right: 8),
-          height: Device.height - Device.safeAreaTop - 177 - Device.safeAreaBottom,
+          height:
+              Device.height - Device.safeAreaTop - 177 - Device.safeAreaBottom,
           child: BlocBuilder<OfficialCubit, OfficialState>(
             builder: (contex, state) => GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -36,7 +37,8 @@ class LuckyPageState extends State<LuckyPage> {
                 return GridTile(
                   child: InkResponse(
                     child: _buildGridElement(pokemonKey),
-                    onTap: () => BlocProvider.of<OfficialCubit>(context).toggleLuckyShiny(pokemonKey, Official.Lucky),
+                    onTap: () => BlocProvider.of<OfficialCubit>(context)
+                        .toggleLuckyShiny(pokemonKey, Official.Lucky),
                   ),
                 );
               },
@@ -77,7 +79,8 @@ class LuckyPageState extends State<LuckyPage> {
           icon: Icon(Icons.arrow_back, color: Colors.white),
         ),
         Text(
-          AppLocalizations.of(context).translate('PAGE_OFFICIAL_COLLECTION.LUCKYDEX.TITLE'),
+          AppLocalizations.of(context)
+              .translate('PAGE_OFFICIAL_COLLECTION.LUCKYDEX.TITLE'),
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         IconButton(
@@ -136,7 +139,9 @@ class LuckyPageState extends State<LuckyPage> {
         child: BlocBuilder<OfficialCubit, OfficialState>(
           builder: (context, state) {
             return Image(
-              color: state.pokemon[pokemonKey]['lucky'] ? null : Colors.white.withOpacity(0.6),
+              color: state.pokemon[pokemonKey]['lucky']
+                  ? null
+                  : Colors.white.withOpacity(0.6),
               image: AssetImage(this.blankPath + '$pokemonKey.png'),
               height: 45.0,
               width: 45.0,
