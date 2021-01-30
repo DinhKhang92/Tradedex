@@ -47,20 +47,23 @@ class ContactsPageState extends State<ContactsPage> with Device {
           primaryColor: Color(0xffee6c4d),
           textTheme: Theme.of(context).textTheme.copyWith(caption: TextStyle(color: Colors.white)),
         ),
-        child: BottomNavigationBar(
-          currentIndex: 0,
-          fixedColor: buttonColor,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.people),
-              label: 'Contacts',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.donut_small),
-              label: 'Wanted',
-            ),
-          ],
-          onTap: (index) {},
+        child: BlocBuilder<ContactsCubit, ContactsState>(
+          builder: (context, state) {
+            return BottomNavigationBar(
+              currentIndex: state.navIdx,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.people),
+                  label: 'Contacts',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.donut_small),
+                  label: 'Wanted',
+                ),
+              ],
+              onTap: (index) => BlocProvider.of<ContactsCubit>(context).setNavIdx(index),
+            );
+          },
         ),
       ),
     );
