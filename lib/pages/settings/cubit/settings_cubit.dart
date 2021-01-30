@@ -7,4 +7,8 @@ class SettingsCubit extends Cubit<SettingsState> {
   SettingsCubit() : super(SettingsState(isDarkTheme: false));
 
   void toggleTheme() => emit(SettingsState(isDarkTheme: !state.isDarkTheme));
+
+  void dispose() {
+    this.close();
+  }
 }

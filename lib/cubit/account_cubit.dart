@@ -30,6 +30,7 @@ class AccountCubit extends Cubit<AccountState> with Trainer {
     this._database.reference().child(Trainer.tc).set({
       'name': state.name,
       'icon': state.icon,
+      'contacts': [],
       'pokemon': {
         'primary': {},
         'secondary': {},
@@ -41,5 +42,9 @@ class AccountCubit extends Cubit<AccountState> with Trainer {
         'individual': {},
       }
     });
+  }
+
+  void dispose() {
+    this.close();
   }
 }

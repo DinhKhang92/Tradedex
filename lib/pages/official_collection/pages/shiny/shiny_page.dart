@@ -22,7 +22,7 @@ class ShinyPageState extends State<ShinyPage> with Device {
         SizedBox(height: 5),
         Container(
           padding: EdgeInsets.only(left: 8, right: 8),
-          height: Device.height - Device.safeAreaHeight - 177,
+          height: Device.height - Device.safeAreaTop - 177 - Device.safeAreaBottom,
           child: BlocBuilder<OfficialCubit, OfficialState>(
             builder: (context, state) => GridView.builder(
               itemCount: state.pokemon.keys.length,

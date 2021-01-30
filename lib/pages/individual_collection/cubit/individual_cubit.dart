@@ -21,7 +21,6 @@ enum Individual {
 
 class IndividualCubit extends Cubit<IndividualState> {
   BuildContext context;
-  String recentCollectionName = '';
   Map collection = new Map();
 
   final String imgPath = 'assets/sprites';
@@ -37,15 +36,12 @@ class IndividualCubit extends Cubit<IndividualState> {
   void loadDropdownList(Map typeMap) => emit(IndividualLoaded(selectedValue: state.selectedValue, collection: state.collection, typeMap: typeMap));
 
   void setSelectedValue(String val) => emit(IndividualLoaded(selectedValue: val, collection: state.collection, typeMap: state.typeMap));
-
-  void setCollectionName(String name) => this.recentCollectionName = name;
-
-  void addCollection(Individual type) async {
-    this.collection[this.recentCollectionName] = {};
-    this.collection[this.recentCollectionName]['type'] = type;
+  void addCollection(Individual type, String collectionName) async {
+    this.collection[collectionName] = {};
+    this.collection[collectionName]['type'] = type;
 
     Map newCollection = await _createCollection(type);
-    this.collection[this.recentCollectionName]['collection'] = newCollection;
+    this.collection[collectionName]['collection'] = newCollection;
 
     emit(IndividualLoaded(
       selectedValue: state.selectedValue,
@@ -118,5 +114,9 @@ class IndividualCubit extends Cubit<IndividualState> {
       collection: this.collection,
       typeMap: state.typeMap,
     ));
+  }
+
+  void dispose() {
+    this.close();
   }
 }

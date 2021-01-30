@@ -151,4 +151,8 @@ class OfficialCubit extends Cubit<OfficialState> with Trainer {
       },
     });
   }
+
+  void dispose() {
+    this.close();
+  }
 }

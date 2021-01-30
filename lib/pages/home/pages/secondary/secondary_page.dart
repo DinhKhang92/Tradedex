@@ -49,7 +49,7 @@ class SecondaryPageState extends State<SecondaryPage> {
             builder: (context, state) {
               if (state is PokemonLoaded) {
                 return Container(
-                  height: Device.height - Device.safeAreaHeight - 135,
+                  height: Device.height - Device.safeAreaTop - 135 - Device.safeAreaBottom,
                   child: ListView.separated(
                     separatorBuilder: (context, index) => Container(
                       height: 6,

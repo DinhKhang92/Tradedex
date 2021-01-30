@@ -205,4 +205,8 @@ class PokemonCubit extends Cubit<PokemonState> with Trainer {
       'trade': this.pokemonMap,
     });
   }
+
+  void dispose() {
+    this.close();
+  }
 }

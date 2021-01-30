@@ -140,6 +140,11 @@
         "PRIVACY_POLICY": "Privacy Policy",
         "LOGOUT": "Lougout",
 
+        "LANGUAGES": "Languages",
+        "CHOOSE_LANGUAGE": "Choose language",
+
+        "FAQ": "FAQ",
+
         "PROFILE_SUBTITLE": "Profile",
         "CHANGE_PROFILE_NAME_AND_ICON": "Change your trainer name and icon here",
         "YOUR_NEW_TRAINER_NAME": "Your new trainer name:",
@@ -171,29 +176,27 @@
             "DESCRIPTION_02": "my name is Khang Dinh and I'm the developer of this application. Since transparency is everything, I'd like to share some of my coolest memories of Pokémon with you.",
             "DESCRIPTION_03": "So when I was 9-10ish years old, my elder brother took me to a citywide TCG tournament without telling me anything beforehand. He gave me a deck of cards and told me to give my best, and I did - I finished 2nd in Berlin. My deck was based on Scyther, which was pretty fast paced and came with enormous power. We played a lot, he took me to local card shops, I had intense matches with owners, with strangers and we made new friends.",
             "DESCRIPTION_04": "'Mewtwo strikes back' was my first movie ever in the theaters. Pokémon red was my first game on the gameboy console. Time flew and in June 2016 Pokémon Go was launched in Germany. I started the lvl 40 journey and it took me almost two years to fill the 20m exp bar. During that time I met a lot of cool trainers and an ever-expanding community emerged. Currently we are 800+ people in our local group. Therefore I want to thank you all for letting me be part of the community."
-        },
-        "FAQ_SUBPAGE": {
-            "TITLE": "FAQ",
-            "CARD_01_TITLE": "What is Tradedex for?",
-            "CARD_01_DESCRIPTION": "It is a tool mainly for trading Pokémon in Pokémon Go. You can track the missing Pokémon of your friends by adding them to your contacts. In your friends favorite list you can easily generate a string by a button press in the top right corner. Through the button paste the string in your Pokémon storage inside Pokémon Go and their missing Pokémon should be displayed.",
-            "CARD_02_TITLE": "How can I add my friends to the contacts?",
-            "CARD_02_DESCRIPTION": "You need their unique trading code. Go to 'Contacts' and tap on the add button on the bottom right corner. Enter the trading code and he/she should be added.",
-            "CARD_03_TITLE": "How can I change my trainer name and icon?",
-            "CARD_03_DESCRIPTION": "Go to 'Settings' and tap on the pokemon icon to change your trainer icon. To change your trainer name tap on your profile section. A dialog shows up, now you can set your new trainer name.",
-            "CARD_04_TITLE": "Why are all my contacts gone?",
-            "CARD_04_DESCRIPTION": "Since the trainer profiles are stored in a database, an internet connection is required. So please make sure you are connected.",
-            "CARD_05_TITLE": "Can I transfer my profile and contacts to another device?",
-            "CARD_05_DESCRIPTION": "Yes, you need to sign in e.g. with your Google account.",
-            "CARD_06_TITLE": "Some data is missing. Can you retrieve it?",
-            "CARD_06_DESCRIPTION": "Sure! Just contact me by pressing the button down below and let me know. If there are any mistakes out there, please let me know.",
-            "CARD_07_TITLE": "Why can't I paste strings in Pokémon Go? (iOS)",
-            "CARD_07_DESCRIPTION": "Currently there is no way to paste a string into your search bar of your Pokémon storage with an iOS device. But there is a workaround by using text replacements. Click ",
-            "CARD_07_01_DESCRIPTION": "here ",
-            "CARD_07_02_DESCRIPTION": "for further information.",
-            "CARD_08_TITLE": "Can you add feature xy?",
-            "CARD_08_DESCRIPTION": "Of course! Just let me know if you have any ideas for improvements. You can contact me through the button down below.",
-            "BUTTON_FEEDBACK": "HELP & FEEDBACK"
         }
+    },
+    "PAGE_FAQ": {
+        "TITLE": "FAQ",
+        "CARD_01_TITLE": "What is Tradedex for?",
+        "CARD_01_DESCRIPTION": "It is a tool mainly for trading Pokémon in Pokémon Go. You can track the missing Pokémon of your friends by adding them to your contacts. In your friends favorite list you can easily generate a string by a button press in the top right corner. Through the button paste the string in your Pokémon storage inside Pokémon Go and their missing Pokémon should be displayed.",
+        "CARD_02_TITLE": "How can I add my friends to the contacts?",
+        "CARD_02_DESCRIPTION": "You need their unique trading code. Go to 'Contacts' and tap on the add button on the bottom right corner. Enter the trading code and he/she should be added.",
+        "CARD_03_TITLE": "How can I change my trainer name and icon?",
+        "CARD_03_DESCRIPTION": "Go to 'Settings' and tap on the pokemon icon to change your trainer icon. To change your trainer name tap on your profile section. A dialog shows up, now you can set your new trainer name.",
+        "CARD_04_TITLE": "Why are all my contacts gone?",
+        "CARD_04_DESCRIPTION": "Since the trainer profiles are stored in a database, an internet connection is required. So please make sure you are connected.",
+        "CARD_05_TITLE": "Can I transfer my profile and contacts to another device?",
+        "CARD_05_DESCRIPTION": "Yes, you need to sign in e.g. with your Google account.",
+        "CARD_06_TITLE": "Some data is missing. Can you retrieve it?",
+        "CARD_06_DESCRIPTION": "Sure! Just contact me by pressing the button down below and let me know. If there are any mistakes out there, please let me know.",
+        "CARD_07_TITLE": "Why can't I paste strings in Pokémon Go? (iOS)",
+        "CARD_07_DESCRIPTION": "Currently there is no way to paste a string into your search bar of your Pokémon storage with an iOS device. But there is a workaround by using text replacements.",
+        "CARD_08_TITLE": "Can you add feature xy?",
+        "CARD_08_DESCRIPTION": "Of course! Just let me know if you have any ideas for improvements. You can contact me through the button down below.",
+        "BUTTON_FEEDBACK": "HELP & FEEDBACK"
     },
     "PAGE_CONTACTS": {
         "TITLE_01": "Contacts",
@@ -221,8 +224,10 @@
         }
     },
     "LANGUAGES": {
-        "ENGLISH": "English (US)",
-        "GERMAN": "German"
+        "ENGLISH": "English",
+        "ENGLISH_AC": "EN",
+        "GERMAN": "German",
+        "GERMAN_AC": "DE"
     },
     "POKEMON": {
         "001": "Bulbasaur",

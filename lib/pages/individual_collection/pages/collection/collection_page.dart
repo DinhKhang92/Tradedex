@@ -44,7 +44,7 @@ class CollectionPageState extends State<CollectionPage> with Device {
         _buildHeader(),
         Container(
           padding: EdgeInsets.only(left: 8, right: 8),
-          height: Device.height - Device.safeAreaHeight - 80,
+          height: Device.height - Device.safeAreaTop - 80 - Device.safeAreaBottom,
           child: BlocBuilder<IndividualCubit, IndividualState>(
             builder: (context, state) {
               int itemCount = state.collection[this.collectionName]['collection'].keys.length;

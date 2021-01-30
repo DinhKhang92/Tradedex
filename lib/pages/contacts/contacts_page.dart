@@ -10,7 +10,9 @@ import 'package:tradedex/Global/GlobalConstants.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:tradedex/localization/app_localization.dart';
-import 'package:tradedex/pages/contacts/components/add_contact_dialog.dart';
+import 'package:tradedex/model/device.dart';
+import 'package:tradedex/pages/contacts/cubit/contacts_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ContactsPage extends StatefulWidget {
   ContactsPage();
@@ -21,815 +23,178 @@ class ContactsPage extends StatefulWidget {
   }
 }
 
-class ContactsPageState extends State<ContactsPage> {
+class ContactsPageState extends State<ContactsPage> with Device {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  // final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  // TextEditingController textEditControllerIdInput = TextEditingController();
-  // FirebaseDatabase database = FirebaseDatabase.instance;
-
-  // String validId;
-
-  // bool isSearching;
-  // Icon searchIcon = Icon(Icons.search);
-  // String searchText;
-
-  // List<String> searchResult = List<String>();
-  // TextEditingController textEditController = TextEditingController();
-
-  // // variables
-  // int navIndex;
-  // bool autoValidate;
-  // Map pokemonNamesDict;
-  // Map pokemonNamesDictCopy;
-  // List<String> totalList;
-  // Map primaryListCounter;
-  // Map secondaryListCounter;
-  // bool isFavorite;
-  // bool isOfficialCollection;
-
-  // // contacts
-  // List<Contact> myContacts;
-
-  // // appbar
-  // Widget appBarTitle;
-
-  // Profile myProfile;
-
-  // ContactsPageState() {
-  // this.navIndex = 0;
-  // this.autoValidate = false;
-  // this.totalList = new List<String>();
-  // this.isSearching = false;
-  // this.isFavorite = true;
-  // this.isOfficialCollection = false;
-
-  // this.myContacts = new List<Contact>();
-  // this.myProfile = myProfile;
-
-  // this.pokemonNamesDict = pokemonNamesDict;
-  // this.pokemonNamesDictCopy = new Map.from(pokemonNamesDict);
-  // this.primaryListCounter = new Map();
-  // this.secondaryListCounter = new Map();
-
-  // this.appBarTitle = Text(languageFile['PAGE_CONTACTS']['TITLE_02']);
-
-  // this.textEditController.addListener(() {
-  //   if (this.textEditController.text.isEmpty) {
-  //     setState(() {
-  //       this.isSearching = false;
-  //       searchText = "";
-  //     });
-  //   } else {
-  //     setState(() {
-  //       this.isSearching = true;
-  //       searchText = this.textEditController.text;
-  //     });
-  //   }
-  // });
-
-  // this.pokemonNamesDict.forEach((key, value) {
-  //   if (key.contains('alolan')) {
-  //     this.pokemonNamesDictCopy.remove(key);
-  //   }
-  // });
-  // print(this.pokemonNamesDictCopy.length);
-  // }
-
-  // @override
-  // void initState() {
-  //   loadContactsFirebase(this.myProfile).then((contacts) {
-  //     setState(() {
-  //       this.myContacts = contacts;
-  //       getTotalList();
-  //       getWantedCounterList();
-  //     });
-  //   });
-
-  //   super.initState();
-  // }
-
-  // void getTotalList() {
-  //   this.myContacts.forEach((contact) {
-  //     for (int i = 0; i < contact.primaryList.length; i++) {
-  //       if (!this.totalList.contains(contact.primaryList[i])) {
-  //         this.totalList.add(contact.primaryList[i]);
-  //       }
-  //     }
-  //     for (int i = 0; i < contact.secondaryList.length; i++) {
-  //       if (!this.totalList.contains(contact.secondaryList[i])) {
-  //         this.totalList.add(contact.secondaryList[i]);
-  //       }
-  //     }
-  //   });
-  // }
-
-  // void searchOperation(String searchText) {
-  //   searchResult.clear();
-  //   Map reversed = pokemonNamesDict.map((key, value) => MapEntry(value, key));
-
-  //   if (isSearching != null) {
-  //     // search in keys
-  //     for (int i = 0; i < this.pokemonNamesDict.keys.length; i++) {
-  //       String pokemon =
-  //           this.pokemonNamesDict[this.pokemonNamesDict.keys.toList()[i]];
-  //       if (pokemon.toLowerCase().contains(searchText.toLowerCase())) {
-  //         String key = reversed[pokemon];
-  //         for (int j = 0; j < this.myContacts.length; j++) {
-  //           for (int k = 0; k < this.myContacts[j].primaryList.length; k++) {
-  //             if (this.myContacts[j].primaryList[k].trim() ==
-  //                 key) if (!searchResult.contains(key)) searchResult.add(key);
-  //           }
-  //         }
-  //       }
-  //     }
-  //     // search in values
-  //     for (int i = 0; i < this.pokemonNamesDict.values.length; i++) {
-  //       String nr = reversed[this.pokemonNamesDict.values.toList()[i]];
-  //       if (nr.contains(searchText.toLowerCase())) {
-  //         for (int j = 0; j < this.myContacts.length; j++) {
-  //           for (int k = 0; k < this.myContacts[j].primaryList.length; k++) {
-  //             if (this.myContacts[j].primaryList[k].trim() ==
-  //                 nr.trim()) if (!searchResult.contains(nr))
-  //               searchResult.add(nr);
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
-
-  // void handleSearchStart() {
-  //   setState(() {
-  //     isSearching = true;
-  //   });
-  // }
-
-  // void handleSearchEnd() {
-  //   setState(() {
-  //     this.searchIcon = new Icon(
-  //       Icons.search,
-  //       color: iconColor,
-  //     );
-  //     this.appBarTitle = new Text(
-  //       languageFile['PAGE_CONTACTS']['TITLE_02'],
-  //       style: new TextStyle(
-  //         color: titleColor,
-  //       ),
-  //     );
-  //     isSearching = false;
-  //     this.textEditController.clear();
-  //   });
-  // }
-
-  // void searchPressed() {
-  //   if (this.searchIcon.icon == Icons.search) {
-  //     this.searchIcon = Icon(
-  //       Icons.close,
-  //       color: iconColor,
-  //     );
-  //     this.appBarTitle = TextField(
-  //       autofocus: true,
-  //       controller: this.textEditController,
-  //       style: new TextStyle(color: iconColor),
-  //       cursorColor: iconColor,
-  //       decoration: InputDecoration(
-  //         focusedBorder:
-  //             UnderlineInputBorder(borderSide: BorderSide(color: iconColor)),
-  //         prefixIcon: Icon(Icons.search, color: iconColor),
-  //         hintText: languageFile['PAGE_CONTACTS']['SEARCH'],
-  //         hintStyle: TextStyle(color: iconColor),
-  //       ),
-  //       onChanged: searchOperation,
-  //     );
-  //     handleSearchStart();
-  //   } else {
-  //     searchResult.clear();
-  //     handleSearchEnd();
-  //   }
-  // }
-
-  // void deleteContacts(BuildContext context) async {
-  //   await showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return AlertDialog(
-  //         backgroundColor: dialogBackgroundColor,
-  //         title: Text(
-  //           languageFile['PAGE_CONTACTS']['DIALOG_DELETE']['TITLE'],
-  //           style: TextStyle(color: textColor),
-  //         ),
-  //         content: Text(
-  //           languageFile['PAGE_CONTACTS']['DIALOG_DELETE']['DESCRIPTION'],
-  //           style: TextStyle(color: textColor),
-  //         ),
-  //         actions: <Widget>[
-  //           FlatButton(
-  //             child: Text(
-  //               languageFile['PAGE_CONTACTS']['DIALOG_DELETE']['CANCEL'],
-  //               style: TextStyle(color: buttonColor),
-  //             ),
-  //             onPressed: () => Navigator.of(context).pop(),
-  //           ),
-  //           FlatButton(
-  //             child: Text(
-  //               languageFile['PAGE_CONTACTS']['DIALOG_DELETE']['ACCEPT'],
-  //               style: TextStyle(color: buttonColor),
-  //             ),
-  //             onPressed: () {
-  //               setState(() {
-  //                 this.myContacts.clear();
-  //                 this.primaryListCounter.clear();
-  //                 this.secondaryListCounter.clear();
-  //               });
-  //               saveContactsFirebase(this.myContacts, this.myProfile);
-  //               Navigator.of(context).pop();
-  //             },
-  //           )
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-
-  // String getCandyList() {
-  //   String myCopyString = '';
-  //   List<String> candyList =
-  //       new List<String>.from(pokemonNamesDict.keys.toList());
-  //   this
-  //       .primaryListCounter
-  //       .keys
-  //       .toList()
-  //       .forEach((key) => candyList.remove(key));
-
-  //   for (int i = 0; i < candyList.length; i++) {
-  //     if (!candyList[i].contains('alolan'))
-  //       myCopyString = myCopyString + ',' + int.parse(candyList[i]).toString();
-  //   }
-  //   if (myCopyString != '') myCopyString = myCopyString.substring(1);
-
-  //   return myCopyString;
-  // }
-
-  Widget _buildAppBar() {
-    return AppBar(
-      title: Text(
-          AppLocalizations.of(context).translate('PAGE_CONTACTS.TITLE_01')),
-      backgroundColor: appBarColor,
-      actions: [
-        IconButton(
-          icon: Icon(
-            MdiIcons.pokeball,
-            color: iconColor,
-          ),
-          onPressed: () {},
-          // onPressed: () => setIconView(false, true),
-        ),
-        IconButton(
-          icon: Icon(
-            Icons.favorite,
-            color: iconColor,
-          ),
-          onPressed: () {},
-          // onPressed: () => setIconView(true, false),
-        ),
-        IconButton(
-          icon: Icon(Icons.delete),
-          onPressed: () {},
-          // onPressed: () => deleteContacts(context),
-        )
-      ],
-    );
-
-    // else {
-    //   return AppBar(
-    //     // title: this.appBarTitle,
-    //     backgroundColor: appBarColor,
-    //     actions: <Widget>[
-    //       IconButton(
-    //         icon: Icon(Icons.search),
-    //         // icon: this.searchIcon,
-    //         color: iconColor,
-    //         onPressed: () {},
-    //         // onPressed: () => searchPressed(),
-    //       ),
-    //       IconButton(
-    //         icon: Icon(MdiIcons.candycane),
-    //         onPressed: () {
-    //           // String copyToClipBoardString = getCandyList();
-    //           // copyToClipboard(this.scaffoldKey, copyToClipBoardString);
-    //         },
-    //       ),
-    //     ],
-    //   );
-    // }
-  }
-
-  // void setIconView(bool isFavorite, bool isOfficialCollection) {
-  //   setState(() {
-  //     this.isFavorite = isFavorite;
-  //     this.isOfficialCollection = isOfficialCollection;
-  //   });
-  // }
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  final TextEditingController _textController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     List<Widget> contactPages = [
-      // contactsPageBody(),
+      _contactsPageBody(),
       // wantedPageBody(),
     ];
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: backgroundColor,
+        resizeToAvoidBottomPadding: false,
+        backgroundColor: Color(0xff242423),
         key: this._scaffoldKey,
-        floatingActionButton: Visibility(
-          visible: true,
-          // visible: this.navIndex == 0 ? true : false,
-          child: FloatingActionButton(
-            backgroundColor: buttonColor,
-            child: Icon(
-              Icons.add,
-              color: buttonTextColor,
-            ),
-            onPressed: () => showDialog(
-              context: context,
-              builder: (context) => AddContactDialog(),
-            ),
+        body: contactPages[0],
+        bottomNavigationBar: Theme(
+          data: Theme.of(context).copyWith(
+            canvasColor: Color(0xff242423),
+            primaryColor: Color(0xffee6c4d),
+            textTheme: Theme.of(context).textTheme.copyWith(caption: TextStyle(color: Colors.white)),
+          ),
+          child: BottomNavigationBar(
+            currentIndex: 0,
+            fixedColor: buttonColor,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.people),
+                label: 'Contacts',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.donut_small),
+                label: 'Wanted',
+              ),
+            ],
+            onTap: (index) {},
           ),
         ),
-        appBar: _buildAppBar(),
-        // body: contactPages[this.navIndex],
-        // bottomNavigationBar: Theme(
-        //   data: Theme.of(context).copyWith(
-        //     canvasColor: backgroundColor,
-        //     primaryColor: buttonColor,
-        //     textTheme: Theme.of(context)
-        //         .textTheme
-        //         .copyWith(caption: TextStyle(color: subTextColor)),
-        //   ),
-        //   child: BottomNavigationBar(
-        //     currentIndex: this.navIndex,
-        //     fixedColor: buttonColor,
-        //     items: const <BottomNavigationBarItem>[
-        //       BottomNavigationBarItem(
-        //         icon: Icon(Icons.people),
-        //         title: Text('Contacts'),
-        //       ),
-        //       BottomNavigationBarItem(
-        //         icon: Icon(Icons.donut_small),
-        //         title: Text('Wanted'),
-        //       ),
-        //     ],
-        //     onTap: (index) {
-        //       setState(() {
-        //         this.navIndex = index;
-        //       });
-        //     },
-        //   ),
-        // ),
       ),
     );
   }
 
-  // String validateTradingCode(String id) {
-  //   if (id.length != 20)
-  //     return languageFile['PAGE_CONTACTS']['INVALID_CODE'];
-  //   else if (id[0] != '-')
-  //     return languageFile['PAGE_CONTACTS']['INVALID_CODE'];
-  //   else if (codeInContactList(id))
-  //     return languageFile['PAGE_CONTACTS']['INVALID_CODE_IN_LIST'];
-  //   // else if (code == myID)
-  //   //   return 'you cannot add yourself';
-  //   else
-  //     return null;
-  // }
+  Widget _contactsPageBody() {
+    return Column(
+      children: [
+        _buildHeader(),
+        SizedBox(height: 5),
+        Container(
+          padding: EdgeInsets.only(left: 8, right: 8),
+          height: Device.height - Device.safeAreaTop - 177 - Device.safeAreaBottom,
+          child: BlocBuilder<ContactsCubit, ContactsState>(builder: (contex, state) {
+            if (state is ContactsLoaded)
+              return this._buildLoaded();
+            else
+              return Container();
+          }),
+        ),
+      ],
+    );
+  }
 
-  // bool codeInContactList(String id) {
-  //   for (int i = 0; i < this.myContacts.length; i++) {
-  //     if (this.myContacts[i].id == id) return true;
-  //   }
-  //   return false;
-  // }
+  Widget _buildHeader() {
+    return Padding(
+      padding: EdgeInsets.only(top: 5, left: 5, right: 5, bottom: 12),
+      child: Column(
+        children: [
+          _buildNavbar(),
+          SizedBox(height: 10),
+          Padding(
+            padding: EdgeInsets.only(left: 8, right: 8),
+            child: Row(
+              children: [
+                _buildTradingCodeInput(),
+                SizedBox(width: 14),
+                _buildAddButton(),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-  // void validateInputs() {
-  //   if (this.formKey.currentState.validate()) {
-  //     this.formKey.currentState.save();
-  //   } else {
-  //     setState(() {
-  //       this.autoValidate = true;
-  //     });
-  //   }
-  // }
+  Widget _buildNavbar() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+        ),
+        Text(
+          AppLocalizations.of(context).translate('PAGE_OFFICIAL_COLLECTION.LUCKYDEX.TITLE'),
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        Container(
+          width: 48,
+          height: 48,
+          padding: EdgeInsets.all(8),
+        ),
+      ],
+    );
+  }
 
-  // void addContact() {
-  //   Contact newContact = new Contact();
-  //   OfficialCollection officialCollection = new OfficialCollection();
-  //   newContact.id = this.validId;
+  Widget _buildTradingCodeInput() {
+    return Container(
+      height: 30,
+      width: Device.width / 1.4,
+      child: TextField(
+        maxLength: 20,
+        controller: this._textController,
+        cursorColor: Color(0xff242423),
+        decoration: InputDecoration(
+          counterText: '',
+          filled: true,
+          fillColor: Colors.white,
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+            borderRadius: BorderRadius.circular(32.0),
+          ),
+          contentPadding: EdgeInsets.symmetric(horizontal: 20),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+            borderRadius: BorderRadius.circular(32.0),
+          ),
+          hintText: "-LpARDUIetmYbFdUTEsY",
+        ),
+      ),
+    );
+  }
 
-  //   database
-  //       .reference()
-  //       .child(newContact.id)
-  //       .once()
-  //       .then((DataSnapshot snapshot) {
-  //     // account name
-  //     if (snapshot.value['account_name'] != null)
-  //       newContact.accountName = snapshot.value['account_name'];
-  //     else
-  //       newContact.accountName = languageFile['PAGE_CONTACTS']['INVALID_NAME'];
+  Widget _buildAddButton() {
+    return InkWell(
+      onTap: () => this._addContact(),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.15),
+          borderRadius: BorderRadius.circular(10.0),
+          border: Border.all(
+            width: 1.5,
+            color: Colors.white.withOpacity(0.20),
+          ),
+        ),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
 
-  //     // icon
-  //     if (snapshot.value['icon'] != null)
-  //       newContact.icon = snapshot.value['icon'];
-  //     else
-  //       newContact.icon = '001';
+  Widget _buildLoaded() {
+    return BlocBuilder<ContactsCubit, ContactsState>(builder: (contex, state) {
+      return ListView.builder(
+        itemCount: state.contacts.keys.length,
+        itemBuilder: (context, i) {
+          String contactKey = state.contacts.keys.toList()[i];
+          return GridTile(
+            child: InkResponse(
+              child: Text(contactKey),
+              // onTap: () => BlocProvider.of<OfficialCubit>(context).toggleLuckyShiny(pokemonKey, Official.Lucky),
+            ),
+          );
+        },
+      );
+    });
+  }
 
-  //     // primary list
-  //     if (snapshot.value['myMostWantedList'] != null &&
-  //         snapshot.value['myMostWantedList'] != '[]')
-  //       newContact.primaryList = snapshot.value['myMostWantedList']
-  //           .toString()
-  //           .replaceAll('[', '')
-  //           .replaceAll(']', '')
-  //           .replaceAll(' ', '')
-  //           .split(',');
-  //     else
-  //       newContact.primaryList = new List<String>();
-
-  //     // secondary list
-  //     if (snapshot.value['myNeedList'] != null &&
-  //         snapshot.value['myNeedList'] != '[]')
-  //       newContact.secondaryList = snapshot.value['myNeedList']
-  //           .toString()
-  //           .replaceAll('[', '')
-  //           .replaceAll(']', '')
-  //           .replaceAll(' ', '')
-  //           .split(',');
-  //     else
-  //       newContact.secondaryList = new List<String>();
-
-  //     if (snapshot.value['officialCollection'] != null) {
-  //       if (snapshot.value['officialCollection']['luckyList'] != null)
-  //         officialCollection.luckyList = snapshot.value['officialCollection']
-  //                 ['luckyList']
-  //             .toString()
-  //             .replaceAll('[', '')
-  //             .replaceAll(']', '')
-  //             .replaceAll(' ', '')
-  //             .split(',');
-  //       else
-  //         officialCollection.luckyList = new List<String>();
-
-  //       if (snapshot.value['officialCollection']['shinyList'] != null)
-  //         officialCollection.shinyList = snapshot.value['officialCollection']
-  //                 ['shinyList']
-  //             .toString()
-  //             .replaceAll('[', '')
-  //             .replaceAll(']', '')
-  //             .replaceAll(' ', '')
-  //             .split(',');
-  //       else
-  //         officialCollection.shinyList = new List<String>();
-
-  //       if (snapshot.value['officialCollection']['genderList']['maleList'] !=
-  //           null)
-  //         officialCollection.maleList = snapshot.value['officialCollection']
-  //                 ['genderList']['maleList']
-  //             .toString()
-  //             .replaceAll('[', '')
-  //             .replaceAll(']', '')
-  //             .replaceAll(' ', '')
-  //             .split(',');
-  //       else
-  //         officialCollection.maleList = new List<String>();
-
-  //       if (snapshot.value['officialCollection']['genderList']['femaleList'] !=
-  //           null)
-  //         officialCollection.femaleList = snapshot.value['officialCollection']
-  //                 ['genderList']['femaleList']
-  //             .toString()
-  //             .replaceAll('[', '')
-  //             .replaceAll(']', '')
-  //             .replaceAll(' ', '')
-  //             .split(',');
-  //       else
-  //         officialCollection.femaleList = new List<String>();
-
-  //       if (snapshot.value['officialCollection']['genderList']['neutralList'] !=
-  //           null)
-  //         officialCollection.neutralList = snapshot.value['officialCollection']
-  //                 ['genderList']['neutralList']
-  //             .toString()
-  //             .replaceAll('[', '')
-  //             .replaceAll(']', '')
-  //             .replaceAll(' ', '')
-  //             .split(',');
-  //       else
-  //         officialCollection.neutralList = new List<String>();
-  //     }
-
-  //     newContact.officialCollection = officialCollection;
-
-  //     setState(() {
-  //       this.myContacts.add(newContact);
-  //     });
-
-  //     getTotalList();
-  //     getWantedCounterList();
-
-  //     saveContactsFirebase(this.myContacts, this.myProfile);
-  //   });
-  // }
-
-  // void getWantedCounterList() {
-  //   for (int i = 0; i < this.myContacts.length; i++) {
-  //     for (int j = 0; j < this.myContacts[i].primaryList.length; j++) {
-  //       this.primaryListCounter[this.myContacts[i].primaryList[j]] = 0;
-  //     }
-  //     for (int j = 0; j < this.myContacts[i].secondaryList.length; j++) {
-  //       this.secondaryListCounter[this.myContacts[i].secondaryList[j]] = 0;
-  //     }
-  //   }
-
-  //   for (int i = 0; i < this.myContacts.length; i++) {
-  //     for (int j = 0; j < this.myContacts[i].primaryList.length; j++) {
-  //       this.primaryListCounter[this.myContacts[i].primaryList[j]]++;
-  //     }
-  //     for (int j = 0; j < this.myContacts[i].secondaryList.length; j++) {
-  //       this.secondaryListCounter[this.myContacts[i].secondaryList[j]]++;
-  //     }
-  //   }
-  // }
-
-  // List<Widget> getContactIcons(int i) {
-  //   List<Widget> iconWidgets = List<Widget>();
-  //   if (this.isOfficialCollection) {
-  //     iconWidgets.add(
-  //       IconButton(
-  //         icon: Icon(
-  //           MdiIcons.pokeball,
-  //           color: buttonColor,
-  //         ),
-  //         onPressed: () {
-  //           Navigator.push(
-  //             context,
-  //             MaterialPageRoute(
-  //               builder: (context) => ContactOfficialCollectionSubpage(
-  //                   this.myContacts[i], this.pokemonNamesDict),
-  //             ),
-  //           );
-  //         },
-  //       ),
-  //     );
-  //     iconWidgets.add(
-  //       GestureDetector(
-  //         onTap: () {
-  //           Navigator.push(
-  //             context,
-  //             MaterialPageRoute(
-  //               builder: (context) => ContactOfficialCollectionSubpage(
-  //                   this.myContacts[i], this.pokemonNamesDict),
-  //             ),
-  //           );
-  //         },
-  //         child: Text(
-  //           (this.pokemonNamesDictCopy.length -
-  //                       this.myContacts[i].officialCollection.luckyList.length)
-  //                   .toString() +
-  //               ' | ' +
-  //               (this.pokemonNamesDictCopy.length -
-  //                       this.myContacts[i].officialCollection.shinyList.length)
-  //                   .toString(),
-  //           style: TextStyle(color: textColor),
-  //           textScaleFactor: 1.2,
-  //         ),
-  //       ),
-  //     );
-  //   }
-  //   if (this.isFavorite) {
-  //     iconWidgets.add(
-  //       IconButton(
-  //         icon: Icon(
-  //           Icons.favorite,
-  //           color: primaryListColor,
-  //         ),
-  //         onPressed: () {
-  //           Navigator.push(
-  //             context,
-  //             MaterialPageRoute(
-  //               builder: (context) => ContactPrimaryListSubpage(
-  //                   this.myContacts[i], this.pokemonNamesDict),
-  //             ),
-  //           );
-  //         },
-  //       ),
-  //     );
-  //     iconWidgets.add(
-  //       GestureDetector(
-  //         onTap: () {
-  //           Navigator.push(
-  //             context,
-  //             MaterialPageRoute(
-  //               builder: (context) => ContactPrimaryListSubpage(
-  //                   this.myContacts[i], this.pokemonNamesDict),
-  //             ),
-  //           );
-  //         },
-  //         child: Text(
-  //           this.myContacts[i].primaryList.length.toString(),
-  //           style: TextStyle(color: textColor),
-  //           textScaleFactor: 1.2,
-  //         ),
-  //       ),
-  //     );
-  //   }
-  //   return iconWidgets;
-  // }
-
-  // void goToPage(int i) {
-  //   if (this.isFavorite) {
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) => ContactPrimaryListSubpage(
-  //             this.myContacts[i], this.pokemonNamesDict),
-  //       ),
-  //     );
-  //   } else if (this.isOfficialCollection) {
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) => ContactOfficialCollectionSubpage(
-  //             this.myContacts[i], this.pokemonNamesDict),
-  //       ),
-  //     );
-  //   }
-  // }
-
-  // Widget contactsPageBody() {
-  //   this.myContacts.sort((a, b) => a.accountName
-  //       .toString()
-  //       .toLowerCase()
-  //       .compareTo(b.accountName.toString().toLowerCase()));
-  //   return Container(
-  //     color: backgroundColor,
-  //     child: ListView.separated(
-  //       separatorBuilder: (context, index) => Container(
-  //         child: Divider(
-  //           color: dividerColor,
-  //         ),
-  //       ),
-  //       itemCount: this.myContacts.length,
-  //       itemBuilder: (context, i) {
-  //         String idx = this.myContacts[i].icon;
-  //         return Dismissible(
-  //           key: Key(this.myContacts[i].id),
-  //           direction: DismissDirection.endToStart,
-  //           background: Container(
-  //             color: dismissibleColor,
-  //             child: ListTile(
-  //               title: Text(
-  //                 languageFile['PAGE_CONTACTS']['DELETE_CONTACT'],
-  //                 style: TextStyle(color: buttonTextColor),
-  //                 textAlign: TextAlign.center,
-  //               ),
-  //               trailing: Icon(
-  //                 Icons.delete,
-  //                 color: buttonTextColor,
-  //               ),
-  //             ),
-  //           ),
-  //           child: Container(
-  //             child: ListTile(
-  //               leading: Container(
-  //                 height: 40,
-  //                 width: 40,
-  //                 decoration: new BoxDecoration(
-  //                   color: Colors.grey[300],
-  //                   shape: BoxShape.circle,
-  //                   image: new DecorationImage(
-  //                     fit: BoxFit.scaleDown,
-  //                     image: getPokemonAssetImage(idx),
-  //                   ),
-  //                 ),
-  //               ),
-  //               title: Text(
-  //                 this.myContacts[i].accountName,
-  //                 style: TextStyle(color: textColor),
-  //               ),
-  //               trailing: Row(
-  //                 mainAxisSize: MainAxisSize.min,
-  //                 children: getContactIcons(i),
-  //               ),
-  //               onTap: () => goToPage(i),
-  //             ),
-  //           ),
-  //           onDismissed: (direction) {
-  //             String name = this.myContacts[i].accountName;
-  //             deleteFromCounterList(i);
-  //             this.myContacts.removeAt(i);
-
-  //             saveContactsFirebase(this.myContacts, this.myProfile);
-  //             Scaffold.of(context).showSnackBar(SnackBar(
-  //               content: Text("$name" +
-  //                   languageFile['PAGE_CONTACTS']['DELETE_CONTACT_SNACKBAR']),
-  //               duration: Duration(milliseconds: 2000),
-  //             ));
-  //           },
-  //         );
-  //       },
-  //     ),
-  //   );
-  // }
-
-  // void deleteFromCounterList(int i) {
-  //   for (int j = 0; j < this.myContacts[i].primaryList.length; j++) {
-  //     this.primaryListCounter[this.myContacts[i].primaryList[j]]--;
-  //     if (this.primaryListCounter[this.myContacts[i].primaryList[j]] < 1)
-  //       this.primaryListCounter.remove(this.myContacts[i].primaryList[j]);
-  //   }
-  //   for (int j = 0; j < this.myContacts[i].secondaryList.length; j++) {
-  //     this.secondaryListCounter[this.myContacts[i].secondaryList[j]]--;
-  //     if (this.secondaryListCounter[this.myContacts[i].secondaryList[j]] < 1)
-  //       this.secondaryListCounter.remove(this.myContacts[i].secondaryList[j]);
-  //   }
-  // }
-
-  // void sortList() {
-  //   for (int i = 0; i < this.myContacts.length; i++) {
-  //     this
-  //         .myContacts[i]
-  //         .primaryList
-  //         .sort((a, b) => a.trim().compareTo(b.trim()));
-  //     this
-  //         .myContacts[i]
-  //         .secondaryList
-  //         .sort((a, b) => a.trim().compareTo(b.trim()));
-  //   }
-
-  //   this.totalList.sort((a, b) => a.trim().compareTo(b.trim()));
-  // }
-
-  // Widget wantedPageBody() {
-  //   sortList();
-  //   List<dynamic> tmpList = this.primaryListCounter.keys.toList()..sort();
-
-  //   return Container(
-  //     color: backgroundColor,
-  //     child: ListView.builder(
-  //       itemCount:
-  //           searchResult.length != 0 || textEditController.text.isNotEmpty
-  //               ? this.searchResult.length
-  //               : this.primaryListCounter.length,
-  //       itemBuilder: (context, i) {
-  //         String idx;
-  //         searchResult.length != 0 || textEditController.text.isNotEmpty
-  //             ? idx = this.searchResult.elementAt(i)
-  //             : idx = tmpList.elementAt(i);
-  //         return ListTile(
-  //           leading: getPokemonImage(idx),
-  //           title: Text(
-  //             "#" + idx.split('_')[0] + ' ' + this.pokemonNamesDict[idx],
-  //             style: TextStyle(color: textColor),
-  //           ),
-  //           trailing: getTrailing(idx),
-  //           onTap: () {
-  //             Navigator.push(
-  //               context,
-  //               MaterialPageRoute(
-  //                   builder: (context) => ContactWantedPrimaryListSubpage(
-  //                       this.myContacts, idx, this.pokemonNamesDict)),
-  //             );
-  //           },
-  //         );
-  //       },
-  //     ),
-  //   );
-  // }
-
-  // Widget getTrailing(String idx) {
-  //   return Row(
-  //     mainAxisSize: MainAxisSize.min,
-  //     children: <Widget>[
-  //       IconButton(
-  //         icon: Icon(
-  //           Icons.favorite,
-  //           color: primaryListColor,
-  //         ),
-  //         onPressed: () {
-  //           Navigator.push(
-  //             context,
-  //             MaterialPageRoute(
-  //                 builder: (context) => ContactWantedPrimaryListSubpage(
-  //                     this.myContacts, idx, this.pokemonNamesDict)),
-  //           );
-  //         },
-  //       ),
-  //       Text(
-  //         this.primaryListCounter[idx].toString(),
-  //         style: TextStyle(color: textColor),
-  //         textScaleFactor: 1.2,
-  //       ),
-  //     ],
-  //   );
-  // }
+  void _addContact() {
+    BlocProvider.of<ContactsCubit>(context).addContact(this._textController.text);
+    this._textController.clear();
+  }
 }

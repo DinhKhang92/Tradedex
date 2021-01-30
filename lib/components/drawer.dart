@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:tradedex/Global/GlobalConstants.dart';
 import 'package:tradedex/localization/app_localization.dart';
 import 'package:tradedex/cubit/account_cubit.dart';
 
+import 'package:flutter/services.dart';
+
+import 'package:tradedex/model/trainer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DrawerComponent extends StatefulWidget {
@@ -11,7 +13,7 @@ class DrawerComponent extends StatefulWidget {
   State<StatefulWidget> createState() => DrawerComponentState();
 }
 
-class DrawerComponentState extends State<DrawerComponent> {
+class DrawerComponentState extends State<DrawerComponent> with Trainer {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -20,7 +22,6 @@ class DrawerComponentState extends State<DrawerComponent> {
         child: ListView(
           children: <Widget>[
             _buildDrawerHeader(),
-            _buildSignIn(),
             _buildHome(),
             _buildPrimary(),
             _buildSecondary(),
@@ -86,15 +87,11 @@ class DrawerComponentState extends State<DrawerComponent> {
               child: Chip(
                 padding: EdgeInsets.only(left: 12, right: 12),
                 backgroundColor: Color(0xffee6c4d),
-                label: Text(
-                  AppLocalizations.of(context).translate('PAGE_DRAWER.COPY_TRADING_CODE'),
-                ),
+                label: Text(AppLocalizations.of(context).translate('PAGE_DRAWER.COPY_TRADING_CODE')),
               ),
-              onPressed: () {},
-              // onPressed: () => copyToClipboard(this.scaffoldKey, this.myProfile.id),
+              onPressed: () => _copyToClipboard(Trainer.tc),
             ),
           ),
-          // SizedBox(height: 10),
         ],
       ),
     );
@@ -110,22 +107,6 @@ class DrawerComponentState extends State<DrawerComponent> {
           overflow: TextOverflow.ellipsis,
         );
       },
-    );
-  }
-
-  Widget _buildSignIn() {
-    return Container(
-      child: ListTile(
-        leading: Icon(
-          Icons.account_circle,
-          color: Color(0xffee6c4d),
-        ),
-        title: Text(
-          AppLocalizations.of(context).translate('PAGE_DRAWER.SIGN_IN'),
-          style: TextStyle(color: Colors.white),
-        ),
-        onTap: () => Navigator.of(context).pushNamed('/'),
-      ),
     );
   }
 
@@ -235,6 +216,17 @@ class DrawerComponentState extends State<DrawerComponent> {
         style: TextStyle(color: Colors.white),
       ),
       onTap: () => Navigator.of(context).pushNamed('/about'),
+    );
+  }
+
+  void _copyToClipboard(String tc) {
+    Clipboard.setData(ClipboardData(text: tc));
+    Scaffold.of(context).showSnackBar(_buildSnackbar());
+  }
+
+  Widget _buildSnackbar() {
+    return SnackBar(
+      content: Text(AppLocalizations.of(context).translate('PAGE_PRIMARY_LIST.COPY_TO_CLIPBOARD')),
     );
   }
 }

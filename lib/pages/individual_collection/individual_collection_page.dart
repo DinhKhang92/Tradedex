@@ -79,7 +79,7 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage> with
         SizedBox(height: 5),
         Container(
           padding: EdgeInsets.only(left: 8, right: 8),
-          height: Device.height - Device.safeAreaHeight - 160,
+          height: Device.height - Device.safeAreaTop - 160 - Device.safeAreaBottom,
           child: BlocBuilder<IndividualCubit, IndividualState>(
             builder: (context, state) {
               if (state is IndividualLoaded) {
@@ -257,7 +257,6 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage> with
         maxLength: 10,
         controller: this._textController,
         cursorColor: Color(0xff242423),
-        onChanged: (value) => BlocProvider.of<IndividualCubit>(context).setCollectionName(value),
         decoration: InputDecoration(
           counterText: '',
           filled: true,
@@ -279,7 +278,8 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage> with
 
   void _createList(String selection) {
     Individual key = this.dropdownMap.keys.firstWhere((element) => this.dropdownMap[element] == selection);
-    BlocProvider.of<IndividualCubit>(context).addCollection(key);
+    String collectionName = this._textController.text;
+    BlocProvider.of<IndividualCubit>(context).addCollection(key, collectionName);
 
     FocusScope.of(context).unfocus();
     this._textController.clear();

@@ -28,10 +28,11 @@ class SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: backgroundColor,
-        body: Center(
+    return Scaffold(
+      resizeToAvoidBottomPadding: false,
+      backgroundColor: backgroundColor,
+      body: SafeArea(
+        child: Center(
           child: Column(
             children: <Widget>[
               SizedBox(height: MediaQuery.of(context).size.height / 3.5),

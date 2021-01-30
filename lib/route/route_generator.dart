@@ -10,15 +10,8 @@ import 'package:tradedex/pages/home/pages/secondary/secondary_page.dart';
 import 'package:tradedex/pages/official_collection/official_collection_page.dart';
 import 'package:tradedex/pages/about/about_page.dart';
 import 'package:tradedex/pages/settings/settings_page.dart';
-
-// Alolan,
-// Event,
-// Galar,
-// Regional,
-// Pokedex,
-// Shadow,
-// Spinda,
-// Unown,
+import 'package:tradedex/pages/settings/pages/language/language_page.dart';
+import 'package:tradedex/pages/settings/pages/faq/faq_page.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -43,6 +36,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => ContactsPage());
       case '/settings':
         return MaterialPageRoute(builder: (_) => SettingsPage());
+      case '/language':
+        return MaterialPageRoute(builder: (_) => LanguagePage());
+      case '/faq':
+        return MaterialPageRoute(builder: (_) => FaqPage());
       case '/about':
         return MaterialPageRoute(builder: (_) => AboutPage());
       default:

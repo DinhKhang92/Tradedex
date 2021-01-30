@@ -19,7 +19,7 @@ class SettingsListItem extends StatelessWidget with Device {
     return Align(
       alignment: Alignment.center,
       child: GestureDetector(
-        onTap: () => this.fn,
+        onTap: () => this.fn(),
         child: Container(
           padding: EdgeInsets.only(top: 12, right: 20, bottom: 12, left: 20),
           decoration: BoxDecoration(

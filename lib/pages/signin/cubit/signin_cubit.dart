@@ -80,4 +80,8 @@ class SigninCubit extends Cubit<SigninState> with Trainer {
     this._googleSignIn.signOut();
     emit(SigninInitial(tc: state.tc));
   }
+
+  void dispose() {
+    this.close();
+  }
 }

@@ -11,4 +11,8 @@ class LocalizationCubit extends Cubit<LocalizationState> {
   LocalizationCubit() : super(LocalizationState(locale: Locale(languageCode, countryCode)));
 
   void setLocale(Locale newLocale) => emit(LocalizationState(locale: newLocale));
+
+  void dispose() {
+    this.close();
+  }
 }

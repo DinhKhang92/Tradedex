@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:tradedex/localization/app_localization.dart';
 import 'package:tradedex/cubit/account_cubit.dart';
 import 'package:tradedex/model/device.dart';
 import 'package:tradedex/pages/settings/components/settings_list_item.dart';
+import 'package:tradedex/pages/signin/cubit/signin_cubit.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -12,81 +13,81 @@ class SettingsPage extends StatefulWidget {
 }
 
 class SettingsPageState extends State<SettingsPage> with Device {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final String _urlPp = 'https://github.com/DinhKhang92/Tradedex/blob/master/Privacy_Policy.md';
+  final String _urlToS = 'https://github.com/DinhKhang92/Tradedex/blob/master/Terms_of_Service.md';
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomPadding: false,
-        backgroundColor: Color(0xff242423),
-        key: this._scaffoldKey,
-        body: _buildContent(),
-      ),
+    return Scaffold(
+      resizeToAvoidBottomPadding: false,
+      backgroundColor: Color(0xff242423),
+      body: _buildContent(),
     );
   }
 
   Widget _buildContent() {
-    return Column(
-      children: [
-        _buildHeader(),
-        Container(
-          padding: EdgeInsets.only(left: 8, right: 8),
-          height: Device.height - Device.safeAreaHeight - 73,
-          child: ListView(
-            children: [
-              SizedBox(height: 20),
-              _buildIcon(),
-              SizedBox(height: 20),
-              _buildName(),
-              SizedBox(height: 5),
-              _buildTradingCode(),
-              SizedBox(height: 30),
-              SettingsListItem(
-                fn: null,
-                leadingIcon: Icons.person_outline,
-                title: AppLocalizations.of(context).translate('PAGE_SETTINGS.PROFILE'),
-                trailingIcon: Icons.arrow_forward_ios,
-              ),
-              SizedBox(height: 15),
-              SettingsListItem(
-                fn: null,
-                leadingIcon: Icons.language,
-                title: AppLocalizations.of(context).translate('PAGE_SETTINGS.LANGUAGE'),
-                trailingIcon: Icons.arrow_forward_ios,
-              ),
-              SizedBox(height: 15),
-              SettingsListItem(
-                fn: null,
-                leadingIcon: Icons.help_outline,
-                title: AppLocalizations.of(context).translate('PAGE_SETTINGS.HELP_AND_SUPPORT'),
-                trailingIcon: Icons.arrow_forward_ios,
-              ),
-              SizedBox(height: 15),
-              SettingsListItem(
-                fn: null,
-                leadingIcon: Icons.article_outlined,
-                title: AppLocalizations.of(context).translate('PAGE_SETTINGS.TERMS_OF_SERVICE'),
-                trailingIcon: Icons.arrow_forward_ios,
-              ),
-              SizedBox(height: 15),
-              SettingsListItem(
-                fn: null,
-                leadingIcon: Icons.security,
-                title: AppLocalizations.of(context).translate('PAGE_SETTINGS.PRIVACY_POLICY'),
-                trailingIcon: Icons.arrow_forward_ios,
-              ),
-              SizedBox(height: 15),
-              SettingsListItem(
-                fn: null,
-                leadingIcon: Icons.logout,
-                title: AppLocalizations.of(context).translate('PAGE_SETTINGS.LOGOUT'),
-                trailingIcon: null,
-              ),
-            ],
-          ),
-        )
-      ],
+    return SafeArea(
+      child: Column(
+        children: [
+          _buildHeader(),
+          Container(
+            padding: EdgeInsets.only(left: 8, right: 8),
+            height: Device.height - Device.safeAreaTop - 73 - Device.safeAreaBottom,
+            child: ListView(
+              children: [
+                SizedBox(height: 20),
+                _buildIcon(),
+                SizedBox(height: 20),
+                _buildName(),
+                SizedBox(height: 5),
+                _buildTradingCode(),
+                SizedBox(height: 30),
+                SettingsListItem(
+                  fn: null,
+                  leadingIcon: Icons.person_outline,
+                  title: AppLocalizations.of(context).translate('PAGE_SETTINGS.PROFILE'),
+                  trailingIcon: Icons.arrow_forward_ios,
+                ),
+                SizedBox(height: 15),
+                SettingsListItem(
+                  fn: this._navigateToLanguagePage,
+                  leadingIcon: Icons.language,
+                  title: AppLocalizations.of(context).translate('PAGE_SETTINGS.LANGUAGE'),
+                  trailingIcon: Icons.arrow_forward_ios,
+                ),
+                SizedBox(height: 15),
+                SettingsListItem(
+                  fn: this._navigateToFaqPage,
+                  leadingIcon: Icons.help_outline,
+                  title: AppLocalizations.of(context).translate('PAGE_SETTINGS.HELP_AND_SUPPORT'),
+                  trailingIcon: Icons.arrow_forward_ios,
+                ),
+                SizedBox(height: 15),
+                SettingsListItem(
+                  fn: this._navigateToToS,
+                  leadingIcon: Icons.article_outlined,
+                  title: AppLocalizations.of(context).translate('PAGE_SETTINGS.TERMS_OF_SERVICE'),
+                  trailingIcon: Icons.arrow_forward_ios,
+                ),
+                SizedBox(height: 15),
+                SettingsListItem(
+                  fn: this._navigateToPrivacy,
+                  leadingIcon: Icons.security,
+                  title: AppLocalizations.of(context).translate('PAGE_SETTINGS.PRIVACY_POLICY'),
+                  trailingIcon: Icons.arrow_forward_ios,
+                ),
+                SizedBox(height: 15),
+                SettingsListItem(
+                  fn: this._signout,
+                  leadingIcon: Icons.logout,
+                  title: AppLocalizations.of(context).translate('PAGE_SETTINGS.LOGOUT'),
+                  trailingIcon: null,
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -195,33 +196,24 @@ class SettingsPageState extends State<SettingsPage> with Device {
     );
   }
 
-  Widget _buildCopyTradingCode() {
-    return Center(
-      child: BlocBuilder<AccountCubit, AccountState>(
-        builder: (context, state) {
-          return FlatButton(
-            child: Chip(
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              backgroundColor: Color(0xffee6c4d),
-              label: Text(
-                AppLocalizations.of(context).translate('PAGE_DRAWER.COPY_TRADING_CODE'),
-              ),
-            ),
-            onPressed: () => _copyToClipboard(state.tc),
-          );
-        },
-      ),
-    );
+  void _navigateToLanguagePage() {
+    Navigator.of(context).pushNamed('/language');
   }
 
-  void _copyToClipboard(String copyString) {
-    Clipboard.setData(ClipboardData(text: copyString));
-    this._scaffoldKey.currentState.showSnackBar(_buildSnackbar());
+  void _navigateToFaqPage() {
+    Navigator.of(context).pushNamed('/faq');
   }
 
-  Widget _buildSnackbar() {
-    return SnackBar(
-      content: Text(AppLocalizations.of(context).translate('PAGE_PRIMARY_LIST.COPY_TO_CLIPBOARD')),
-    );
+  void _navigateToToS() async {
+    if (await canLaunch(this._urlToS)) await launch(this._urlToS);
+  }
+
+  void _navigateToPrivacy() async {
+    if (await canLaunch(this._urlPp)) await launch(this._urlPp);
+  }
+
+  void _signout() {
+    BlocProvider.of<SigninCubit>(context).signout();
+    Navigator.of(context).pushNamed('/');
   }
 }

@@ -1,5 +1,6 @@
 abstract class Device {
-  static double safeAreaHeight;
+  static double safeAreaTop;
   static double height;
   static double width;
+  static double safeAreaBottom;
 }

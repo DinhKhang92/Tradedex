@@ -36,7 +36,7 @@ class PrimaryPageState extends State<PrimaryPage> with Device {
             child: BlocBuilder<PokemonCubit, PokemonState>(
               builder: (context, state) {
                 return Container(
-                  height: Device.height - Device.safeAreaHeight - 77 - 34,
+                  height: Device.height - Device.safeAreaTop - 77 - Device.safeAreaBottom,
                   child: ListView.separated(
                     separatorBuilder: (context, index) => Container(
                       height: 6,
@@ -87,15 +87,13 @@ class PrimaryPageState extends State<PrimaryPage> with Device {
   }
 
   void _copyToClipboard(Map primaryPokemon) {
-    String copyString =
-        BlocProvider.of<PokemonCubit>(context).copyPrimary(primaryPokemon);
+    String copyString = BlocProvider.of<PokemonCubit>(context).copyPrimary(primaryPokemon);
     Clipboard.setData(ClipboardData(text: copyString));
     this._scaffoldKey.currentState.showSnackBar(_buildSnackbar());
   }
 
   Widget _buildRowElement(String pokemonKey) {
-    String pokemonName =
-        AppLocalizations.of(context).translate('POKEMON.$pokemonKey');
+    String pokemonName = AppLocalizations.of(context).translate('POKEMON.$pokemonKey');
     String number = pokemonKey.split('_').first;
     return Container(
       decoration: BoxDecoration(
@@ -117,8 +115,7 @@ class PrimaryPageState extends State<PrimaryPage> with Device {
             Icons.favorite,
             color: Color(0xffee6c4d),
           ),
-          onPressed: () =>
-              BlocProvider.of<PokemonCubit>(context).togglePrimary(pokemonKey),
+          onPressed: () => BlocProvider.of<PokemonCubit>(context).togglePrimary(pokemonKey),
         ),
       ),
     );
@@ -126,8 +123,7 @@ class PrimaryPageState extends State<PrimaryPage> with Device {
 
   Widget _buildSnackbar() {
     return SnackBar(
-      content: Text(AppLocalizations.of(context)
-          .translate('PAGE_PRIMARY_LIST.COPY_TO_CLIPBOARD')),
+      content: Text(AppLocalizations.of(context).translate('PAGE_PRIMARY_LIST.COPY_TO_CLIPBOARD')),
     );
   }
 }
