@@ -3,7 +3,6 @@ import 'package:tradedex/Contacts/Subpages/ContactOfficialCollectionSubpage.dart
 import 'package:tradedex/Contacts/Subpages/ContactPrimaryListSubpage.dart';
 import 'package:tradedex/Contacts/Subpages/ContactWantedPrimaryListSubpage.dart';
 import 'package:tradedex/Global/Components/copyToClipboard.dart';
-import 'package:tradedex/Global/Components/getPokemonImage.dart';
 import 'package:tradedex/Global/Components/loadDataFirebase.dart';
 import 'package:tradedex/Global/Components/saveDataFirebase.dart';
 import 'package:tradedex/Global/GlobalConstants.dart';
@@ -13,6 +12,8 @@ import 'package:tradedex/localization/app_localization.dart';
 import 'package:tradedex/model/device.dart';
 import 'package:tradedex/pages/contacts/cubit/contacts_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:tradedex/components/pokemon_image.dart';
 
 class ContactsPage extends StatefulWidget {
   ContactsPage();
@@ -49,8 +50,7 @@ class ContactsPageState extends State<ContactsPage> with Device {
           ),
           child: BottomNavigationBar(
             currentIndex: 0,
-            fixedColor: buttonColor,
-            items: const <BottomNavigationBarItem>[
+            items: [
               BottomNavigationBarItem(
                 icon: Icon(Icons.people),
                 label: 'Contacts',
@@ -182,10 +182,24 @@ class ContactsPageState extends State<ContactsPage> with Device {
         itemCount: state.contacts.keys.length,
         itemBuilder: (context, i) {
           String contactKey = state.contacts.keys.toList()[i];
-          return GridTile(
-            child: InkResponse(
-              child: Text(contactKey),
-              // onTap: () => BlocProvider.of<OfficialCubit>(context).toggleLuckyShiny(pokemonKey, Official.Lucky),
+          String name = state.contacts[contactKey]['name'];
+          String icon = state.contacts[contactKey]['icon'];
+          return Container(
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.15),
+              borderRadius: BorderRadius.circular(10.0),
+              border: Border.all(
+                width: 1.5,
+                color: Colors.white.withOpacity(0.20),
+              ),
+            ),
+            child: ListTile(
+              leading: getPokemonImage(icon),
+              title: Text(
+                name,
+                style: TextStyle(color: Colors.white),
+              ),
+              onLongPress: () => BlocProvider.of<ContactsCubit>(context).deleteContact(contactKey),
             ),
           );
         },
@@ -195,6 +209,6 @@ class ContactsPageState extends State<ContactsPage> with Device {
 
   void _addContact() {
     BlocProvider.of<ContactsCubit>(context).addContact(this._textController.text);
-    this._textController.clear();
+    // this._textController.clear();
   }
 }

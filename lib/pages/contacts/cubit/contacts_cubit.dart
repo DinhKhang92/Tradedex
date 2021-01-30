@@ -9,10 +9,15 @@ class ContactsCubit extends Cubit<ContactsState> {
   final FirebaseDatabase _database = FirebaseDatabase.instance;
   final List<String> _contactList = new List<String>();
   Map _contacts = new Map();
-  ContactsCubit() : super(ContactsInitial(contacts: {}));
+  ContactsCubit() : super(ContactsInitial(contacts: {}, navIdx: 0));
+
+  void setNavIdx(int idx) => emit(ContactsLoaded(
+        contacts: state.contacts,
+        navIdx: idx,
+      ));
 
   void addContact(String tc) {
-    emit(ContactsLoading(contacts: state.contacts));
+    emit(ContactsLoading(contacts: state.contacts, navIdx: state.navIdx));
     this._database.reference().child(tc).once().then((snapshot) {
       print(snapshot.value);
       if (snapshot.value != null) {
@@ -31,7 +36,8 @@ class ContactsCubit extends Cubit<ContactsState> {
 
       print("contacts: ");
       print(this._contacts);
-      emit(ContactsLoaded(contacts: this._contacts));
+
+      emit(ContactsLoaded(contacts: this._contacts, navIdx: state.navIdx));
     });
   }
 
@@ -39,6 +45,11 @@ class ContactsCubit extends Cubit<ContactsState> {
     this._database.reference().child(tc).update({
       'contacts': this._contactList,
     });
+  }
+
+  void deleteContact(String tc) {
+    this._contacts.remove(tc);
+    emit(ContactsLoaded(contacts: this._contacts, navIdx: state.navIdx));
   }
 
   void dispose() {
