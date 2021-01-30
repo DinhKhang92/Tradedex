@@ -38,45 +38,49 @@ class OfficialCollectionPageState extends State<OfficialCollectionPage> {
       GenderPage(),
     ];
 
-    return DefaultTabController(
-      length: officialPages.length,
-      child: SafeArea(
-        child: BlocBuilder<OfficialCubit, OfficialState>(
-          builder: (context, state) {
-            return Scaffold(
-              resizeToAvoidBottomPadding: false,
-              backgroundColor: Color(0xff242423),
-              key: this._scaffoldKey,
-              body: officialPages[state.navIdx],
-              bottomNavigationBar: Theme(
-                data: Theme.of(context).copyWith(
-                  canvasColor: Color(0xff242423),
-                  primaryColor: Color(0xffee6c4d),
-                  textTheme: Theme.of(context).textTheme.copyWith(caption: TextStyle(color: Colors.white)),
-                ),
-                child: BottomNavigationBar(
-                  currentIndex: state.navIdx,
-                  onTap: (index) => BlocProvider.of<OfficialCubit>(context).setNavIdx(index),
-                  items: [
-                    BottomNavigationBarItem(
-                      icon: Icon(MdiIcons.star),
-                      label: AppLocalizations.of(context).translate('PAGE_OFFICIAL_COLLECTION.LUCKYDEX.TITLE'),
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(MdiIcons.flare),
-                      label: AppLocalizations.of(context).translate('PAGE_OFFICIAL_COLLECTION.SHINYDEX.TITLE'),
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(MdiIcons.genderMaleFemale),
-                      label: AppLocalizations.of(context).translate('PAGE_OFFICIAL_COLLECTION.GENDERDEX.TITLE'),
-                    )
-                  ],
-                ),
+    return BlocBuilder<OfficialCubit, OfficialState>(
+      builder: (context, state) {
+        return Scaffold(
+          resizeToAvoidBottomPadding: false,
+          backgroundColor: Color(0xff242423),
+          key: this._scaffoldKey,
+          body: SafeArea(child: officialPages[state.navIdx]),
+          bottomNavigationBar: Theme(
+            data: Theme.of(context).copyWith(
+              canvasColor: Color(0xff242423),
+              primaryColor: Color(0xffee6c4d),
+              textTheme: Theme.of(context)
+                  .textTheme
+                  .copyWith(caption: TextStyle(color: Colors.white)),
+            ),
+            child: DefaultTabController(
+              length: officialPages.length,
+              child: BottomNavigationBar(
+                currentIndex: state.navIdx,
+                onTap: (index) =>
+                    BlocProvider.of<OfficialCubit>(context).setNavIdx(index),
+                items: [
+                  BottomNavigationBarItem(
+                    icon: Icon(MdiIcons.star),
+                    label: AppLocalizations.of(context)
+                        .translate('PAGE_OFFICIAL_COLLECTION.LUCKYDEX.TITLE'),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(MdiIcons.flare),
+                    label: AppLocalizations.of(context)
+                        .translate('PAGE_OFFICIAL_COLLECTION.SHINYDEX.TITLE'),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(MdiIcons.genderMaleFemale),
+                    label: AppLocalizations.of(context)
+                        .translate('PAGE_OFFICIAL_COLLECTION.GENDERDEX.TITLE'),
+                  )
+                ],
               ),
-            );
-          },
-        ),
-      ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
