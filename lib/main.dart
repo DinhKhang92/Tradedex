@@ -20,6 +20,7 @@ import 'package:tradedex/Global/Components/loadDataFirebase.dart';
 import 'package:tradedex/route/route_generator.dart';
 import 'package:tradedex/localization/app_localization.dart';
 
+import 'package:tradedex/pages/contacts/pages/contact_overview/cubit/contact_overview_cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:tradedex/model/device.dart';
 
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget with Device {
   final IndividualCubit _individualCubit = new IndividualCubit();
   final ContactsCubit _contactsCubit = new ContactsCubit();
   final SigninCubit _signinCubit = new SigninCubit();
+  final ContactOverviewCubit _contactOverviewCubit = new ContactOverviewCubit();
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +69,9 @@ class MyApp extends StatelessWidget with Device {
         ),
         BlocProvider<SigninCubit>(
           create: (_) => this._signinCubit,
+        ),
+        BlocProvider<ContactOverviewCubit>(
+          create: (_) => this._contactOverviewCubit,
         ),
       ],
       child: FutureBuilder(

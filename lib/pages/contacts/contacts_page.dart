@@ -35,9 +35,7 @@ class ContactsPageState extends State<ContactsPage> with Device {
         data: Theme.of(context).copyWith(
           canvasColor: Color(0xff242423),
           primaryColor: Color(0xffee6c4d),
-          textTheme: Theme.of(context)
-              .textTheme
-              .copyWith(caption: TextStyle(color: Colors.white)),
+          textTheme: Theme.of(context).textTheme.copyWith(caption: TextStyle(color: Colors.white)),
         ),
         child: BlocBuilder<ContactsCubit, ContactsState>(
           builder: (context, state) {
@@ -46,17 +44,14 @@ class ContactsPageState extends State<ContactsPage> with Device {
               items: [
                 BottomNavigationBarItem(
                   icon: Icon(Icons.people),
-                  label: AppLocalizations.of(context)
-                      .translate('PAGE_CONTACTS.TITLE_01'),
+                  label: AppLocalizations.of(context).translate('PAGE_CONTACTS.TITLE_01'),
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.donut_small),
-                  label: AppLocalizations.of(context)
-                      .translate('PAGE_CONTACTS.TITLE_02'),
+                  label: AppLocalizations.of(context).translate('PAGE_CONTACTS.TITLE_02'),
                 ),
               ],
-              onTap: (index) =>
-                  BlocProvider.of<ContactsCubit>(context).setNavIdx(index),
+              onTap: (index) => BlocProvider.of<ContactsCubit>(context).setNavIdx(index),
             );
           },
         ),
@@ -71,10 +66,8 @@ class ContactsPageState extends State<ContactsPage> with Device {
         SizedBox(height: 5),
         Container(
           padding: EdgeInsets.only(left: 8, right: 8),
-          height:
-              Device.height - Device.safeAreaTop - 177 - Device.safeAreaBottom,
-          child: BlocBuilder<ContactsCubit, ContactsState>(
-              builder: (contex, state) {
+          height: Device.height - Device.safeAreaTop - 177 - Device.safeAreaBottom,
+          child: BlocBuilder<ContactsCubit, ContactsState>(builder: (contex, state) {
             if (state is ContactsLoaded)
               return this._buildLoaded();
             else
@@ -116,8 +109,7 @@ class ContactsPageState extends State<ContactsPage> with Device {
           icon: Icon(Icons.arrow_back, color: Colors.white),
         ),
         Text(
-          AppLocalizations.of(context)
-              .translate('PAGE_OFFICIAL_COLLECTION.LUCKYDEX.TITLE'),
+          AppLocalizations.of(context).translate('PAGE_OFFICIAL_COLLECTION.LUCKYDEX.TITLE'),
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         Container(
@@ -194,14 +186,13 @@ class ContactsPageState extends State<ContactsPage> with Device {
               ),
             ),
             child: ListTile(
-              // onTap: () => Navigator.of(context),
+              onTap: () => Navigator.of(context).pushNamed('/contact_overview', arguments: contactKey),
               leading: getPokemonImage(icon),
               title: Text(
                 name,
                 style: TextStyle(color: Colors.white),
               ),
-              onLongPress: () => BlocProvider.of<ContactsCubit>(context)
-                  .deleteContact(contactKey),
+              onLongPress: () => BlocProvider.of<ContactsCubit>(context).deleteContact(contactKey),
             ),
           );
         },
@@ -210,8 +201,7 @@ class ContactsPageState extends State<ContactsPage> with Device {
   }
 
   void _addContact() {
-    BlocProvider.of<ContactsCubit>(context)
-        .addContact(this._textController.text);
+    BlocProvider.of<ContactsCubit>(context).addContact(this._textController.text);
     // this._textController.clear();
   }
 }

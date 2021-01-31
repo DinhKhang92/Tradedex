@@ -32,12 +32,11 @@ class RouteGenerator {
       case '/individual':
         return MaterialPageRoute(builder: (_) => IndividualCollectionPage());
       case '/collection':
-        return MaterialPageRoute(
-            builder: (_) => CollectionPage(collectionName: settings.arguments));
+        return MaterialPageRoute(builder: (_) => CollectionPage(collectionName: settings.arguments));
       case '/contacts':
         return MaterialPageRoute(builder: (_) => ContactsPage());
       case '/contact_overview':
-        return MaterialPageRoute(builder: (_) => ContactOverviewPage());
+        return MaterialPageRoute(builder: (_) => ContactOverviewPage(contactKey: settings.arguments));
       case '/settings':
         return MaterialPageRoute(builder: (_) => SettingsPage());
       case '/language':

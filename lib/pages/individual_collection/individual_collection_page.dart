@@ -12,8 +12,7 @@ class IndividualCollectionPage extends StatefulWidget {
   State<StatefulWidget> createState() => IndividualCollectionPageState();
 }
 
-class IndividualCollectionPageState extends State<IndividualCollectionPage>
-    with Device {
+class IndividualCollectionPageState extends State<IndividualCollectionPage> with Device {
   final String alolanFile = 'assets/sprites/alolan/103_alolan.png';
   final String eventFile = 'assets/sprites/event/007_00_05_event.png';
   final String galarFile = 'assets/sprites/galar/083_galar.png';
@@ -48,24 +47,15 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage>
   }
 
   void _loadDropdownList() {
-    String alolan = AppLocalizations.of(context)
-        .translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.ALOLAN');
-    String event = AppLocalizations.of(context)
-        .translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.EVENT');
-    String galar = AppLocalizations.of(context)
-        .translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.GALAR');
-    String pokedex = AppLocalizations.of(context)
-        .translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.POKEDEX');
-    String purified = AppLocalizations.of(context)
-        .translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.PURIFIED');
-    String regional = AppLocalizations.of(context)
-        .translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.REGIONAL');
-    String shadow = AppLocalizations.of(context)
-        .translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.SHADOW');
-    String spinda = AppLocalizations.of(context)
-        .translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.SPINDA');
-    String unown = AppLocalizations.of(context)
-        .translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.UNOWN');
+    String alolan = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.ALOLAN');
+    String event = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.EVENT');
+    String galar = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.GALAR');
+    String pokedex = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.POKEDEX');
+    String purified = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.PURIFIED');
+    String regional = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.REGIONAL');
+    String shadow = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.SHADOW');
+    String spinda = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.SPINDA');
+    String unown = AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.LIST_TYPES.UNOWN');
 
     this.dropdownMap[Individual.Alolan] = alolan;
     this.dropdownMap[Individual.Event] = event;
@@ -77,8 +67,7 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage>
     this.dropdownMap[Individual.Spinda] = spinda;
     this.dropdownMap[Individual.Unown] = unown;
 
-    BlocProvider.of<IndividualCubit>(context)
-        .loadDropdownList(this.dropdownMap);
+    BlocProvider.of<IndividualCubit>(context).loadDropdownList(this.dropdownMap);
   }
 
   Widget _buildContent() {
@@ -89,16 +78,11 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage>
           SizedBox(height: 5),
           Container(
             padding: EdgeInsets.only(left: 8, right: 8),
-            height: Device.height -
-                Device.safeAreaTop -
-                160 -
-                Device.safeAreaBottom,
+            height: Device.height - Device.safeAreaTop - 160 - Device.safeAreaBottom,
             child: BlocBuilder<IndividualCubit, IndividualState>(
               builder: (context, state) {
                 if (state is IndividualLoaded) {
-                  if (state.selectedValue.isEmpty)
-                    BlocProvider.of<IndividualCubit>(context)
-                        .setSelectedValue(this.dropdownMap.values.first);
+                  if (state.selectedValue.isEmpty) BlocProvider.of<IndividualCubit>(context).setSelectedValue(this.dropdownMap.values.first);
                   return GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
@@ -108,16 +92,10 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage>
                     itemCount: state.collection.keys.length,
                     itemBuilder: (context, i) {
                       String collectionName = state.collection.keys.toList()[i];
-                      Individual collectionType =
-                          state.collection[collectionName]['type'];
-                      Map collectionGathered = Map.from(
-                          state.collection[collectionName]['collection'])
-                        ..removeWhere((key, value) => value == false);
+                      Individual collectionType = state.collection[collectionName]['type'];
+                      Map collectionGathered = Map.from(state.collection[collectionName]['collection'])..removeWhere((key, value) => value == false);
                       int collectedLength = collectionGathered.values.length;
-                      int collectionLength = state
-                          .collection[collectionName]['collection']
-                          .values
-                          .length;
+                      int collectionLength = state.collection[collectionName]['collection'].values.length;
 
                       return Container(
                         decoration: BoxDecoration(
@@ -129,12 +107,8 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage>
                           ),
                         ),
                         child: InkWell(
-                          onLongPress: () =>
-                              BlocProvider.of<IndividualCubit>(context)
-                                  .deleteCollection(collectionName),
-                          onTap: () => Navigator.of(context).pushNamed(
-                              '/collection',
-                              arguments: collectionName),
+                          onLongPress: () => BlocProvider.of<IndividualCubit>(context).deleteCollection(collectionName),
+                          onTap: () => Navigator.of(context).pushNamed('/collection', arguments: collectionName),
                           child: GridTile(
                             header: Align(
                               alignment: Alignment.topRight,
@@ -193,9 +167,7 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage>
                   builder: (context, state) {
                     return Wrap(
                       spacing: 8,
-                      children: state.typeMap.values
-                          .map((v) => _buildChip(v))
-                          .toList(),
+                      children: state.typeMap.values.map((v) => _buildChip(v)).toList(),
                     );
                   },
                 )
@@ -248,8 +220,7 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage>
           icon: Icon(Icons.arrow_back, color: Colors.white),
         ),
         Text(
-          AppLocalizations.of(context)
-              .translate('PAGE_INDIVIDUAL_COLLECTION.TITLE'),
+          AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.TITLE'),
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         IconButton(
@@ -267,13 +238,11 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage>
     return BlocBuilder<IndividualCubit, IndividualState>(
       builder: (context, state) {
         return GestureDetector(
-          onTap: () =>
-              BlocProvider.of<IndividualCubit>(context).setSelectedValue(title),
+          onTap: () => BlocProvider.of<IndividualCubit>(context).setSelectedValue(title),
           child: Chip(
             padding: EdgeInsets.only(left: 7, right: 7),
             label: Text(title),
-            backgroundColor:
-                state.selectedValue == title ? Color(0xffee6c4d) : Colors.white,
+            backgroundColor: state.selectedValue == title ? Color(0xffee6c4d) : Colors.white,
           ),
         );
       },
@@ -301,21 +270,16 @@ class IndividualCollectionPageState extends State<IndividualCollectionPage>
             borderSide: BorderSide(color: Colors.white),
             borderRadius: BorderRadius.circular(32.0),
           ),
-          hintText: AppLocalizations.of(context)
-              .translate('PAGE_INDIVIDUAL_COLLECTION.ENTER_NAME'),
+          hintText: AppLocalizations.of(context).translate('PAGE_INDIVIDUAL_COLLECTION.ENTER_NAME'),
         ),
       ),
     );
   }
 
   void _createList(String selection) {
-    Individual key = this
-        .dropdownMap
-        .keys
-        .firstWhere((element) => this.dropdownMap[element] == selection);
+    Individual key = this.dropdownMap.keys.firstWhere((element) => this.dropdownMap[element] == selection);
     String collectionName = this._textController.text;
-    BlocProvider.of<IndividualCubit>(context)
-        .addCollection(key, collectionName);
+    BlocProvider.of<IndividualCubit>(context).addCollection(key, collectionName);
 
     FocusScope.of(context).unfocus();
     this._textController.clear();
