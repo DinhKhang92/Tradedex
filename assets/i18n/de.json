@@ -139,12 +139,9 @@
         "TERMS_OF_SERVICE": "Nutzerbedingungen",
         "PRIVACY_POLICY": "Datenschutzerklärung",
         "LOGOUT": "Ausloggen",
-
         "LANGUAGES": "Sprachen",
         "CHOOSE_LANGUAGE": "Sprache wählen",
-
         "FAQ": "FAQ",
-
         "PROFILE_SUBTITLE": "Profil",
         "CHANGE_PROFILE_NAME_AND_ICON": "Ändere hier deinen Trainernamen und Icon",
         "YOUR_NEW_TRAINER_NAME": "Dein neuer Trainername:",
@@ -200,7 +197,7 @@
     },
     "PAGE_CONTACTS": {
         "TITLE_01": "Kontakte",
-        "TITLE_02": "Wanted",
+        "TITLE_02": "Gesucht",
         "SEARCH": "Suche...",
         "DIALOG_ADD": {
             "TITLE": "Tauschcode einfügen"

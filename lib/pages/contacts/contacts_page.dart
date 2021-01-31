@@ -1,18 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tradedex/Contacts/Subpages/ContactOfficialCollectionSubpage.dart';
-import 'package:tradedex/Contacts/Subpages/ContactPrimaryListSubpage.dart';
-import 'package:tradedex/Contacts/Subpages/ContactWantedPrimaryListSubpage.dart';
-import 'package:tradedex/Global/Components/copyToClipboard.dart';
-import 'package:tradedex/Global/Components/loadDataFirebase.dart';
-import 'package:tradedex/Global/Components/saveDataFirebase.dart';
-import 'package:tradedex/Global/GlobalConstants.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tradedex/localization/app_localization.dart';
 import 'package:tradedex/model/device.dart';
 import 'package:tradedex/pages/contacts/cubit/contacts_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:tradedex/components/pokemon_image.dart';
 
 class ContactsPage extends StatefulWidget {
@@ -45,23 +35,28 @@ class ContactsPageState extends State<ContactsPage> with Device {
         data: Theme.of(context).copyWith(
           canvasColor: Color(0xff242423),
           primaryColor: Color(0xffee6c4d),
-          textTheme: Theme.of(context).textTheme.copyWith(caption: TextStyle(color: Colors.white)),
+          textTheme: Theme.of(context)
+              .textTheme
+              .copyWith(caption: TextStyle(color: Colors.white)),
         ),
         child: BlocBuilder<ContactsCubit, ContactsState>(
           builder: (context, state) {
             return BottomNavigationBar(
               currentIndex: state.navIdx,
-              items: const <BottomNavigationBarItem>[
+              items: [
                 BottomNavigationBarItem(
                   icon: Icon(Icons.people),
-                  label: 'Contacts',
+                  label: AppLocalizations.of(context)
+                      .translate('PAGE_CONTACTS.TITLE_01'),
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.donut_small),
-                  label: 'Wanted',
+                  label: AppLocalizations.of(context)
+                      .translate('PAGE_CONTACTS.TITLE_02'),
                 ),
               ],
-              onTap: (index) => BlocProvider.of<ContactsCubit>(context).setNavIdx(index),
+              onTap: (index) =>
+                  BlocProvider.of<ContactsCubit>(context).setNavIdx(index),
             );
           },
         ),
@@ -76,8 +71,10 @@ class ContactsPageState extends State<ContactsPage> with Device {
         SizedBox(height: 5),
         Container(
           padding: EdgeInsets.only(left: 8, right: 8),
-          height: Device.height - Device.safeAreaTop - 177 - Device.safeAreaBottom,
-          child: BlocBuilder<ContactsCubit, ContactsState>(builder: (contex, state) {
+          height:
+              Device.height - Device.safeAreaTop - 177 - Device.safeAreaBottom,
+          child: BlocBuilder<ContactsCubit, ContactsState>(
+              builder: (contex, state) {
             if (state is ContactsLoaded)
               return this._buildLoaded();
             else
@@ -119,7 +116,8 @@ class ContactsPageState extends State<ContactsPage> with Device {
           icon: Icon(Icons.arrow_back, color: Colors.white),
         ),
         Text(
-          AppLocalizations.of(context).translate('PAGE_OFFICIAL_COLLECTION.LUCKYDEX.TITLE'),
+          AppLocalizations.of(context)
+              .translate('PAGE_OFFICIAL_COLLECTION.LUCKYDEX.TITLE'),
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         Container(
@@ -196,12 +194,14 @@ class ContactsPageState extends State<ContactsPage> with Device {
               ),
             ),
             child: ListTile(
+              // onTap: () => Navigator.of(context),
               leading: getPokemonImage(icon),
               title: Text(
                 name,
                 style: TextStyle(color: Colors.white),
               ),
-              onLongPress: () => BlocProvider.of<ContactsCubit>(context).deleteContact(contactKey),
+              onLongPress: () => BlocProvider.of<ContactsCubit>(context)
+                  .deleteContact(contactKey),
             ),
           );
         },
@@ -210,7 +210,8 @@ class ContactsPageState extends State<ContactsPage> with Device {
   }
 
   void _addContact() {
-    BlocProvider.of<ContactsCubit>(context).addContact(this._textController.text);
+    BlocProvider.of<ContactsCubit>(context)
+        .addContact(this._textController.text);
     // this._textController.clear();
   }
 }
